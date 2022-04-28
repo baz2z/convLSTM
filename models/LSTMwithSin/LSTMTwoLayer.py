@@ -6,6 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import torch.optim as optim
 
+device = torch.device('cuda')
 
 np.random.seed(2)
 
@@ -87,6 +88,7 @@ if __name__ == '__main__':
     test_target = torch.from_numpy(data[:3, 1:])
 
     seq = Sequence()
+    seq.to(device)
     seq.double()
     criterion = nn.MSELoss()
 
