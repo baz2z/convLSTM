@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./models/test.py
+python ./models/LSTMwithSin/LSTMTwoLayer.py
 
