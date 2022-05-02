@@ -66,7 +66,7 @@ class Sequence(nn.Module):
 if __name__ == '__main__':
     # set random seed to 0
 
-    device = torch.device('cuda')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     np.random.seed(2)
 
@@ -78,42 +78,26 @@ if __name__ == '__main__':
     x[:] = np.array(range(L)) + np.random.randint(-4 * T, 4 * T, N).reshape(N, 1)
     data = np.sin(x / 1.0 / T).astype('float64')
     data = torch.from_numpy(data).to(device)
-    #torch.save(data, open('traindata.pt', 'wb'))
 
-    np.random.seed(0)
-    torch.manual_seed(0)
-    # load data and make training set
-    #data = torch.load('traindata.pt', map_location=device)
-    #data = torch.load('traindata.pt')
     input = data[3:, :-1]
-    #input.to(device)
     target = data[3:, 1:]
-    #target.to(device)
     test_input = data[:3, :-1]
-    #test_input.to(device)
     test_target = data[:3, 1:]
-    #test_target.to(device)
-    print(device)
-    print(input.device)
-
     seq = Sequence()
     seq.to(device)
-    print(next(seq.parameters()).is_cuda)
     seq.double()
     criterion = nn.MSELoss()
 
-
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
+    lossHistory = []
     for i in range(10):
-        print('STEP: ', i)
-
         output = seq(input)
         loss = criterion(output, target)
+        lossHistory.append(loss)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        print(loss.item())
 
         # begin to predict, no need to track gradient here
         with torch.no_grad():
