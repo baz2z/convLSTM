@@ -81,11 +81,16 @@ if __name__ == '__main__':
     np.random.seed(0)
     torch.manual_seed(0)
     # load data and make training set
+    #data = torch.load('traindata.pt', map_location="cuda")
     data = torch.load('traindata.pt')
     input = torch.from_numpy(data[3:, :-1])
+    input.to(device)
     target = torch.from_numpy(data[3:, 1:])
+    target.to(device)
     test_input = torch.from_numpy(data[:3, :-1])
+    test_input.to(device)
     test_target = torch.from_numpy(data[:3, 1:])
+    test_target.to(device)
 
     seq = Sequence()
     seq.to(device)
