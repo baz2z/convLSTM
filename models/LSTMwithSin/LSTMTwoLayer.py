@@ -82,7 +82,7 @@ if __name__ == '__main__':
     np.random.seed(0)
     torch.manual_seed(0)
     # load data and make training set
-    data = torch.load('traindata.pt', map_location="cuda")
+    data = torch.load('traindata.pt', map_location=device)
     #data = torch.load('traindata.pt')
     input = torch.from_numpy(data[3:, :-1])
     #input.to(device)
@@ -97,7 +97,7 @@ if __name__ == '__main__':
 
     seq = Sequence()
     seq.to(device)
-    print(seq.device)
+    print(next(seq.parameters()).is_cuda)
     seq.double()
     criterion = nn.MSELoss()
 
