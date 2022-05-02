@@ -6,20 +6,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import torch.optim as optim
 
-device = torch.device('cuda')
-
-np.random.seed(2)
-
-T = 20
-L = 1000
-N = 200
-
-x = np.empty((N, L), 'int64')
-x[:] = np.array(range(L)) + np.random.randint(-4 * T, 4 * T, N).reshape(N, 1)
-data = np.sin(x / 1.0 / T).astype('float64')
-torch.save(data, open('traindata.pt', 'wb'))
-
-
 
 class LSTM_cell(torch.nn.Module):
 
@@ -79,18 +65,33 @@ class Sequence(nn.Module):
 
 if __name__ == '__main__':
     # set random seed to 0
+
+    device = torch.device('cuda')
+
+    np.random.seed(2)
+
+    T = 20
+    L = 1000
+    N = 200
+
+    x = np.empty((N, L), 'int64')
+    x[:] = np.array(range(L)) + np.random.randint(-4 * T, 4 * T, N).reshape(N, 1)
+    data = np.sin(x / 1.0 / T).astype('float64')
+    data = torch.from_numpy(data).to(device)
+    #torch.save(data, open('traindata.pt', 'wb'))
+
     np.random.seed(0)
     torch.manual_seed(0)
     # load data and make training set
-    data = torch.load('traindata.pt', map_location=device)
+    #data = torch.load('traindata.pt', map_location=device)
     #data = torch.load('traindata.pt')
-    input = torch.from_numpy(data[3:, :-1])
+    input = data[3:, :-1]
     #input.to(device)
-    target = torch.from_numpy(data[3:, 1:])
+    target = data[3:, 1:]
     #target.to(device)
-    test_input = torch.from_numpy(data[:3, :-1])
+    test_input = data[:3, :-1]
     #test_input.to(device)
-    test_target = torch.from_numpy(data[:3, 1:])
+    test_target = data[:3, 1:]
     #test_target.to(device)
     print(device)
     print(input.device)
