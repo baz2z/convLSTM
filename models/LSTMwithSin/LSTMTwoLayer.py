@@ -121,7 +121,7 @@ if __name__ == '__main__':
             pred = seq(test_input, future=future)
             loss = criterion(pred[:, :-future], test_target)
             print('test loss:', loss.item())
-            y = pred.detach().numpy()
+            y = pred.detach()
 
 
         # draw the result
