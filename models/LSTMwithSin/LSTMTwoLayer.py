@@ -35,29 +35,38 @@ class LSTM_cell(torch.nn.Module):
 
 
 class Sequence(nn.Module):
-    def __init__(self):
+    def __init__(self, hidden):
         super(Sequence, self).__init__()
-        self.rnn1 = LSTM_cell(1, 51)
-        self.linear = nn.Linear(51, 1) # cause from self.input to 4 * self.hidden_sz
+        self.hidden = hidden
+        self.rnn1 = LSTM_cell(1, self.hidden)
+        self.rnn2 = LSTM_cell(self.hidden, self.hidden)
+        self.linear = nn.Linear(self.hidden, 1) # cause from self.input to 4 * self.hidden_sz
+
 
 
     def forward(self, input, future=0):
         outputs = []
-        h_t = torch.zeros(input.size(0), 51, dtype=torch.double, device=device)
-        c_t = torch.zeros(input.size(0), 51, dtype=torch.double, device=device)
+        h_t = torch.zeros(input.size(0), self.hidden, dtype=torch.double, device=device)
+        c_t = torch.zeros(input.size(0), self.hidden, dtype=torch.double, device=device)
+
+        h_t_2 = torch.zeros(input.size(0), self.hidden, dtype=torch.double, device=device)
+        c_t_2 = torch.zeros(input.size(0), self.hidden, dtype=torch.double, device=device)
+
 
 
 
         for i, input_t in enumerate(input.chunk(input.size(1), dim=1)):
             h_t, c_t = self.rnn1(input_t, (h_t, c_t))
-            output = self.linear(h_t)
+            h_t_2, c_t_2 = self.rnn2(h_t, (h_t_2, c_t_2))
+            output = self.linear(h_t_2)
             outputs += [output]
 
 
         # if we should predict the future
         for i in range(future):
-            h_t, c_t = self.rnn1(output, (h_t, c_t))
-            output = self.linear(h_t)
+            h_t, c_t = self.rnn1(input_t, (h_t, c_t))
+            h_t_2, c_t_2 = self.rnn2(h_t, (h_t_2, c_t_2))
+            output = self.linear(h_t_2)
             outputs += [output]
         outputs = torch.stack(outputs, 1)
         outputs = outputs.squeeze(2)
@@ -84,7 +93,7 @@ if __name__ == '__main__':
     target = data[3:, 1:]
     test_input = data[:3, :-1]
     test_target = data[:3, 1:]
-    seq = Sequence()
+    seq = Sequence(hidden=51)
     seq.to(device)
     seq.double()
     criterion = nn.MSELoss()
