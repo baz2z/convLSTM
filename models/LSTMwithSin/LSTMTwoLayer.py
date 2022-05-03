@@ -154,7 +154,7 @@ if __name__ == '__main__':
     draw(y[0], 'r')
     draw(y[1], 'g')
     draw(y[2], 'b')
-    plt.savefig('./images/predictedFinal.png')
+    plt.savefig('./images/predictedFinal' + str(run) + '.png')
     plt.close()
 
     print(trainLossHistory, testLossHistory)
