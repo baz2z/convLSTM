@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import torch.optim as optim
-
+import argparse
 
 class LSTM_cell(torch.nn.Module):
 
@@ -75,6 +75,16 @@ class Sequence(nn.Module):
 
 if __name__ == '__main__':
     # set random seed to 0
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--run_idx', type=int)
+    parser.add_argument('--epochs', default=1, type=int)
+    parser.add_argument('--hidden_size', default=51, type=int)
+
+
+    args = parser.parse_args()
+    run = args.run_idx
+    epochs = args.epochs
+    hidden_size = args.hidden_size
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -93,7 +103,7 @@ if __name__ == '__main__':
     target = data[3:, 1:]
     test_input = data[:3, :-1]
     test_target = data[:3, 1:]
-    seq = Sequence(hidden=51)
+    seq = Sequence(hidden=hidden_size)
     seq.to(device)
     seq.double()
     criterion = nn.MSELoss()
@@ -101,7 +111,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     trainLossHistory, testLossHistory = [], []
-    for i in range(3):
+    for i in range(epochs):
         output = seq(input)
         loss = criterion(output, target)
         trainLossHistory.append(loss.item())
