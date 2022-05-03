@@ -43,8 +43,8 @@ class Sequence(nn.Module):
 
     def forward(self, input, future=0):
         outputs = []
-        h_t = torch.zeros(input.size(0), 51, dtype=torch.double, device=device)
-        c_t = torch.zeros(input.size(0), 51, dtype=torch.double, device=device)
+        h_t = torch.zeros(input.size(0), 51, dtype=torch.double, device="cuda")
+        c_t = torch.zeros(input.size(0), 51, dtype=torch.double, device="cuda")
         print(h_t.device)
         print(c_t.device)
         for i, input_t in enumerate(input.chunk(input.size(1), dim=1)):
