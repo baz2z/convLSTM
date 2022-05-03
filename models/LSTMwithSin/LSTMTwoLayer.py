@@ -45,8 +45,9 @@ class Sequence(nn.Module):
         outputs = []
         h_t = torch.zeros(input.size(0), 51, dtype=torch.double, device=device)
         c_t = torch.zeros(input.size(0), 51, dtype=torch.double, device=device)
-        print(h_t.device)
-        print(c_t.device)
+
+
+
         for i, input_t in enumerate(input.chunk(input.size(1), dim=1)):
             h_t, c_t = self.rnn1(input_t, (h_t, c_t))
             output = self.linear(h_t)
@@ -90,11 +91,11 @@ if __name__ == '__main__':
 
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
-    lossHistory = []
+    trainLossHistory, testLossHistory = [], []
     for i in range(3):
         output = seq(input)
         loss = criterion(output, target)
-        lossHistory.append(loss)
+        trainLossHistory.append(loss.item())
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -104,10 +105,10 @@ if __name__ == '__main__':
             future = 1000
             pred = seq(test_input, future=future)
             loss = criterion(pred[:, :-future], test_target)
-            print('test loss:', loss.item())
+            testLossHistory.append(loss.item())
             y = pred.detach().cpu().numpy()
 
-
+        """
         # draw the result
         plt.figure(figsize=(30, 10))
         plt.title('Predict future values for time sequences\n(Dashlines are predicted values)', fontsize=30)
@@ -127,3 +128,5 @@ if __name__ == '__main__':
         draw(y[2], 'b')
         plt.savefig('./images/predict%d.png' % i)
         plt.close()
+        """
+    print(trainLossHistory, testLossHistory)
