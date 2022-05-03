@@ -79,12 +79,14 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int)
     parser.add_argument('--epochs', default=1, type=int)
     parser.add_argument('--hidden_size', default=51, type=int)
+    parser.add_argument('--name_model', default="", type=str)
 
 
     args = parser.parse_args()
     run = args.run_idx
     epochs = args.epochs
     hidden_size = args.hidden_size
+    name = args.name_model
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -154,7 +156,7 @@ if __name__ == '__main__':
     draw(y[0], 'r')
     draw(y[1], 'g')
     draw(y[2], 'b')
-    plt.savefig('./images/predictedFinal' + str(run) + '.png')
+    plt.savefig('./images/predictedFinal' + name + '.png')
     plt.close()
 
     print(trainLossHistory, testLossHistory)

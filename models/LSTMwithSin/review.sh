@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./LSTMTwoLayer.py
+python ./LSTMTwoLayer.py --epochs 3 --hidden_size 20 --name_model = "simple"
 
