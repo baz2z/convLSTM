@@ -127,25 +127,34 @@ if __name__ == '__main__':
             testLossHistory.append(loss.item())
             y = pred.detach().cpu().numpy()
 
-        """
-        # draw the result
-        plt.figure(figsize=(30, 10))
-        plt.title('Predict future values for time sequences\n(Dashlines are predicted values)', fontsize=30)
-        plt.xlabel('x', fontsize=20)
-        plt.ylabel('y', fontsize=20)
-        plt.xticks(fontsize=20)
-        plt.yticks(fontsize=20)
+
+    # begin to predict, no need to track gradient here
+    with torch.no_grad():
+        future = 1000
+        pred = seq(test_input, future=future)
+        loss = criterion(pred[:, :-future], test_target)
+        testLossHistory.append(loss.item())
+        y = pred.detach().cpu().numpy()
 
 
-        def draw(yi, color):
-            plt.plot(np.arange(input.size(1)), yi[:input.size(1)], color, linewidth=2.0)
-            plt.plot(np.arange(input.size(1), input.size(1) + future), yi[input.size(1):], color + ':', linewidth=2.0)
+    # draw the result
+    plt.figure(figsize=(30, 10))
+    plt.title('Predict future values for time sequences\n(Dashlines are predicted values)', fontsize=30)
+    plt.xlabel('x', fontsize=20)
+    plt.ylabel('y', fontsize=20)
+    plt.xticks(fontsize=20)
+    plt.yticks(fontsize=20)
 
 
-        draw(y[0], 'r')
-        draw(y[1], 'g')
-        draw(y[2], 'b')
-        plt.savefig('./images/predict%d.png' % i)
-        plt.close()
-        """
+    def draw(yi, color):
+        plt.plot(np.arange(input.size(1)), yi[:input.size(1)], color, linewidth=2.0)
+        plt.plot(np.arange(input.size(1), input.size(1) + future), yi[input.size(1):], color + ':', linewidth=2.0)
+
+
+    draw(y[0], 'r')
+    draw(y[1], 'g')
+    draw(y[2], 'b')
+    plt.savefig('./images/predictedFinal.png')
+    plt.close()
+
     print(trainLossHistory, testLossHistory)
