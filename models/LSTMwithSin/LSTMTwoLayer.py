@@ -91,7 +91,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     lossHistory = []
-    for i in range(100):
+    for i in range(3):
         output = seq(input)
         loss = criterion(output, target)
         lossHistory.append(loss)
