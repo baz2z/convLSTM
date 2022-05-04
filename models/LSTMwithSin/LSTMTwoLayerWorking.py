@@ -91,7 +91,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     lossHistory = []
-    for i in range(100):
+    for i in range(150):
         output = seq(input)
         loss = criterion(output, target)
         lossHistory.append(loss)
@@ -125,5 +125,6 @@ if __name__ == '__main__':
         draw(y[0], 'r')
         draw(y[1], 'g')
         draw(y[2], 'b')
-        plt.savefig('./images/predict%d.png' % i)
+        if i % 10 == 0:
+            plt.savefig('./images/predict%d.png' % i)
         plt.close()
