@@ -88,7 +88,7 @@ if __name__ == '__main__':
     seq.double()
     criterion = nn.MSELoss()
 
-    optimizer = optim.Adam(seq.parameters(), lr=0.001)
+    optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     lossHistory = []
     for i in range(150):
