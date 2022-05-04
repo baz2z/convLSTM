@@ -64,7 +64,7 @@ class Sequence(nn.Module):
 
         # if we should predict the future
         for i in range(future):
-            h_t, c_t = self.rnn1(input_t, (h_t, c_t))
+            h_t, c_t = self.rnn1(output, (h_t, c_t))
             h_t_2, c_t_2 = self.rnn2(h_t, (h_t_2, c_t_2))
             output = self.linear(h_t_2)
             outputs += [output]
