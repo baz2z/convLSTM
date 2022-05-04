@@ -1,20 +1,20 @@
 /mnt/qb/work/butz/svolz67/dev/models/LSTMwithSin
 JOB DATA
-JobId=1399233 ArrayJobId=1399233 ArrayTaskId=0 JobName=review.sh
+JobId=1401330 ArrayJobId=1401330 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=45165 Nice=0 Account=butz QOS=normal
+   Priority=39476 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-03T14:42:46 EligibleTime=2022-05-03T14:42:49
+   SubmitTime=2022-05-04T14:48:12 EligibleTime=2022-05-04T14:48:13
    AccrueTime=Unknown
-   StartTime=2022-05-03T14:42:49 EndTime=2022-05-03T15:12:49 Deadline=N/A
-   PreemptEligibleTime=2022-05-03T14:43:49 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-03T14:42:49
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16864
+   StartTime=2022-05-04T14:48:13 EndTime=2022-05-04T15:18:13 Deadline=N/A
+   PreemptEligibleTime=2022-05-04T14:49:13 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-04T14:48:13
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:6008
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-17
-   BatchHost=slurm-bm-17
+   NodeList=slurm-bm-64
+   BatchHost=slurm-bm-64
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
@@ -33,505 +33,679 @@ JobId=1399233 ArrayJobId=1399233 ArrayTaskId=0 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-17.novalocal
+slurm-bm-64.novalocal
 RUN Script
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.2002806703306145
+test loss: 0.37406066627740137
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.10107484185344934
+test loss: 0.09780046097649588
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.08107284985867023
+test loss: 0.03732142653651126
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0665454799807705
+test loss: 0.05100885375243456
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.04440127469433081
+test loss: 0.049054276626505286
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.029532961038448647
+test loss: 0.05461132982937227
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.022588021307601142
+test loss: 0.03858529439094571
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.018855717763431208
+test loss: 0.029743305232846337
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.01655831462449632
+test loss: 0.03350256759484713
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.01698431615632139
+test loss: 0.025739383530786836
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.014497737294163206
+test loss: 0.01886797118631928
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.01348556125118357
+test loss: 0.014123875106429484
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.010867519066939892
+test loss: 0.010181246086981309
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.008690362424938787
+test loss: 0.0077239513982459785
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.007535049851859114
+test loss: 0.006091230707225353
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0064537966032126
+test loss: 0.007057835228783721
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.006473327615685867
+test loss: 0.006783673105702028
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.013222989712228751
+test loss: 0.005512969500298839
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0045849836155893295
+test loss: 0.004279541447099189
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.005567172173816366
+test loss: 0.003758655425604228
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.005658691635123625
+test loss: 0.0038242009258240986
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.005110195452734668
+test loss: 0.003952059597673339
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00405167789558453
+test loss: 0.0037589661170267293
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.005089956791558504
+test loss: 0.003212894072585534
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.004595867998981176
+test loss: 0.002566725998764888
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0037384883051016305
+test loss: 0.002062889774033922
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0037837055892544543
+test loss: 0.0018296413193456267
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0036418587787340625
+test loss: 0.001840775032374639
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.002241448744846881
+test loss: 0.0019466818261414695
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0016445161497122666
+test loss: 0.0019620901464362764
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0017615052083165723
+test loss: 0.0018261858892365294
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0016025825074403434
+test loss: 0.0015913046015511951
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.001092342555034072
+test loss: 0.0013947548665139324
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0012260889739639542
+test loss: 0.0013069398414361651
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0014341626376447021
+test loss: 0.0012843443088199201
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0010881701981558872
+test loss: 0.0012594590862263738
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0008513466341708755
+test loss: 0.0011776529133328026
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0011088756921776798
+test loss: 0.0010634601542671511
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.001138658065502339
+test loss: 0.0009534541235604341
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0009857606735169271
+test loss: 0.0008543603526682407
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0010151801045418369
+test loss: 0.0007659423666890112
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0010276107509794776
+test loss: 0.0006791183594689678
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0008302279005848501
+test loss: 0.0006185030401574236
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0007274984483982206
+test loss: 0.0005968548543918738
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0007735247919957842
+test loss: 0.0006043919116108708
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0007187662276989693
+test loss: 0.0006023141722936528
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0006058104035011124
+test loss: 0.0005772525786813945
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0006345476559576148
+test loss: 0.0005340911906037808
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.000716090648250572
+test loss: 0.0005317323614926992
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0006768707890071904
+test loss: 0.0006254436526689567
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0006593965057336554
+test loss: 0.00072816918731211
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00071433734046097
+test loss: 0.0007077007245411646
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0006712901008661319
+test loss: 0.002271461927433266
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0006022278607562738
+test loss: 0.0021121398011871386
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0006054290390495185
+test loss: 0.0018986767722536475
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005795858652393125
+test loss: 0.002074493682185484
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005527371704620156
+test loss: 0.0017045022194292579
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005454962626614771
+test loss: 0.0014404339093474058
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005568108548258187
+test loss: 0.001541046860754833
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00045563356670328553
+test loss: 0.0014424817746725071
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00041419318750924433
+test loss: 0.0010879914843698886
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00041485090346691676
+test loss: 0.0009239412229655321
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00044412534334110784
+test loss: 0.0008933492472691001
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005555519582559735
+test loss: 0.00084383590396035
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005530094640116824
+test loss: 0.0007798297003771928
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005461942860478872
+test loss: 0.0007747599399115266
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.000522627331960195
+test loss: 0.0008015056619104881
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005092073424164664
+test loss: 0.000781162423022725
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0005078230100083161
+test loss: 0.000705601572117066
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0004946310862894146
+test loss: 0.000666893631373023
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0004654088346042131
+test loss: 0.0006314022256077302
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00045220387018483004
+test loss: 0.0005595397677801662
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00044302222490546345
+test loss: 0.0004724149035346763
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0004292604312946103
+test loss: 0.00044112694124989494
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00042181320586215756
+test loss: 0.0004217633784118037
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0004149512459574992
+test loss: 0.0004100242085329039
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003953368926699501
+test loss: 0.0007802766643458435
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00037459368427447557
+test loss: 0.0009033647128844903
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003647448118826119
+test loss: 0.0007086853832013232
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00035508488664704867
+test loss: 0.000662310573254631
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00034399865955309187
+test loss: 0.0007050822466103057
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003365805259440755
+test loss: 0.0006610034414703545
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003275070550869988
+test loss: 0.0005568519860735429
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003161679194084633
+test loss: 0.0005047790166205434
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003104449746623186
+test loss: 0.0004927950488336544
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003057554405929537
+test loss: 0.00044605238106835266
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0002986109607306815
+test loss: 0.0003506042122765018
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00029149775321713156
+test loss: 0.0003018531693707661
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00028449974950611046
+test loss: 0.00031995026871248325
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00027597412255415954
+test loss: 0.00033794792293967554
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00027899888969369375
+test loss: 0.00030989496637679056
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0002749205876930803
+test loss: 0.0002627687563120496
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0002672579344931577
+test loss: 0.0002554699805703153
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00028717736147046376
+test loss: 0.00025230516092355625
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003075967050580337
+test loss: 0.00022362072642880025
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00031632479313322906
+test loss: 0.00020061570102577144
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.00031588574277960927
+test loss: 0.00020605833293112124
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003154738969693241
+test loss: 0.0002143908112865371
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003097654035562965
+test loss: 0.00020103685607181834
 cuda:0
 cuda:0
 cuda:0
 cuda:0
-test loss: 0.0003009747645201843
+test loss: 0.00018450828684038446
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00018017910906777067
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001853758657955314
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001777550896133008
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00016451299557134573
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00016012981784469234
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00015585537678003
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00014624155881904513
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00013799976792920078
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00013856198831158442
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00014184248313515817
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00013712095032097522
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00013188687757544312
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00013015439358805034
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00012925360833074
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001266549360037208
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00012449729013224665
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001248536034984022
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001236937667925197
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00012017380196360929
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00011720200723039054
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00011407486733564525
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00011212785140397882
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001104622831631549
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010891633192997572
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010914736444752913
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001093228429375405
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010854416865418874
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010729722483265508
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.0001067361049732655
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010568214189333033
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010475773946674093
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010438883839995632
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010322191406278124
+cuda:0
+cuda:0
+cuda:0
+cuda:0
+test loss: 0.00010134598509970046
+cuda:0
+cuda:0
+cuda:0
+cuda:0
