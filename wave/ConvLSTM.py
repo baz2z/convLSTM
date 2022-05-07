@@ -120,12 +120,12 @@ if __name__ == '__main__':
     plt.savefig("lossPlot")
 
     visData = iter(dataloader).__next__()
-"""
+
     with torch.no_grad():
-        pred = seq(visData[:,:30,:,:], future=10)
+        pred = seq(visData[:,:30,:,:], future=10).detach().cpu().numpy()
         visualize_wave(pred[0,:,:,:], 1, nbrImages=20, fromStart=False)
         visualize_wave(pred[1,:,:,:], 2, nbrImages=20, fromStart=False)
         visualize_wave(pred[2,:,:,:], 3, nbrImages=20, fromStart=False)
-"""
+
 
 
