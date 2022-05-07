@@ -77,7 +77,7 @@ class WaveData(Dataset):
 
 if __name__ == '__main__':
 
-    dataset_name = 'wave10-40'
+    dataset_name = 'wave1000-40'
 
     sim_parameters = {
         'dt': 0.1,
