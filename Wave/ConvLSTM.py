@@ -103,7 +103,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(seq.parameters(), lr=0.001)
     # begin to train
     loss_plot = []
-    for j in range(3):
+    for j in range(10):
         for i, images in enumerate(dataloader):
             input_images = images[:,:-21,:,:]
             labels = images[:,1:,:,:]
