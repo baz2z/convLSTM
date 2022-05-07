@@ -96,8 +96,8 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = 6
     hidden_size = 5
-    epochs = 5
-    dataloader = DataLoader(dataset=Wave("wave10-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+    epochs = 100
+    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(hidden_size).to(device)
     criterion = nn.MSELoss()
