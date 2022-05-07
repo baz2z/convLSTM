@@ -104,7 +104,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     loss_plot = []
-    for j in range(40):
+    for j in range(5):
         for i, images in enumerate(dataloader):
             input_images = images[:,:-21,:,:]
             labels = images[:,1:,:,:]
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     visData = iter(dataloader).__next__()
 
     with torch.no_grad():
-        pred = seq(visData[:,:30,:,:], future=10)
+        pred = seq(visData[:,:30,:,:], future=10).detach().cpu().numpy()
         visualize_wave(pred[0,:,:,:], 1, nbrImages=20, fromStart=False)
         visualize_wave(pred[1,:,:,:], 2, nbrImages=20, fromStart=False)
         visualize_wave(pred[2,:,:,:], 3, nbrImages=20, fromStart=False)
