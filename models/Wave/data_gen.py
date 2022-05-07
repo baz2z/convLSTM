@@ -110,7 +110,7 @@ if __name__ == '__main__':
     }
 
     data_parameters = {
-        'samples_train': 10,
+        'samples_train': 1000,
         'samples_val': 10,
         'samples_test': 10,
         'name': dataset_name,
