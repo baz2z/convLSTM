@@ -96,15 +96,15 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = 6
     hidden_size = 5
-    epochs = 40
-    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+    epochs = 5
+    dataloader = DataLoader(dataset=Wave("wave10-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(hidden_size).to(device)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     loss_plot = []
-    for j in range(5):
+    for j in range(epochs):
         for i, images in enumerate(dataloader):
             input_images = images[:,:-21,:,:]
             labels = images[:,1:,:,:]
@@ -120,12 +120,12 @@ if __name__ == '__main__':
     plt.savefig("lossPlot")
 
     visData = iter(dataloader).__next__()
-
+"""
     with torch.no_grad():
-        pred = seq(visData[:,:30,:,:], future=10).detach().cpu().numpy()
+        pred = seq(visData[:,:30,:,:], future=10)
         visualize_wave(pred[0,:,:,:], 1, nbrImages=20, fromStart=False)
         visualize_wave(pred[1,:,:,:], 2, nbrImages=20, fromStart=False)
         visualize_wave(pred[2,:,:,:], 3, nbrImages=20, fromStart=False)
-
+"""
 
 
