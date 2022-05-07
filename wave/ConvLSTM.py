@@ -100,10 +100,10 @@ if __name__ == '__main__':
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(hidden_size).to(device)
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(seq.parameters(), lr=0.001)
+    optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     loss_plot = []
-    for j in range(10):
+    for j in range(100):
         for i, images in enumerate(dataloader):
             input_images = images[:,:-21,:,:]
             labels = images[:,1:,:,:]
