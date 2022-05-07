@@ -1,17 +1,17 @@
 /mnt/qb/work/butz/svolz67/dev/models/wave
 JOB DATA
-JobId=1407962 ArrayJobId=1407962 ArrayTaskId=0 JobName=review.sh
+JobId=1408219 ArrayJobId=1408219 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=39551 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-07T14:45:44 EligibleTime=2022-05-07T14:45:44
+   SubmitTime=2022-05-07T17:06:10 EligibleTime=2022-05-07T17:06:11
    AccrueTime=Unknown
-   StartTime=2022-05-07T14:45:44 EndTime=2022-05-07T15:15:44 Deadline=N/A
-   PreemptEligibleTime=2022-05-07T14:46:44 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-07T14:45:44
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:10002
+   StartTime=2022-05-07T17:06:11 EndTime=2022-05-07T17:36:11 Deadline=N/A
+   PreemptEligibleTime=2022-05-07T17:07:11 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-07T17:06:11
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:23582
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-64
    BatchHost=slurm-bm-64
@@ -35,41 +35,6 @@ JobId=1407962 ArrayJobId=1407962 ArrayTaskId=0 JobName=review.sh
 node:
 slurm-bm-64.novalocal
 RUN Script
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
 nan
 nan
 nan
