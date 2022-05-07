@@ -96,14 +96,14 @@ if __name__ == '__main__':
     batch_size = 6
     hidden_size = 5
     epochs = 40
-    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=Wave("wave10-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(hidden_size).to(device)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=0.001)
     # begin to train
     loss_plot = []
-    for j in range(epochs):
+    for j in range(3):
         for i, images in enumerate(dataloader):
             input_images = images[:,:-21,:,:]
             labels = images[:,1:,:,:]
@@ -112,12 +112,11 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-
         loss_plot.append(loss.item())
         print(loss.item())
 
-    #plt.plot(loss_plot)
-    #plt.show()
+    plt.plot(loss_plot)
+    plt.savefig("lossPlot")
 
 
 """
