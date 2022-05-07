@@ -81,13 +81,14 @@ class Sequence(nn.Module):
         return outputs
 
 
-def visualize_wave(data, nbrImages = 10, fromStart = True):
+def visualize_wave(data, row, nbrImages = 10, fromStart = True, ):
     # data = [sequence, width, height]
     for i in range(nbrImages):
         plt.subplot(math.ceil(nbrImages**0.5), math.ceil(nbrImages**0.5), i + 1)
         image = data[i,:,:] if fromStart else data[len(data)-nbrImages + i,:,:]
         plt.imshow(image, cmap='gray')
-    plt.show()
+
+    plt.savefig("prediction" + str(row))
 
 
 
@@ -103,7 +104,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(seq.parameters(), lr=0.005)
     # begin to train
     loss_plot = []
-    for j in range(100):
+    for j in range(40):
         for i, images in enumerate(dataloader):
             input_images = images[:,:-21,:,:]
             labels = images[:,1:,:,:]
@@ -118,13 +119,13 @@ if __name__ == '__main__':
     plt.plot(loss_plot)
     plt.savefig("lossPlot")
 
+    visData = iter(dataloader).__next__()
 
-"""
     with torch.no_grad():
-        pred = seq(data[:,:30,:,:], future=10)
-        visualize_wave(pred[0,:,:,:], nbrImages=20, fromStart=False)
-        visualize_wave(pred[1,:,:,:], nbrImages=20, fromStart=False)
-        visualize_wave(pred[2,:,:,:], nbrImages=20, fromStart=False)
-"""
+        pred = seq(visData[:,:30,:,:], future=10)
+        visualize_wave(pred[0,:,:,:], 1, nbrImages=20, fromStart=False)
+        visualize_wave(pred[1,:,:,:], 2, nbrImages=20, fromStart=False)
+        visualize_wave(pred[2,:,:,:], 3, nbrImages=20, fromStart=False)
+
 
 
