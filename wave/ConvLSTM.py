@@ -12,7 +12,7 @@ import argparse
 class Wave(Dataset):
     def __init__(self, file, isTrain=True):
         # data loading
-        f = h5py.File(file, 'r')
+        f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
         self.data = f['data']['train'] if self.isTrain else f['data']['test']
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     batch_size = 6
     hidden_size = 5
     epochs = 40
-    dataloader = DataLoader(dataset=Wave("wave10-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(hidden_size).to(device)
     criterion = nn.MSELoss()
