@@ -1,31 +1,31 @@
-/mnt/qb/work/butz/svolz67/dev/models/Wave
+/mnt/qb/work/butz/svolz67/dev/models/wave
 JOB DATA
-JobId=1407905 ArrayJobId=1407905 ArrayTaskId=0 JobName=review.sh
+JobId=1407943 ArrayJobId=1407943 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=39551 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-07T12:57:49 EligibleTime=2022-05-07T12:57:49
+   SubmitTime=2022-05-07T14:17:36 EligibleTime=2022-05-07T14:17:37
    AccrueTime=Unknown
-   StartTime=2022-05-07T12:57:49 EndTime=2022-05-07T13:27:49 Deadline=N/A
-   PreemptEligibleTime=2022-05-07T12:58:49 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-07T12:57:49
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:24686
+   StartTime=2022-05-07T14:17:37 EndTime=2022-05-07T14:47:37 Deadline=N/A
+   PreemptEligibleTime=2022-05-07T14:18:37 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-07T14:17:37
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22532
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-64
-   BatchHost=slurm-bm-64
+   NodeList=slurm-bm-30
+   BatchHost=slurm-bm-30
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
    MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
    Features=(null) DelayBoot=00:00:00
    OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/Wave/review.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/Wave
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/Wave/svolz.err
+   Command=/mnt/qb/work/butz/svolz67/dev/models/wave/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/wave
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/wave/svolz.err
    StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/Wave/svolz.out
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/wave/svolz.out
    Power=
    CpusPerTres=gpu:8
    TresPerNode=gpu:1
@@ -33,15 +33,15 @@ JobId=1407905 ArrayJobId=1407905 ArrayTaskId=0 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-64.novalocal
+slurm-bm-30.novalocal
 RUN Script
-0.005715841427445412
-0.0053099049255251884
-0.0050606089644134045
-0.005002204794436693
-0.004895384423434734
-0.00469210185110569
-0.004514792002737522
-0.004361784551292658
-0.0041207438334822655
-0.00397214712575078
+0.0019488399848341942
+0.0013216526713222265
+0.0019654487259685993
+0.0029023424722254276
+0.0030748406425118446
+0.002509528771042824
+0.002562745939940214
+0.00283870124258101
+0.003492932301014662
+0.0031042611226439476
