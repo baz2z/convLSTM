@@ -96,7 +96,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = 6
     hidden_size = 5
-    epochs = 100
+    epochs = 4
     dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(hidden_size).to(device)
@@ -119,9 +119,9 @@ if __name__ == '__main__':
     plt.plot(loss_plot)
     plt.savefig("lossPlot")
 
-    visData = iter(dataloader).__next__()
 
     with torch.no_grad():
+        visData = iter(dataloader).__next__()
         pred = seq(visData[:,:30,:,:], future=10).detach().cpu().numpy()
         visualize_wave(pred[0,:,:,:], 1, nbrImages=20, fromStart=False)
         visualize_wave(pred[1,:,:,:], 2, nbrImages=20, fromStart=False)
