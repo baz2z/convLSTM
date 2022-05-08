@@ -94,14 +94,14 @@ def visualize_wave(data, row, nbrImages = 10, fromStart = True, ):
 
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    batch_size = 10
+    batch_size = 64
     hidden_size = 5
-    epochs = 100
+    epochs = 50
     dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(hidden_size).to(device)
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(seq.parameters(), lr=0.0005)
+    optimizer = optim.Adam(seq.parameters(), lr=0.001)
     # begin to train
     loss_plot = []
     for j in range(epochs):
