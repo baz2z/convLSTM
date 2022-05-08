@@ -1,17 +1,17 @@
 /mnt/qb/work/butz/svolz67/dev/models/wave
 JOB DATA
-JobId=1409075 ArrayJobId=1409075 ArrayTaskId=0 JobName=review.sh
+JobId=1409181 ArrayJobId=1409181 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=39551 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-08T12:24:36 EligibleTime=2022-05-08T12:24:36
+   SubmitTime=2022-05-08T13:54:30 EligibleTime=2022-05-08T13:54:30
    AccrueTime=Unknown
-   StartTime=2022-05-08T12:24:36 EndTime=2022-05-08T12:54:36 Deadline=N/A
-   PreemptEligibleTime=2022-05-08T12:25:36 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-08T12:24:36
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:28490
+   StartTime=2022-05-08T13:54:30 EndTime=2022-05-08T14:24:30 Deadline=N/A
+   PreemptEligibleTime=2022-05-08T13:55:30 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-08T13:54:30
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:17161
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-35
    BatchHost=slurm-bm-35
@@ -35,103 +35,13 @@ JobId=1409075 ArrayJobId=1409075 ArrayTaskId=0 JobName=review.sh
 node:
 slurm-bm-35.novalocal
 RUN Script
-0.0020339691545814276
-0.002048900118097663
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
-nan
+0.0012972819386050105
+0.001177654485218227
+0.0012407619506120682
+0.0013341762823984027
+0.0012327803997322917
+0.0012530484236776829
+0.0012895583640784025
+0.0012340462999418378
+0.0012527847429737449
+0.0011921694967895746
