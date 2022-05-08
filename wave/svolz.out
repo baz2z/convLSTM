@@ -1,20 +1,20 @@
 /mnt/qb/work/butz/svolz67/dev/models/wave
 JOB DATA
-JobId=1408225 ArrayJobId=1408225 ArrayTaskId=0 JobName=review.sh
+JobId=1408615 ArrayJobId=1408615 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=39551 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-07T17:14:17 EligibleTime=2022-05-07T17:14:18
+   SubmitTime=2022-05-07T23:10:34 EligibleTime=2022-05-07T23:10:34
    AccrueTime=Unknown
-   StartTime=2022-05-07T17:14:18 EndTime=2022-05-07T17:44:18 Deadline=N/A
-   PreemptEligibleTime=2022-05-07T17:15:18 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-07T17:14:18
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:23582
+   StartTime=2022-05-07T23:10:34 EndTime=2022-05-07T23:40:34 Deadline=N/A
+   PreemptEligibleTime=2022-05-07T23:11:34 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-07T23:10:34
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22079
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-14
-   BatchHost=slurm-bm-14
+   NodeList=slurm-bm-16
+   BatchHost=slurm-bm-16
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
@@ -33,10 +33,105 @@ JobId=1408225 ArrayJobId=1408225 ArrayTaskId=0 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-14.novalocal
+slurm-bm-16.novalocal
 RUN Script
-0.01104159839451313
-0.009208595380187035
-0.008025957271456718
-0.006804379168897867
-0.005689013749361038
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
