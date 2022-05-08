@@ -1,16 +1,16 @@
 /mnt/qb/work/butz/svolz67/dev/models/wave
 JOB DATA
-JobId=1409210 ArrayJobId=1409210 ArrayTaskId=0 JobName=review.sh
+JobId=1409211 ArrayJobId=1409211 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=39551 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-08T15:30:43 EligibleTime=2022-05-08T15:30:44
+   SubmitTime=2022-05-08T15:35:35 EligibleTime=2022-05-08T15:35:36
    AccrueTime=Unknown
-   StartTime=2022-05-08T15:30:44 EndTime=2022-05-08T16:00:44 Deadline=N/A
-   PreemptEligibleTime=2022-05-08T15:31:44 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-08T15:30:44
+   StartTime=2022-05-08T15:35:36 EndTime=2022-05-08T16:05:36 Deadline=N/A
+   PreemptEligibleTime=2022-05-08T15:36:36 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-08T15:35:36
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16492
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-60
@@ -35,53 +35,103 @@ JobId=1409210 ArrayJobId=1409210 ArrayTaskId=0 JobName=review.sh
 node:
 slurm-bm-60.sdn
 RUN Script
-0.004205584060400724
-0.0025097522884607315
-0.0019919476471841335
-0.0014438385842368007
-0.0014629574725404382
-0.0015348447486758232
-0.0014369888231158257
-0.0013528846902772784
-0.0015584109351038933
-0.0014353001024574041
-0.0013761742739006877
-0.0015086716739460826
-0.0013653604546561837
-0.0013271860079839826
-0.0012840342242270708
-0.0013924033846706152
-0.0015171816339716315
-0.0014799124328419566
-0.0014413910685107112
-0.0013484094524756074
-0.0014920694520696998
-0.0012950337259098887
-0.001516474410891533
-0.0013711388455703855
-0.0014985257294028997
-0.001459080958738923
-0.001446256530471146
-0.0013498238986358047
-0.0013367114588618279
-0.0013389638625085354
-0.001419717795215547
-0.0013500674394890666
-0.0015404013684019446
-0.001400731154717505
-0.0013273138320073485
-0.001364219351671636
-0.001345889875665307
-0.0014950423501431942
-0.0013760445872321725
-0.0012916822452098131
-0.0012616049498319626
-0.0013318181736394763
-0.0014679291052743793
-0.001438208157196641
-0.0013072413858026266
-0.0014197196578606963
-0.001337267691269517
-0.0013540344079956412
-0.0013324451865628362
-0.0011834821198135614
+0.0031130672432482243
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
+nan
