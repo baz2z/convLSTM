@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./ConvLSTM.py
+python ./ConvLSTMoneFuture.py
 
