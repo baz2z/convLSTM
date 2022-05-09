@@ -39,7 +39,6 @@ if __name__ == '__main__':
     epochs = 20
     dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
-
     seq = Sequence(1, hidden_size, 8).to(device)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=0.0008)
