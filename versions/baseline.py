@@ -6,7 +6,7 @@ class LSTM_cell(nn.Module):
 
     def __init__(self, x_channels, h_channels):
         super(LSTM_cell, self).__init__()
-        self.conv = nn.Conv2d(x_channels, 4 * h_channels, 3, bias=True, padding="same")
+        self.conv = nn.Conv2d(x_channels + h_channels, 4 * h_channels, 3, bias=True, padding="same")
 
     def forward(self, x, h, c):
         z = torch.cat((x, h), dim=1)
@@ -25,11 +25,16 @@ class Sequence(nn.Module):
         self.lstm1 = LSTM_cell(self.in_channels, self.h_channels)
         self.post = nn.Conv2d(self.h_channels, 1, 3, padding="same")
 
-    def forward(self, x, steps=1):
+    def forward(self, x, future=0):
         out = []
         h, c = torch.zeros(x.size(0), self.h_channels, 32, 32), torch.zeros(x.size(0), self.h_channels, 32, 32)
-        for t in range(steps):
+        for i, x in enumerate(x.chunk(x.size(1), dim=1)):
             h, c = self.lstm1(x, h, c)
             x = self.post(h)
             out.append(x)
+        for i in range(future):
+            h, c = self.lstm1(x, h, c)
+            x = self.post(h)
+            out.append(x)
+
         return cat(out, dim =  1)

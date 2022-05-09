@@ -26,8 +26,8 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = 32
     hidden_size = 5
-    epochs = 100
-    dataloader = DataLoader(dataset=Wave("wave10-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+    epochs = 20
+    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
 
     seq = Sequence(1, hidden_size).to(device)
@@ -39,7 +39,7 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             input_images = images[:,:-21,:,:]
             labels = images[:,1:,:,:]
-            output = seq(input_images, steps = 20)
+            output = seq(input_images, future = 20)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
