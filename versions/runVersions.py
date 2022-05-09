@@ -5,6 +5,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, default_collate
 import h5py
 from baseline import *
+import math
 
 class Wave(Dataset):
     def __init__(self, file, isTrain=True):
@@ -19,6 +20,14 @@ class Wave(Dataset):
     def __len__(self):
         return len(self.data)
 
+def visualize_wave(data, row, nbrImages = 10, fromStart = True, ):
+    # data = [sequence, width, height]
+    for i in range(nbrImages):
+        plt.subplot(math.ceil(nbrImages**0.5), math.ceil(nbrImages**0.5), i + 1)
+        image = data[i,:,:] if fromStart else data[len(data)-nbrImages + i,:,:]
+        plt.imshow(image, cmap='gray')
+
+    plt.savefig("prediction" + str(row))
 
 
 
@@ -50,3 +59,11 @@ if __name__ == '__main__':
 
     plt.plot(loss_plot)
     plt.savefig("lossPlot")
+
+
+    with torch.no_grad():
+        visData = iter(dataloader).__next__()
+        pred = seq(visData[:,:30,:,:], future=10).detach().cpu().numpy()
+        visualize_wave(pred[0,:,:,:], 1, nbrImages=20, fromStart=False)
+        visualize_wave(pred[1,:,:,:], 2, nbrImages=20, fromStart=False)
+        visualize_wave(pred[2,:,:,:], 3, nbrImages=20, fromStart=False)
