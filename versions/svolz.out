@@ -1,0 +1,57 @@
+/mnt/qb/work/butz/svolz67/dev/models/versions
+JOB DATA
+JobId=1410972 ArrayJobId=1410972 ArrayTaskId=0 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=34099 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-09T17:05:51 EligibleTime=2022-05-09T17:05:51
+   AccrueTime=Unknown
+   StartTime=2022-05-09T17:05:51 EndTime=2022-05-09T17:35:51 Deadline=N/A
+   PreemptEligibleTime=2022-05-09T17:06:51 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-09T17:05:51
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:26178
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-16
+   BatchHost=slurm-bm-16
+   NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/versions/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/versions
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/versions/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/versions/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+node:
+slurm-bm-16.novalocal
+RUN Script
+0.007345668505877256
+0.004618002567440271
+0.003586050821468234
+0.0030732073355466127
+0.0024497187696397305
+0.0025864678900688887
+0.0021872727666050196
+0.0023141021374613047
+0.002098714467138052
+0.001934829750098288
+0.0018590607214719057
+0.0017392173176631331
+0.0014329301193356514
+0.0014149043709039688
+0.001526519889011979
+0.0013380016898736358
+0.0013580062659457326
+0.0012893909588456154
+0.0012066824128851295
+0.0013351303059607744
