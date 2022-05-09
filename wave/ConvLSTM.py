@@ -112,6 +112,7 @@ if __name__ == '__main__':
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
+            # here maybe clipping with 2 or more
             optimizer.step()
         loss_plot.append(loss.item())
         print(loss.item())
