@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 from torch import cat, tanh, Tensor, sigmoid
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class LSTM_cell(nn.Module):
 
@@ -27,7 +28,7 @@ class Sequence(nn.Module):
 
     def forward(self, x, future=0):
         out = []
-        h, c = torch.zeros(x.size(0), self.h_channels, 32, 32), torch.zeros(x.size(0), self.h_channels, 32, 32)
+        h, c = torch.zeros(x.size(0), self.h_channels, 32, 32, device=device), torch.zeros(x.size(0), self.h_channels, 32, 32, device=device)
         for i, x in enumerate(x.chunk(x.size(1), dim=1)):
             h, c = self.lstm1(x, h, c)
             x = self.post(h)
