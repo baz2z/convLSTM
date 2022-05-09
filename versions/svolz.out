@@ -1,0 +1,57 @@
+/mnt/qb/work/butz/svolz67/dev/models/versions
+JOB DATA
+JobId=1410961 ArrayJobId=1410961 ArrayTaskId=0 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=34099 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-09T16:49:34 EligibleTime=2022-05-09T16:49:34
+   AccrueTime=Unknown
+   StartTime=2022-05-09T16:49:34 EndTime=2022-05-09T17:19:34 Deadline=N/A
+   PreemptEligibleTime=2022-05-09T16:50:34 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-09T16:49:34
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:26178
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-14
+   BatchHost=slurm-bm-14
+   NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/versions/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/versions
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/versions/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/versions/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+node:
+slurm-bm-14.novalocal
+RUN Script
+0.003416670486330986
+0.002152841305360198
+0.0017701525939628482
+0.001637449488043785
+0.001372304162941873
+0.0014426530105993152
+0.001395776285789907
+0.0013539284700527787
+0.001378818298690021
+0.001299130730330944
+0.001247611828148365
+0.0012107983930036426
+0.001254539587534964
+0.0010817900765687227
+0.0011975029483437538
+0.001099690212868154
+0.00128321279771626
+0.0012116325087845325
+0.0011514252983033657
+0.0011195412371307611
