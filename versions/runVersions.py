@@ -6,7 +6,8 @@ from torch.utils.data import Dataset, DataLoader, default_collate
 import h5py
 #from baseline import *
 #from lateral import *
-from skipConnection import *
+#from skipConnection import *
+from twoLayer import *
 import math
 
 class Wave(Dataset):
