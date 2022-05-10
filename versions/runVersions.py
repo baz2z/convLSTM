@@ -5,7 +5,8 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, default_collate
 import h5py
 #from baseline import *
-from lateral import *
+#from lateral import *
+from skipConnection import *
 import math
 
 class Wave(Dataset):
