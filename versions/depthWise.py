@@ -5,10 +5,10 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class LSTM_cell(nn.Module):
 
-    def __init__(self, x_channels, h_channels, lateral_channels):
+    def __init__(self, x_channels, h_channels, lateral_channels_multipl):
         super(LSTM_cell, self).__init__()
-        self.transition = nn.Conv2d(x_channels + h_channels, lateral_channels, 3 ,bias=True, padding="same")
-        self.conv = nn.Conv2d(lateral_channels, 4 * h_channels, 1, bias=True, padding="same")
+        self.transition = nn.Conv2d(x_channels + h_channels, lateral_channels_multipl * (x_channels + h_channels), 3 ,bias=True, padding="same", groups=(x_channels + h_channels))
+        self.conv = nn.Conv2d(lateral_channels_multipl * (x_channels + h_channels), 4 * h_channels, 1, bias=True, padding="same")
 
     def forward(self, x, h, c):
         z = torch.cat((x, h), dim=1)
@@ -21,12 +21,12 @@ class LSTM_cell(nn.Module):
 
 class Sequence(nn.Module):
 
-    def __init__(self, in_channels, h_channels, lateral_channels):
+    def __init__(self, in_channels, h_channels, lateral_channels_multipl):
         super(Sequence, self).__init__()
         self.in_channels = in_channels
         self.h_channels = h_channels
-        self.lateral_channels = lateral_channels
-        self.lstm1 = LSTM_cell(self.in_channels, self.h_channels, self.lateral_channels)
+        self.lateral_channels_multipl = lateral_channels_multipl
+        self.lstm1 = LSTM_cell(self.in_channels, self.h_channels, self.lateral_channels_multipl)
         self.post = nn.Conv2d(self.h_channels, 1, 3, padding="same")
 
     def forward(self, x, future=0):
