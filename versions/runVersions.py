@@ -59,7 +59,7 @@ if __name__ == '__main__':
             optimizer.step()
         loss_plot.append(loss.item())
         print(loss.item())
-
+    plt.yscale("log")
     plt.plot(loss_plot)
     plt.savefig("lossPlot")
 
