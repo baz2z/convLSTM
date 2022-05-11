@@ -49,9 +49,9 @@ if __name__ == '__main__':
     loss_plot = []
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            input_images = images[:,:-21,:,:]
+            input_images = images[:,:-1,:,:]
             labels = images[:,1:,:,:]
-            output = seq(input_images, future = 20)
+            output = seq(input_images)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
