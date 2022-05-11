@@ -56,6 +56,7 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             # here maybe clipping with 2 or more
+            torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
         loss_plot.append(loss.item())
         print(loss.item())
