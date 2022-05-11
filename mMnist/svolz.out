@@ -1,0 +1,87 @@
+/mnt/qb/work/butz/svolz67/dev/models/mMnist
+JOB DATA
+JobId=1415802 ArrayJobId=1415802 ArrayTaskId=0 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=39515 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-11T13:20:35 EligibleTime=2022-05-11T13:20:35
+   AccrueTime=Unknown
+   StartTime=2022-05-11T13:20:35 EndTime=2022-05-11T13:50:35 Deadline=N/A
+   PreemptEligibleTime=2022-05-11T13:21:35 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-11T13:20:35
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:31983
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-37
+   BatchHost=slurm-bm-37
+   NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/mMnist/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/mMnist
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/mMnist/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/mMnist/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+node:
+slurm-bm-37.novalocal
+RUN Script
+2491.467529296875
+2523.332275390625
+2816.86474609375
+2705.88037109375
+2536.30029296875
+2563.89404296875
+2400.59423828125
+2470.326416015625
+2323.63525390625
+2403.954345703125
+2315.11474609375
+2178.39306640625
+2271.927490234375
+2248.613037109375
+2396.599609375
+2189.03125
+2175.576904296875
+2295.7919921875
+2308.794921875
+1965.0576171875
+2156.971435546875
+2261.65576171875
+2167.79541015625
+2005.2586669921875
+1953.442626953125
+2137.215087890625
+1939.3902587890625
+2096.399169921875
+2015.0008544921875
+2223.841796875
+2066.103515625
+2070.53466796875
+1919.0843505859375
+2066.9375
+2016.501220703125
+1925.2947998046875
+2090.048583984375
+1999.11181640625
+1985.159912109375
+1883.1505126953125
+2040.0870361328125
+2091.26806640625
+2026.34765625
+1970.9227294921875
+2026.5537109375
+1947.4215087890625
+1838.480224609375
+1999.0267333984375
+1944.90625
+1879.4744873046875
