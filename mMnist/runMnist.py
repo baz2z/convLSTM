@@ -34,12 +34,12 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = 32
     hidden_size = 5
-    epochs = 50
+    epochs = 100
     dataloader = DataLoader(dataset=mMnist(), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(1, hidden_size).to(device)
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(seq.parameters(), lr=0.0008)
+    optimizer = optim.Adam(seq.parameters(), lr=0.0001)
     # begin to train
     loss_plot = []
     for j in range(epochs):
@@ -54,6 +54,7 @@ if __name__ == '__main__':
         loss_plot.append(loss.item())
         print(loss.item())
 
+    plt.yscale("log")
     plt.plot(loss_plot)
     plt.savefig("lossPlotOneFuture")
 
