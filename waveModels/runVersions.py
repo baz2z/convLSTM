@@ -39,7 +39,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = 32
     hidden_size = 5
-    epochs = 20
+    epochs = 200
     dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(1, hidden_size, 3).to(device)
