@@ -57,7 +57,6 @@ if __name__ == '__main__':
     plt.plot(loss_plot)
     plt.savefig("lossPlotOneFuture")
 
-
     with torch.no_grad():
         visData = iter(dataloader).__next__()
         pred = seq(visData[:,:10,:,:], future=10).detach().cpu().numpy()
