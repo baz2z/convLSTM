@@ -1,4 +1,2 @@
-Traceback (most recent call last):
-  File "/mnt/qb/work/butz/svolz67/dev/models/test.py", line 7, in <module>
-    run = args.run_idx
-AttributeError: 'Namespace' object has no attribute 'run_idx'
+usage: test.py [-h] [--run_idx RUN_IDX]
+test.py: error: unrecognized arguments: --model_idx 2
