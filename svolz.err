@@ -1,4 +1,4 @@
-usage: test.py [-h] [--model_idx MODEL_IDX]
-test.py: error: unrecognized arguments: --run_idx 0
-usage: test.py [-h] [--model_idx MODEL_IDX]
-test.py: error: unrecognized arguments: --run_idx 1
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/models/test.py", line 7, in <module>
+    run = args.run_idx
+AttributeError: 'Namespace' object has no attribute 'run_idx'
