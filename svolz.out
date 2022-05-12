@@ -1,16 +1,16 @@
 /mnt/qb/work/butz/svolz67/dev/models
 JOB DATA
-JobId=1420205 ArrayJobId=1420205 ArrayTaskId=2 JobName=review.sh
+JobId=1420213 ArrayJobId=1420213 ArrayTaskId=2 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=38833 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:02 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-12T14:32:31 EligibleTime=2022-05-12T14:32:31
+   SubmitTime=2022-05-12T14:36:09 EligibleTime=2022-05-12T14:36:09
    AccrueTime=Unknown
-   StartTime=2022-05-12T14:32:31 EndTime=2022-05-12T15:02:31 Deadline=N/A
-   PreemptEligibleTime=2022-05-12T14:33:31 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-12T14:32:31
+   StartTime=2022-05-12T14:36:09 EndTime=2022-05-12T15:06:09 Deadline=N/A
+   PreemptEligibleTime=2022-05-12T14:37:09 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-12T14:36:09
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:9756
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-45
@@ -32,17 +32,17 @@ JobId=1420205 ArrayJobId=1420205 ArrayTaskId=2 JobName=review.sh
    MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
    NtasksPerTRES:0
 
-JobId=1420207 ArrayJobId=1420205 ArrayTaskId=1 JobName=review.sh
+JobId=1420215 ArrayJobId=1420213 ArrayTaskId=1 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=38833 Nice=0 Account=butz QOS=normal
-   JobState=FAILED Reason=NonZeroExitCode Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=2:0
-   RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-12T14:32:31 EligibleTime=2022-05-12T14:32:31
+   JobState=COMPLETED Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:02 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-12T14:36:09 EligibleTime=2022-05-12T14:36:09
    AccrueTime=Unknown
-   StartTime=2022-05-12T14:32:31 EndTime=2022-05-12T14:32:32 Deadline=N/A
-   PreemptEligibleTime=2022-05-12T14:33:31 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-12T14:32:31
+   StartTime=2022-05-12T14:36:09 EndTime=2022-05-12T14:36:11 Deadline=N/A
+   PreemptEligibleTime=2022-05-12T14:37:09 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-12T14:36:09
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:9756
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-45
@@ -64,17 +64,17 @@ JobId=1420207 ArrayJobId=1420205 ArrayTaskId=1 JobName=review.sh
    MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
    NtasksPerTRES:0
 
-JobId=1420206 ArrayJobId=1420205 ArrayTaskId=0 JobName=review.sh
+JobId=1420214 ArrayJobId=1420213 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=38833 Nice=0 Account=butz QOS=normal
-   JobState=FAILED Reason=NonZeroExitCode Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=2:0
-   RunTime=00:00:01 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-12T14:32:31 EligibleTime=2022-05-12T14:32:31
+   JobState=COMPLETED Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:02 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-12T14:36:09 EligibleTime=2022-05-12T14:36:09
    AccrueTime=Unknown
-   StartTime=2022-05-12T14:32:31 EndTime=2022-05-12T14:32:32 Deadline=N/A
-   PreemptEligibleTime=2022-05-12T14:33:31 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-12T14:32:31
+   StartTime=2022-05-12T14:36:09 EndTime=2022-05-12T14:36:11 Deadline=N/A
+   PreemptEligibleTime=2022-05-12T14:37:09 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-12T14:36:09
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:9756
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-45
@@ -99,3 +99,4 @@ JobId=1420206 ArrayJobId=1420205 ArrayTaskId=0 JobName=review.sh
 node:
 slurm-bm-45.novalocal
 RUN Script
+2

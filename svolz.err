@@ -1,2 +1,0 @@
-usage: test.py [-h] [--run_idx RUN_IDX]
-test.py: error: unrecognized arguments: --model_idx 2
