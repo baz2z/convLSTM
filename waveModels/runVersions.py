@@ -34,12 +34,25 @@ def visualize_wave(data, row, nbrImages = 10, fromStart = True, ):
     plt.savefig("prediction" + str(row))
 
 
+def map(n):
+    model = "baseline"
+    if n == 0:
+        model = "baseline"
+    elif n == 1:
+        model = "lateral"
+    elif n == 2:
+        model = "twoLayer"
+    elif n == 3:
+        model = "twoLayer"
+    elif n == 4:
+        model = "skipConnections"
+    return model
 
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     batch_size = 32
-    hidden_size = 5
-    epochs = 200
+    hidden_size = 6
+    epochs = 250
     dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn = lambda x: default_collate(x).to(device,torch.float))
     seq = Sequence(1, hidden_size, 3).to(device)
