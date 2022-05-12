@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python test.py
+python test.py --run_idx ${SLURM_ARRAY_TASK_ID}
 
