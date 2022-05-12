@@ -1,0 +1,4 @@
+usage: test.py [-h] [--model_idx MODEL_IDX]
+test.py: error: unrecognized arguments: --run_idx 0
+usage: test.py [-h] [--model_idx MODEL_IDX]
+test.py: error: unrecognized arguments: --run_idx 1
