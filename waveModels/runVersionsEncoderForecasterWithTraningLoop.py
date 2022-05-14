@@ -112,11 +112,8 @@ def map_run(n):
     return model
 
 if __name__ == '__main__':
-    seq = Forecaster(12, LSTM_cell, num_blocks=2, lstm_kwargs={'k': 3})
-    print(seq)
-    print(f'Total number of trainable parameters: {count_params(seq)}')
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    seq = Forecaster(12, LSTM_cell, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_idx', type=int)
     args = parser.parse_args()
