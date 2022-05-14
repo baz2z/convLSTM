@@ -5,12 +5,12 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class LSTM_cell(nn.Module):
 
-    def __init__(self, x_channels, h_channels):
+    def __init__(self, x_channels, h_channels, k = 1):
         super(LSTM_cell, self).__init__()
-        self.conv = nn.Conv2d(x_channels + h_channels, 4 * h_channels, 3, bias=True, padding="same")
+        self.conv = nn.Conv2d(x_channels + h_channels, 4 * h_channels, k, bias=True, padding="same")
 
     def forward(self, x, h, c):
-        z = torch.cat((x, h), dim=1)
+        z = torch.cat((x, h), dim=1) if x is not None else h
         i, f, o, g = self.conv(z).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) + tanh(g)
         h = sigmoid(o) + tanh(c)

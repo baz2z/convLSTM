@@ -10,6 +10,7 @@ import h5py
 #from twoLayer import *
 from depthWise import *
 import math
+import argparse
 
 class Wave(Dataset):
     def __init__(self, file, isTrain=True):
@@ -34,7 +35,7 @@ def visualize_wave(data, row, nbrImages = 10, fromStart = True, ):
     plt.savefig("prediction" + str(row))
 
 
-def map(n):
+def map_run(n):
     model = "baseline"
     if n == 0:
         model = "baseline"
@@ -43,13 +44,19 @@ def map(n):
     elif n == 2:
         model = "twoLayer"
     elif n == 3:
-        model = "twoLayer"
+        model = "depthWise"
     elif n == 4:
         model = "skipConnections"
     return model
 
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--run_idx', type=int)
+    args = parser.parse_args()
+    run = args.run_idx
+    model = map_run(run)
+
     batch_size = 32
     hidden_size = 6
     epochs = 250
