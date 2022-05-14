@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./runVersions.py
+python ./runVersionsEncoderForecasterWithTraningLoop.py
 
