@@ -1,6 +1,13 @@
+import argparse
+import torch
 import torch as th
 from torch import nn
+from torch.utils.data import Dataset, DataLoader, default_collate
+import torch.optim as optim
 from baseline import LSTM_cell
+import h5py
+import matplotlib.pyplot as plt
+import math
 
 def count_params(net):
     '''
@@ -9,41 +16,18 @@ def count_params(net):
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 
-class LSTMCell2d(nn.Module):
-    '''LSTMCell for 2d inputs'''
+class Wave(Dataset):
+    def __init__(self, file, isTrain=True):
+        # data loading
+        f = h5py.File("../../data/wave/" + file, 'r')
+        self.isTrain = isTrain
+        self.data = f['data']['train'] if self.isTrain else f['data']['test']
 
-    def __init__(self,
-                 x_channels: int,
-                 h_channels: int,
-                 k: int = 1,
-                 rnn_act: callable = None):
-        '''
-        :param x_channels: Input channels
-        :param h_channels: Latent state channels
-        :param k: Size of the convolution kernel. Default to pointwise.
-        :param rnn_act: (Optional) Activation function to use inside the LSTM. Default to tanh.
-        '''
-        super().__init__()
+    def __getitem__(self, item):
+        return self.data[f'{item}'.zfill(3)][:,:,:]
 
-        self.phi = rnn_act() if rnn_act is not None else nn.Tanh()
-        self.conv = nn.Conv2d(
-            in_channels=x_channels + h_channels,
-            out_channels=4 * h_channels,
-            kernel_size=k,
-            padding='same')
-
-    def forward(self, x, h, c) -> th.Tensor:
-        '''
-        LSTM forward pass
-        :param x: Input
-        :param h: Hidden state
-        :param c: Cell state
-        '''
-        z = th.cat((x, h), dim=1) if x is not None else h
-        i, f, o, g = self.conv(z).chunk(chunks=4, axis=1)
-        c = th.sigmoid(f) * c + th.sigmoid(i) * self.phi(g)
-        h = th.sigmoid(o) * self.phi(c)
-        return h, c
+    def __len__(self):
+        return len(self.data)
 
 class Forecaster(nn.Module):
     '''
@@ -104,12 +88,70 @@ class Forecaster(nn.Module):
         return output
 
 
-if __name__ == '__main__':
-    net = Forecaster(12, LSTMCell2d, num_blocks=2, lstm_kwargs={'k': 3})
-    print(net)
-    print(f'Total number of trainable parameters: {count_params(net)}')
 
-    x = th.randn((32, 20, 64, 64))  # dummy input for testing
-    y = net(x, horizon=40)
-    #loss = (x - y).pow(2).mean()
-    #loss.backward()
+def visualize_wave(imgs):
+    t, w, h = imgs.shape
+    for i in range(t):
+        plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
+        image = imgs[i,:,:]
+        plt.imshow(image, cmap="gray")
+    plt.savefig("prediction")
+
+def map_run(n):
+    model = "baseline"
+    if n == 0:
+        model = "baseline"
+    elif n == 1:
+        model = "lateral"
+    elif n == 2:
+        model = "twoLayer"
+    elif n == 3:
+        model = "depthWise"
+    elif n == 4:
+        model = "skipConnections"
+    return model
+
+if __name__ == '__main__':
+    seq = Forecaster(12, LSTM_cell, num_blocks=2, lstm_kwargs={'k': 3})
+    print(seq)
+    print(f'Total number of trainable parameters: {count_params(seq)}')
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--run_idx', type=int)
+    args = parser.parse_args()
+    run = args.run_idx
+    model = map_run(run)
+
+    batch_size = 32
+    epochs = 1
+    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    criterion = nn.MSELoss()
+    optimizer = optim.Adam(seq.parameters(), lr=0.0008)
+    # begin to train
+    loss_plot = []
+    for j in range(epochs):
+        for i, images in enumerate(dataloader):
+            input_images = images[:, :-1, :, :]
+            labels = images[:, 1:, :, :]
+            output = seq(input_images, 40)
+            loss = criterion(output, labels)
+            optimizer.zero_grad()
+            loss.backward()
+            # here maybe clipping with 2 or more
+            torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
+            optimizer.step()
+        loss_plot.append(loss.item())
+        print(loss.item())
+    plt.yscale("log")
+    plt.plot(loss_plot)
+    plt.savefig("lossPlot")
+
+    with torch.no_grad():
+        visData = iter(dataloader).__next__()
+        pred = seq(visData[:, :20, :, :], horizon = 30).detach().cpu().numpy()
+        visualize_wave(pred[0, :, :, :])
+
+
+
