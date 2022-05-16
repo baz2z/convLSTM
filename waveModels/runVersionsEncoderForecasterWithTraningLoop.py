@@ -4,7 +4,11 @@ import torch as th
 from torch import nn
 from torch.utils.data import Dataset, DataLoader, default_collate
 import torch.optim as optim
-from baseline import LSTM_cell
+from baseline import baseline
+from lateral import lateral
+from twoLayer import twoLayer
+from depthWise import depthWise
+from skipConnection import skipConnection
 import h5py
 import matplotlib.pyplot as plt
 import math
@@ -98,31 +102,32 @@ def visualize_wave(imgs):
     plt.savefig("prediction")
 
 def map_run(n):
-    model = "baseline"
+    seq = "baseline"
     if n == 0:
-        model = "baseline"
+        seq = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
     elif n == 1:
-        model = "lateral"
+        seq = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
     elif n == 2:
-        model = "twoLayer"
+        seq = Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
     elif n == 3:
-        model = "depthWise"
+        seq = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
     elif n == 4:
-        model = "skipConnections"
-    return model
+        seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 1}).to(device)
+    print(seq)
+    print(f'Total number of trainable parameters: {count_params(seq)}')
+    return seq
 
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    seq = Forecaster(12, LSTM_cell, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_idx', type=int)
     args = parser.parse_args()
     run = args.run_idx
-    model = map_run(run)
+    seq = map_run(3)
 
     batch_size = 32
     epochs = 60
-    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=Wave("testWave"), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=0.0008)
@@ -130,13 +135,12 @@ if __name__ == '__main__':
     loss_plot = []
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            input_images = images[:, :-1, :, :]
-            labels = images[:, 1:, :, :]
-            output = seq(input_images, 40)
+            input_images = images[:, :-20, :, :]
+            labels = images[:, 20:, :, :]
+            output = seq(input_images, 21)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
-            # here maybe clipping with 2 or more
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
         loss_plot.append(loss.item())
@@ -147,7 +151,7 @@ if __name__ == '__main__':
 
     with torch.no_grad():
         visData = iter(dataloader).__next__()
-        pred = seq(visData[:, :20, :, :], horizon = 30).detach().cpu().numpy()
+        pred = seq(visData[:, :20, :, :], horizon = 20).detach().cpu().numpy()
         visualize_wave(pred[0, :, :, :])
 
 

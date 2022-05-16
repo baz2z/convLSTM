@@ -3,15 +3,15 @@ from torch import nn
 from torch import cat, tanh, Tensor, sigmoid
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-class LSTM_cell(nn.Module):
+class skipConnection(nn.Module):
 
     def __init__(self, x_channels, h_channels, lateral_channels):
-        super(LSTM_cell, self).__init__()
+        super(skipConnection, self).__init__()
         self.transition = nn.Conv2d(x_channels + h_channels, lateral_channels, 3 ,bias=True, padding="same")
         self.conv = nn.Conv2d(lateral_channels + h_channels, 4 * h_channels, 1, bias=True, padding="same")
 
     def forward(self, x, h, c):
-        z = torch.cat((x, h), dim=1)
+        z = torch.cat((x, h), dim=1) if x is not None else h
         l = self.transition(z)
         lWithSkip = torch.cat((l, h), dim = 1)
         i, f, o, g = self.conv(lWithSkip).chunk(chunks = 4, axis = 1)
@@ -27,7 +27,7 @@ class Sequence(nn.Module):
         self.in_channels = in_channels
         self.h_channels = h_channels
         self.lateral_channels = lateral_channels
-        self.lstm1 = LSTM_cell(self.in_channels, self.h_channels, self.lateral_channels)
+        self.lstm1 = skipConnection(self.in_channels, self.h_channels, self.lateral_channels)
         self.post = nn.Conv2d(self.h_channels, 1, 3, padding="same")
 
     def forward(self, x, future=0):

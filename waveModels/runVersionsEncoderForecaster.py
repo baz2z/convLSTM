@@ -1,6 +1,6 @@
 import torch as th
 from torch import nn
-from baseline import LSTM_cell
+from depthWise import depthWise
 
 def count_params(net):
     '''
@@ -105,11 +105,11 @@ class Forecaster(nn.Module):
 
 
 if __name__ == '__main__':
-    net = Forecaster(12, LSTMCell2d, num_blocks=2, lstm_kwargs={'k': 3})
+    net = Forecaster(6, depthWise, num_blocks=2, lstm_kwargs={"lateral_channels_multipl": 1})
     print(net)
     print(f'Total number of trainable parameters: {count_params(net)}')
 
     x = th.randn((32, 20, 64, 64))  # dummy input for testing
-    y = net(x, horizon=40)
+    y = net(x, horizon=10)
     #loss = (x - y).pow(2).mean()
     #loss.backward()
