@@ -120,14 +120,14 @@ def map_run(n):
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int)
+    parser.add_argument('--run_idx', type=int, default=0)
     args = parser.parse_args()
     run = args.run_idx
-    seq = map_run(3)
+    seq = map_run(run)
 
     batch_size = 32
     epochs = 60
-    dataloader = DataLoader(dataset=Wave("testWave"), batch_size=batch_size, shuffle=True, drop_last=False,
+    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=0.0008)
