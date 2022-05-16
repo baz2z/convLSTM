@@ -113,7 +113,7 @@ def map_run(n):
         modelName = "twoLayer"
     elif n == 3:
         seq = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
-        modelName = "skipCOnnection"
+        modelName = "skipConnection"
     elif n == 4:
         seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 1}).to(device)
         modelName = "depthWise"
