@@ -56,6 +56,7 @@ class Forecaster(nn.Module):
         self.decoder_layers = nn.ModuleList()
         for i in range(num_blocks):
             x_channels = 0 if i == 0 else h_channels
+            #x_channels = 1 if i == 0 else h_channels
             self.encoder_layers.add_module(f'block_{i}', lstm_block(h_channels, h_channels, **lstm_kwargs))
             self.decoder_layers.add_module(f'block_{i}', lstm_block(x_channels, h_channels, **lstm_kwargs))
 
@@ -89,6 +90,7 @@ class Forecaster(nn.Module):
                 z = latent if i == 0 else h[i - 1]
                 h[i], c[i] = layer(z, h[i], c[i])
             output[:, t] = self.read(h[-1]).squeeze()
+            #latent = output[:, t]
         return output
 
 
@@ -97,8 +99,10 @@ def visualize_wave(imgs, modelName):
     t, w, h = imgs.shape
     for i in range(t):
         plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
+        plt.title(i)
         image = imgs[i,:,:]
         plt.imshow(image, cmap="gray")
+    plt.subplots_adjust(hspace=1.5)
     plt.savefig("prediction_" + modelName)
 
 def map_run(n):
@@ -106,16 +110,16 @@ def map_run(n):
         seq = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         modelName = "baseline"
     elif n == 1:
-        seq = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
+        seq = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
         modelName = "lateral"
     elif n == 2:
-        seq = Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
+        seq = Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
         modelName = "twoLayer"
     elif n == 3:
-        seq = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
+        seq = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
         modelName = "skipConnection"
     elif n == 4:
-        seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 1}).to(device)
+        seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 12}).to(device)
         modelName = "depthWise"
     print(seq)
     print(f'Total number of trainable parameters: {count_params(seq)}')
@@ -130,16 +134,20 @@ if __name__ == '__main__':
     seq, modelName = map_run(run)
 
     batch_size = 32
-    epochs = 200
-    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=False,
+    epochs = 1
+    dataloader = DataLoader(dataset=Wave("testWave"), batch_size=batch_size, shuffle=True, drop_last=False,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
+    validation = DataLoader(dataset=Wave("testWave", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(seq.parameters(), lr=0.0008)
+    optimizer = optim.Adam(seq.parameters(), lr=0.0001)
     # begin to train
-    loss_plot = []
+    loss_plot_train, loss_plot_val = [], []
+
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            input_images = images[:, :-20, :, :]
+            input_images = images[:, :20, :, :]
             labels = images[:, 20:, :, :]
             output = seq(input_images, 21)
             loss = criterion(output, labels)
@@ -147,15 +155,33 @@ if __name__ == '__main__':
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
-        loss_plot.append(loss.item())
-        print(loss.item())
+        loss_plot_train.append(loss.item())
+
+        with torch.no_grad():
+            for i, images in enumerate(validation):
+                input_images = images[:, :20, :, :]
+                labels = images[:, 20:, :, :]
+                output = seq(input_images, 21)
+                loss = criterion(output, labels)
+            loss_plot_val.append(loss)
+
     plt.yscale("log")
-    plt.plot(loss_plot)
+    plt.plot(loss_plot_train, label = "trainLoss")
+    plt.plot(loss_plot_val, label = "valLoss")
+    plt.legend()
     plt.savefig("lossPlot_" + modelName)
+
 
     with torch.no_grad():
         visData = iter(dataloader).__next__()
-        pred = seq(visData[:, :20, :, :], horizon = 20).detach().cpu().numpy()
+        pred = seq(visData[:, :20, :, :], horizon = 21).detach().cpu().numpy()
+        w, h = pred.shape[2], pred.shape[3]
+        groundTruth = visData[0, 20:, int(w/2), int(h/2)]
+        prediction =  pred[0, :, int(w/2), int(h/2)]
+        plt.plot(groundTruth, label = "groundTruth")
+        plt.plot(prediction, label = "prediction")
+        plt.legend()
+        plt.show()
         visualize_wave(pred[0, :, :, :], modelName)
 
 

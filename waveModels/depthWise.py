@@ -7,7 +7,7 @@ class depthWise(nn.Module):
 
     def __init__(self, x_channels, h_channels, lateral_channels_multipl):
         super(depthWise, self).__init__()
-        self.transition = nn.Conv2d(x_channels + h_channels, lateral_channels_multipl * (x_channels + h_channels), 3 ,bias=True, padding="same", groups=(x_channels + h_channels))
+        self.transition = nn.Conv2d(x_channels + h_channels, lateral_channels_multipl * (x_channels + h_channels), 3, bias=True, padding="same", groups=(x_channels + h_channels))
         self.conv = nn.Conv2d(lateral_channels_multipl * (x_channels + h_channels), 4 * h_channels, 1, bias=True, padding="same")
 
     def forward(self, x, h, c):

@@ -28,6 +28,7 @@ class Sequence(nn.Module):
 
     def forward(self, x, future=0):
         out = []
+        #x.shape[2]
         h, c = torch.zeros(x.size(0), self.h_channels, 64, 64, device=device), torch.zeros(x.size(0), self.h_channels, 64, 64, device=device)
         for i, x in enumerate(x.chunk(x.size(1), dim=1)):
             h, c = self.lstm1(x, h, c)
