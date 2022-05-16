@@ -1,21 +1,59 @@
+RUN Script
+.novalocal
 /mnt/qb/work/butz/svolz67/dev/models/waveModels
 JOB DATA
-JobId=1432775 ArrayJobId=1432775 ArrayTaskId=0 JobName=review.sh
+/mnt/qb/work/butz/svolz67/dev/models/waveModels
+JOB DATA
+/mnt/qb/work/butz/svolz67/dev/models/waveModels
+JOB DATA
+JobId=1432792 ArrayJobId=1432788 ArrayTaskId=3 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=42273 Nice=0 Account=butz QOS=normal
+   Priority=42275 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:00 TimeLimit=00:30:00 TimeMin=N/A
-   SubmitTime=2022-05-16T10:18:17 EligibleTime=2022-05-16T10:18:18
+   RunTime=00:00:11 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-16T10:37:20 EligibleTime=2022-05-16T10:37:21
    AccrueTime=Unknown
-   StartTime=2022-05-16T10:18:18 EndTime=2022-05-16T10:48:18 Deadline=N/A
-   PreemptEligibleTime=2022-05-16T10:19:18 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:18:18
+   StartTime=2022-05-16T10:37:21 EndTime=2022-05-16T11:07:21 Deadline=N/A
+   PreemptEligibleTime=2022-05-16T10:38:21 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:37:21
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22525
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-16
-   BatchHost=slurm-bm-16
-   NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   NodeList=slurm-bm-23
+   BatchHost=slurm-bm-23
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1432791 ArrayJobId=1432788 ArrayTaskId=2 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:11 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-16T10:37:20 EligibleTime=2022-05-16T10:37:21
+   AccrueTime=Unknown
+   StartTime=2022-05-16T10:37:21 EndTime=2022-05-16T11:07:21 Deadline=N/A
+   PreemptEligibleTime=2022-05-16T10:38:21 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:37:21
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22525
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-23
+   BatchHost=slurm-bm-23
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
    MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
@@ -33,86 +71,354 @@ JobId=1432775 ArrayJobId=1432775 ArrayTaskId=0 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-16.novalocal
+JobId=1432788 ArrayJobId=1432788 ArrayTaskId=4 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:11 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-16T10:37:20 EligibleTime=2022-05-16T10:37:21
+   AccrueTime=Unknown
+   StartTime=2022-05-16T10:37:21 EndTime=2022-05-16T11:07:21 Deadline=N/A
+   PreemptEligibleTime=2022-05-16T10:38:21 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:37:21
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22525
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-23
+   BatchHost=slurm-bm-23
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1432792 ArrayJobId=1432788 ArrayTaskId=3 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:11 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-16T10:37:20 EligibleTime=2022-05-16T10:37:21
+   AccrueTime=Unknown
+   StartTime=2022-05-16T10:37:21 EndTime=2022-05-16T11:07:21 Deadline=N/A
+   PreemptEligibleTime=2022-05-16T10:38:21 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:37:21
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22525
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-23
+   BatchHost=slurm-bm-23
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1432791 ArrayJobId=1432788 ArrayTaskId=2 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:11 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-16T10:37:20 EligibleTime=2022-05-16T10:37:21
+   AccrueTime=Unknown
+   StartTime=2022-05-16T10:37:21 EndTime=2022-05-16T11:07:21 Deadline=N/A
+   PreemptEligibleTime=2022-05-16T10:38:21 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:37:21
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22525
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-23
+   BatchHost=slurm-bm-23
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 node:
+slurm-bm-23.novalocal
 RUN Script
-Forecaster(
+slurm-bm-23.novalocal
+RUN Script
+Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1432790 ArrayJobId=1432788 ArrayTaskId=1 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:11 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-16T10:37:20 EligibleTime=2022-05-16T10:37:21
+   AccrueTime=Unknown
+   StartTime=2022-05-16T10:37:21 EndTime=2022-05-16T11:07:21 Deadline=N/A
+   PreemptEligibleTime=2022-05-16T10:38:21 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:37:21
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22525
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-23
+   BatchHost=slurm-bm-23
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1432789 ArrayJobId=1432788 ArrayTaskId=0 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:11 TimeLimit=00:30:00 TimeMin=N/A
+   SubmitTime=2022-05-16T10:37:20 EligibleTime=2022-05-16T10:37:21
+   AccrueTime=Unknown
+   StartTime=2022-05-16T10:37:21 EndTime=2022-05-16T11:07:21 Deadline=N/A
+   PreemptEligibleTime=2022-05-16T10:38:21 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-16T10:37:21
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22525
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-49
+   BatchHost=slurm-bm-49
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+node:
+slurm-bm-23.novalocal
+Forecaster(Forecaster(
   (init): Conv2d(1, 12, kernel_size=(1, 1), stride=(1, 1))
   (encoder_layers): ModuleList(
-    (block_0): baseline(
-      (conv): Conv2d(24, 48, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (block_0): depthWise(
+      (transition): Conv2d(24, 24, kernel_size=(3, 3), stride=(1, 1), padding=same, groups=24)
+      (conv): Conv2d(24, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
     )
-    (block_1): baseline(
-      (conv): Conv2d(24, 48, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (block_1): depthWise(
+      (transition): Conv2d(24, 24, kernel_size=(3, 3), stride=(1, 1), padding=same, groups=24)
+      (conv): Conv2d(24, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
     )
   )
   (decoder_layers): ModuleList(
-    (block_0): baseline(
-      (conv): Conv2d(12, 48, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (block_0): depthWise(
+      (transition): Conv2d(12, 12, kernel_size=(3, 3), stride=(1, 1), padding=same, groups=12)
+      (conv): Conv2d(12, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
     )
-    (block_1): baseline(
-      (conv): Conv2d(24, 48, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (block_1): depthWise(
+      (transition): Conv2d(24, 24, kernel_size=(3, 3), stride=(1, 1), padding=same, groups=24)
+      (conv): Conv2d(24, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
     )
   )
   (read): Conv2d(12, 1, kernel_size=(1, 1), stride=(1, 1))
 )
-Total number of trainable parameters: 36517
-0.0024759224615991116
-0.001588480081409216
-0.002184535376727581
-0.0017706737853586674
-0.0018095560371875763
-0.0021572764962911606
-0.0022237030789256096
-0.0016536553157493472
-0.0017226191703230143
-0.001762728439643979
-0.0018233988666906953
-0.0015366084408015013
-0.0014344777446240187
-0.0014711017720401287
-0.0009019055869430304
-0.000766345183365047
-0.0005496999947354198
-0.0003914963162969798
-0.00037350261118263006
-0.00034161400981247425
-0.00026793262804858387
-0.00024351890897378325
-0.00023132472415454686
-0.00016522084479220212
-0.0002410912566119805
-0.00017108126485254616
-0.00016739552665967494
-0.00019784884352702647
-0.00017135821690317243
-0.0001316279813181609
-0.00014618149725720286
-0.0001458352489862591
-0.00012166772648924962
-0.00013574778859037906
-0.00013414760178420693
-0.00012761879770550877
-8.588893251726404e-05
-0.00010172899055760354
-9.775605576578528e-05
-0.00014333368744701147
-0.00014503076090477407
-0.00012031110964016989
-0.00012747565051540732
-0.00010458205360919237
-0.00013157556531950831
-0.00011951268243137747
-9.723272523842752e-05
-8.10969213489443e-05
-8.574313687859103e-05
-0.00011753847502404824
-8.73581157065928e-05
-7.499595812987536e-05
-5.617699571303092e-05
-7.902189827291295e-05
-6.706732528982684e-05
-0.00012188742402940989
-8.132579387165606e-05
-7.828622619854286e-05
-7.895505405031145e-05
-9.59514727583155e-05
+Total number of trainable parameters: 5101
+0.010383074171841145
+0.0030903469305485487
+0.00303036835975945
+0.002405748935416341
+0.00220671808347106
+0.0020029691513627768
+0.0023411628790199757
+0.002045144559815526
+0.0018360689282417297
+0.0021625913213938475
+0.002207465935498476
+0.0021739033982157707
+0.0020048331934958696
+0.002100445795804262
+0.0017564116278663278
+0.001894747605547309
+0.001972140045836568
+0.0012823089491575956
+0.0015722733223810792
+0.001629237667657435
+Forecaster(
+  (init): Conv2d(1, 12, kernel_size=(1, 1), stride=(1, 1))
+  (encoder_layers): ModuleList(
+    (block_0): lateral(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+    (block_1): lateral(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+  )
+  (decoder_layers): ModuleList(
+    (block_0): lateral(
+      (transition): Conv2d(12, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+    (block_1): lateral(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+  )
+  (read): Conv2d(12, 1, kernel_size=(1, 1), stride=(1, 1))
+)
+Total number of trainable parameters: 3085
+0.006297331769019365
+0.003944359254091978
+0.002372127491980791
+0.001969745848327875
+0.002547657350078225
+0.0022372794337570667
+0.001953825354576111
+0.002020263345912099
+0.0019618235528469086
+0.001828527427278459
+0.002008297713473439
+0.0016788010252639651
+0.0017594400560483336
+0.0021240164060145617
+0.0018023550510406494
+0.0019972017034888268
+0.0014716964215040207
+0.0016659661196172237
+0.0015111012617126107
+0.0014488466549664736
+Forecaster(
+  (init): Conv2d(1, 12, kernel_size=(1, 1), stride=(1, 1))
+  (encoder_layers): ModuleList(
+    (block_0): skipConnection(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(15, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+    (block_1): skipConnection(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(15, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+  )
+  (decoder_layers): ModuleList(
+    (block_0): skipConnection(
+      (transition): Conv2d(12, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(15, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+    (block_1): skipConnection(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(15, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+  )
+  (read): Conv2d(12, 1, kernel_size=(1, 1), stride=(1, 1))
+)
+Total number of trainable parameters: 5389
+0.0023282403126358986
+0.0018540344899520278
+0.002342378254979849
+0.002003026194870472
+0.002328622154891491
+0.0021375655196607113
+0.0019773205276578665
+0.0020176221150904894
+0.002092258306220174
+0.001970613608136773
+0.0021682840306311846
+0.002116998191922903
+0.0019414129201322794
+0.001771303708665073
+0.002223942894488573
+0.0019940969068557024
+0.001846698229201138
+0.002220462542027235
+0.001861082506366074
+0.0020237474236637354
+Forecaster(
+  (init): Conv2d(1, 12, kernel_size=(1, 1), stride=(1, 1))
+  (encoder_layers): ModuleList(
+    (block_0): twoLayer(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (transition_deep): Conv2d(3, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+    (block_1): twoLayer(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (transition_deep): Conv2d(3, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+  )
+  (decoder_layers): ModuleList(
+    (block_0): twoLayer(
+      (transition): Conv2d(12, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (transition_deep): Conv2d(3, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+    (block_1): twoLayer(
+      (transition): Conv2d(24, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (transition_deep): Conv2d(3, 3, kernel_size=(3, 3), stride=(1, 1), padding=same)
+      (conv): Conv2d(3, 48, kernel_size=(1, 1), stride=(1, 1), padding=same)
+    )
+  )
+  (read): Conv2d(12, 1, kernel_size=(1, 1), stride=(1, 1))
+)
+Total number of trainable parameters: 3421
+0.0031071549747139215
+0.0023919432424008846
+0.0023150844499468803
+0.0017483453266322613
+0.002054159063845873
+0.0020288736559450626
+0.0016565596451982856
+0.002054241020232439
+0.002094658324494958
+0.0018596062436699867
+0.0017837322084233165
+0.0021478275302797556
+0.0014838766073808074
+0.001496644807048142
+0.0018642442300915718
+0.001704085967503488
+0.0017778158653527498
+0.0014288219390437007
+0.0014488350134342909
+0.0015260296640917659
