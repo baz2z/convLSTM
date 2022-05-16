@@ -93,29 +93,33 @@ class Forecaster(nn.Module):
 
 
 
-def visualize_wave(imgs):
+def visualize_wave(imgs, modelName):
     t, w, h = imgs.shape
     for i in range(t):
         plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
         image = imgs[i,:,:]
         plt.imshow(image, cmap="gray")
-    plt.savefig("prediction")
+    plt.savefig("prediction_" + modelName)
 
 def map_run(n):
-    seq = "baseline"
     if n == 0:
         seq = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+        modelName = "baseline"
     elif n == 1:
         seq = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
+        modelName = "lateral"
     elif n == 2:
         seq = Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
+        modelName = "twoLayer"
     elif n == 3:
         seq = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 3}).to(device)
+        modelName = "skipCOnnection"
     elif n == 4:
         seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 1}).to(device)
+        modelName = "depthWise"
     print(seq)
     print(f'Total number of trainable parameters: {count_params(seq)}')
-    return seq
+    return seq, modelName
 
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -123,10 +127,10 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=0)
     args = parser.parse_args()
     run = args.run_idx
-    seq = map_run(run)
+    seq, modelName = map_run(run)
 
     batch_size = 32
-    epochs = 60
+    epochs = 20
     dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
@@ -147,12 +151,12 @@ if __name__ == '__main__':
         print(loss.item())
     plt.yscale("log")
     plt.plot(loss_plot)
-    plt.savefig("lossPlot")
+    plt.savefig("lossPlot_" + modelName)
 
     with torch.no_grad():
         visData = iter(dataloader).__next__()
         pred = seq(visData[:, :20, :, :], horizon = 20).detach().cpu().numpy()
-        visualize_wave(pred[0, :, :, :])
+        visualize_wave(pred[0, :, :, :], modelName)
 
 
 
