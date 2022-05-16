@@ -130,7 +130,7 @@ if __name__ == '__main__':
     seq, modelName = map_run(run)
 
     batch_size = 32
-    epochs = 100
+    epochs = 200
     dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
