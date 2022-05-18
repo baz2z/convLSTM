@@ -47,13 +47,13 @@ os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
 model = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
-model.load_state_dict(torch.load("baseline.pt"))
+model.load_state_dict(torch.load("baseline.pt", map_location=device))
 model.eval()
 
 
 # loss
-trainLoss = torch.load("trainingLoss")
-valLoss = torch.load("validationLoss")
+trainLoss = torch.load("trainingLoss", map_location=device)
+valLoss = torch.load("validationLoss", map_location=device)
 
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
