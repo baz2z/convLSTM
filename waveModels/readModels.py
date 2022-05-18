@@ -8,7 +8,7 @@ import math
 import numpy
 from torch.utils.data import Dataset, DataLoader, default_collate
 
-def visualize_wave(imgs, modelName):
+def visualize_wave(imgs):
     t, w, h = imgs.shape
     for i in range(t):
         plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
@@ -77,5 +77,5 @@ plt.legend()
 plt.show()
 
 # for entire sequence
-visualize_wave(pred[sequence, :, :, :], modelName)
+visualize_wave(pred[sequence, :, :, :])
 #visualize_wave(visData[sequence, :20, :, :], modelName)

@@ -91,32 +91,21 @@ class Forecaster(nn.Module):
         return output
 
 
-
-def visualize_wave(imgs, modelName):
-    t, w, h = imgs.shape
-    for i in range(t):
-        plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
-        plt.title(i)
-        image = imgs[i,:,:]
-        plt.imshow(image, cmap="gray")
-    plt.subplots_adjust(hspace=1.5)
-    plt.savefig("prediction_" + modelName)
-
 if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_idx', type=int, default=0)
     args = parser.parse_args()
-    run = 1 #args.run_idx
+    run = args.run_idx
     seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     batch_size = 32
     epochs = 5
     learningRate = 0.0001
-    dataloader = DataLoader(dataset=Wave("testWave"), batch_size=batch_size, shuffle=True, drop_last=False,
+    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=Wave("testWave", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=False,
+    validation = DataLoader(dataset=Wave("wave1000-40", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
