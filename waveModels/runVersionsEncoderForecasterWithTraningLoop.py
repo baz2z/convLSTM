@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
     # save model and test and train loss and parameters in txt file and python file with class
 
-    torch.save(seq.state_dict(), "../trainedModels/wave/horizon-20-21/baseline/baseline.pt")
+    torch.save(seq.state_dict(), "../trainedModels/wave/horizon-20-40/baseline/baseline.pt")
 
 
 

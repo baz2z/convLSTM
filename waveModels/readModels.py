@@ -34,12 +34,13 @@ class Wave(Dataset):
         return len(self.data)
 
 
-mode = "horizon-20-21"
+mode = "horizon-20-40"
 modelName = "baseline"
 run = "1"
+horizon = 40
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-dataloader = DataLoader(dataset=Wave("testWave"), batch_size=10, shuffle=False, drop_last=False,
+dataloader = DataLoader(dataset=Wave("wave-5000-60"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 f = h5py.File("../../data/wave/testWave", 'r')
 
@@ -63,7 +64,7 @@ plt.show()
 
 # example wave
 visData = iter(dataloader).__next__()
-pred = model(visData[:, :20, :, :], horizon=21).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=40).detach().cpu().numpy()
 
 
 sequence = 8

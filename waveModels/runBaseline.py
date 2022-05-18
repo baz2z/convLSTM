@@ -95,17 +95,17 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=0)
+    parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
     seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     batch_size = 32
-    epochs = 60
+    epochs = 200
     learningRate = 0.0001
-    dataloader = DataLoader(dataset=Wave("wave1000-40"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=Wave("wave-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=Wave("wave1000-40", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=False,
+    validation = DataLoader(dataset=Wave("wave-5000-60", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
@@ -116,7 +116,7 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
             labels = images[:, 20:, :, :]
-            output = seq(input_images, 21)
+            output = seq(input_images, 40)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
@@ -128,12 +128,12 @@ if __name__ == '__main__':
             for i, images in enumerate(validation):
                 input_images = images[:, :20, :, :]
                 labels = images[:, 20:, :, :]
-                output = seq(input_images, 21)
+                output = seq(input_images, 40)
                 loss = criterion(output, labels)
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/wave/horizon-20-21/baseline/run" + str(run))
+    os.chdir("../trainedModels/wave/horizon-20-40/baseline/run" + str(run))
     torch.save(seq.state_dict(), "baseline.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
@@ -143,7 +143,7 @@ if __name__ == '__main__':
                      "epochs": epochs,
                      "batchSize": batch_size,
                      "learningRate": learningRate,
-                     "dataset": "wave1000-41"
+                     "dataset": "wave-5000-60"
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
