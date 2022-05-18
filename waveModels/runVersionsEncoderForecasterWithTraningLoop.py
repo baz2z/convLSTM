@@ -4,11 +4,7 @@ import torch as th
 from torch import nn
 from torch.utils.data import Dataset, DataLoader, default_collate
 import torch.optim as optim
-from baseline import baseline
-from lateral import lateral
-from twoLayer import twoLayer
-from depthWise import depthWise
-from skipConnection import skipConnection
+from models import baseline, lateral, twoLayer, depthWise, skipConnection
 import h5py
 import matplotlib.pyplot as plt
 import math
@@ -183,6 +179,11 @@ if __name__ == '__main__':
         plt.legend()
         plt.show()
         visualize_wave(pred[0, :, :, :], modelName)
+
+
+    # save model and test and train loss and parameters in txt file and python file with class
+
+    torch.save(seq.state_dict(), "../trainedModels/wave/baseline/horizon-20-21/baseline.pt")
 
 
 
