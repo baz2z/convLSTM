@@ -8,6 +8,7 @@ from models import baseline, lateral, twoLayer, depthWise, skipConnection
 import h5py
 import matplotlib.pyplot as plt
 import math
+import os
 
 def count_params(net):
     '''
@@ -101,43 +102,24 @@ def visualize_wave(imgs, modelName):
     plt.subplots_adjust(hspace=1.5)
     plt.savefig("prediction_" + modelName)
 
-def map_run(n):
-    if n == 0:
-        seq = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
-        modelName = "baseline"
-    elif n == 1:
-        seq = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
-        modelName = "lateral"
-    elif n == 2:
-        seq = Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
-        modelName = "twoLayer"
-    elif n == 3:
-        seq = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
-        modelName = "skipConnection"
-    elif n == 4:
-        seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 12}).to(device)
-        modelName = "depthWise"
-    print(seq)
-    print(f'Total number of trainable parameters: {count_params(seq)}')
-    return seq, modelName
-
 if __name__ == '__main__':
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
     parser.add_argument('--run_idx', type=int, default=0)
     args = parser.parse_args()
-    run = args.run_idx
-    seq, modelName = map_run(run)
-
+    run = 1 #args.run_idx
+    seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     batch_size = 32
-    epochs = 1
+    epochs = 5
+    learningRate = 0.0001
     dataloader = DataLoader(dataset=Wave("testWave"), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     validation = DataLoader(dataset=Wave("testWave", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(seq.parameters(), lr=0.0001)
+    optimizer = optim.Adam(seq.parameters(), lr=learningRate)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
 
@@ -161,29 +143,20 @@ if __name__ == '__main__':
                 loss = criterion(output, labels)
             loss_plot_val.append(loss)
 
-    plt.yscale("log")
-    plt.plot(loss_plot_train, label = "trainLoss")
-    plt.plot(loss_plot_val, label = "valLoss")
-    plt.legend()
-    plt.savefig("lossPlot_" + modelName)
-
-
-    with torch.no_grad():
-        visData = iter(dataloader).__next__()
-        pred = seq(visData[:, :20, :, :], horizon = 21).detach().cpu().numpy()
-        w, h = pred.shape[2], pred.shape[3]
-        groundTruth = visData[0, 20:, int(w/2), int(h/2)]
-        prediction =  pred[0, :, int(w/2), int(h/2)]
-        plt.plot(groundTruth, label = "groundTruth")
-        plt.plot(prediction, label = "prediction")
-        plt.legend()
-        plt.show()
-        visualize_wave(pred[0, :, :, :], modelName)
-
-
     # save model and test and train loss and parameters in txt file and python file with class
+    os.chdir("../trainedModels/wave/horizon-20-21/baseline/run" + str(run))
+    torch.save(seq.state_dict(), "baseline.pt")
+    torch.save(loss_plot_train, "trainingLoss")
+    torch.save(loss_plot_val, "validationLoss")
 
-    torch.save(seq.state_dict(), "../trainedModels/wave/horizon-20-21/baseline/baseline.pt")
-
+    # save config
+    configuration = {"model": modelName,
+                     "epochs": epochs,
+                     "batchSize": batch_size,
+                     "learningRate": learningRate,
+                     "dataset": "wave1000-41"
+                     }
+    with open('configuration.txt', 'w') as f:
+        print(configuration, file=f)
 
 
