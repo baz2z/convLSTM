@@ -100,12 +100,12 @@ if __name__ == '__main__':
     run = args.run_idx
     seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     batch_size = 32
-    epochs = 200
+    epochs = 5
     learningRate = 0.0001
-    dataloader = DataLoader(dataset=Wave("wave-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=Wave("wave-5000-60", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
+    validation = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
@@ -116,7 +116,7 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
             labels = images[:, 20:, :, :]
-            output = seq(input_images, 40)
+            output = seq(input_images, 70)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
@@ -133,7 +133,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/wave/horizon-20-40/baseline/run" + str(run))
+    os.chdir("../trainedModels/wave/horizon-20-70/baseline/run" + str(run))
     torch.save(seq.state_dict(), "baseline.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")

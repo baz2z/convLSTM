@@ -55,6 +55,7 @@ model.eval()
 # loss
 trainLoss = torch.load("trainingLoss", map_location=device)
 valLoss = torch.load("validationLoss", map_location=device)
+print(trainLoss[-1])
 
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
@@ -67,7 +68,7 @@ visData = iter(dataloader).__next__()
 pred = model(visData[:, :20, :, :], horizon=40).detach().cpu().numpy()
 
 
-sequence = 8
+sequence = 7
 # for one pixel
 w, h = pred.shape[2], pred.shape[3]
 groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
