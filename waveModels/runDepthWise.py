@@ -98,7 +98,7 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
+    seq, modelName = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 12}).to(device), "depthWise"
     batch_size = 32
     epochs = 5
     learningRate = 0.0001
@@ -133,7 +133,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/wave/horizon-20-70/baseline/run" + str(run))
+    os.chdir("../trainedModels/wave/horizon-20-70/depthWise/run" + str(run))
     torch.save(seq.state_dict(), "baseline.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
