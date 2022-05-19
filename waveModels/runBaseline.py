@@ -128,7 +128,7 @@ if __name__ == '__main__':
             for i, images in enumerate(validation):
                 input_images = images[:, :20, :, :]
                 labels = images[:, 20:, :, :]
-                output = seq(input_images, 40)
+                output = seq(input_images, 70)
                 loss = criterion(output, labels)
             loss_plot_val.append(loss)
 
@@ -143,7 +143,7 @@ if __name__ == '__main__':
                      "epochs": epochs,
                      "batchSize": batch_size,
                      "learningRate": learningRate,
-                     "dataset": "wave-5000-60"
+                     "dataset": "wave-5000-90"
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
