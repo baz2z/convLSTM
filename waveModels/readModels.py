@@ -1,5 +1,5 @@
 from runVersionsEncoderForecasterWithTraningLoop import Forecaster
-from models import baseline
+from models import baseline, lateral, skipConnection, depthWise, twoLayer
 import torch
 import os
 import h5py
@@ -34,8 +34,8 @@ class Wave(Dataset):
         return len(self.data)
 
 
-mode = "horizon-20-40"
-modelName = "baseline"
+mode = "horizon-20-70"
+modelName = "lateral"
 run = "1"
 horizon = 40
 
@@ -47,7 +47,7 @@ f = h5py.File("../../data/wave/testWave", 'r')
 os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
-model = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+model = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
 model.load_state_dict(torch.load("baseline.pt", map_location=device))
 model.eval()
 
