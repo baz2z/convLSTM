@@ -33,6 +33,11 @@ class Wave(Dataset):
     def __len__(self):
         return len(self.data)
 
+def count_params(net):
+    '''
+    A utility function that counts the total number of trainable parameters in a network.
+    '''
+    return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 mode = "horizon-20-70"
 modelName = "lateral"
@@ -47,10 +52,10 @@ f = h5py.File("../../data/wave/testWave", 'r')
 os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
-model = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
+model = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 12})
 model.load_state_dict(torch.load("baseline.pt", map_location=device))
 model.eval()
-
+print(count_params(model))
 
 # loss
 trainLoss = torch.load("trainingLoss", map_location=device)

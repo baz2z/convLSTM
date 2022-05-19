@@ -100,7 +100,7 @@ if __name__ == '__main__':
     run = args.run_idx
     seq, modelName = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device), "skip"
     batch_size = 32
-    epochs = 5
+    epochs = 250
     learningRate = 0.0001
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
