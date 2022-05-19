@@ -1,1 +1,1 @@
-{'model': 'depthWise', 'epochs': 5, 'batchSize': 32, 'learningRate': 0.0001, 'dataset': 'wave-5000-90'}
+{'model': 'depthWise', 'epochs': 2, 'batchSize': 32, 'learningRate': 0.0001, 'dataset': 'wave-5000-90'}
