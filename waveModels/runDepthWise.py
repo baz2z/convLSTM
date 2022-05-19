@@ -98,9 +98,9 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    seq, modelName = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 12}).to(device), "depthWise"
+    seq, modelName = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 8}).to(device), "depthWise"
     batch_size = 32
-    epochs = 2
+    epochs = 250
     learningRate = 0.0001
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))

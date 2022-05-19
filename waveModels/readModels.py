@@ -40,7 +40,7 @@ def count_params(net):
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 mode = "horizon-20-70"
-modelName = "lateral"
+modelName = "baseline"
 run = "1"
 horizon = 40
 
@@ -52,7 +52,7 @@ f = h5py.File("../../data/wave/testWave", 'r')
 os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
-model = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 12})
+model = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
 model.load_state_dict(torch.load("baseline.pt", map_location=device))
 model.eval()
 print(count_params(model))
