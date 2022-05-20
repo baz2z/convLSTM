@@ -98,7 +98,7 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    seq, modelName = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device), "lateral"
+    seq, modelName = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 36}).to(device), "lateral"
     batch_size = 32
     epochs = 250
     learningRate = 0.0001

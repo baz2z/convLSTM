@@ -115,7 +115,7 @@ def map_run(n):
         seq = Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
         modelName = "skipConnection"
     elif n == 4:
-        seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 12}).to(device)
+        seq = Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 8}).to(device)
         modelName = "depthWise"
     print(seq)
     print(f'Total number of trainable parameters: {count_params(seq)}')
