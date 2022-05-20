@@ -1,20 +1,148 @@
 /mnt/qb/work/butz/svolz67/dev/models/waveModels
 JOB DATA
-JobId=1445425 ArrayJobId=1445421 ArrayTaskId=4 JobName=review.sh
+JobId=1445450 ArrayJobId=1445450 ArrayTaskId=5 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=42275 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=08:30:00 TimeMin=N/A
-   SubmitTime=2022-05-19T22:11:02 EligibleTime=2022-05-19T22:11:02
+   RunTime=00:00:03 TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-05-19T22:22:02 EligibleTime=2022-05-19T22:22:02
    AccrueTime=Unknown
-   StartTime=2022-05-19T22:11:02 EndTime=2022-05-20T06:41:02 Deadline=N/A
-   PreemptEligibleTime=2022-05-19T22:12:02 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:11:02
+   StartTime=2022-05-19T22:22:02 EndTime=2022-05-20T10:22:02 Deadline=N/A
+   PreemptEligibleTime=2022-05-19T22:23:02 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:22:02
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-27
-   BatchHost=slurm-bm-27
+   NodeList=slurm-bm-33
+   BatchHost=slurm-bm-33
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1445454 ArrayJobId=1445450 ArrayTaskId=4 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:03 TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-05-19T22:22:02 EligibleTime=2022-05-19T22:22:02
+   AccrueTime=Unknown
+   StartTime=2022-05-19T22:22:02 EndTime=2022-05-20T10:22:02 Deadline=N/A
+   PreemptEligibleTime=2022-05-19T22:23:02 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:22:02
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-33
+   BatchHost=slurm-bm-33
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1445453 ArrayJobId=1445450 ArrayTaskId=3 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:03 TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-05-19T22:22:02 EligibleTime=2022-05-19T22:22:02
+   AccrueTime=Unknown
+   StartTime=2022-05-19T22:22:02 EndTime=2022-05-20T10:22:02 Deadline=N/A
+   PreemptEligibleTime=2022-05-19T22:23:02 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:22:02
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-33
+   BatchHost=slurm-bm-33
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1445452 ArrayJobId=1445450 ArrayTaskId=2 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:03 TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-05-19T22:22:02 EligibleTime=2022-05-19T22:22:02
+   AccrueTime=Unknown
+   StartTime=2022-05-19T22:22:02 EndTime=2022-05-20T10:22:02 Deadline=N/A
+   PreemptEligibleTime=2022-05-19T22:23:02 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:22:02
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-33
+   BatchHost=slurm-bm-33
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1445451 ArrayJobId=1445450 ArrayTaskId=1 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=42275 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:03 TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-05-19T22:22:02 EligibleTime=2022-05-19T22:22:02
+   AccrueTime=Unknown
+   StartTime=2022-05-19T22:22:02 EndTime=2022-05-20T10:22:02 Deadline=N/A
+   PreemptEligibleTime=2022-05-19T22:23:02 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:22:02
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-33
+   BatchHost=slurm-bm-33
    NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
@@ -33,170 +161,5 @@ JobId=1445425 ArrayJobId=1445421 ArrayTaskId=4 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-27.novalocal
-RUN Script
-/mnt/qb/work/butz/svolz67/dev/models/waveModels
-JOB DATA
-JobId=1445421 ArrayJobId=1445421 ArrayTaskId=5 JobName=review.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=42275 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:11 TimeLimit=08:30:00 TimeMin=N/A
-   SubmitTime=2022-05-19T22:11:02 EligibleTime=2022-05-19T22:11:02
-   AccrueTime=Unknown
-   StartTime=2022-05-19T22:11:02 EndTime=2022-05-20T06:41:02 Deadline=N/A
-   PreemptEligibleTime=2022-05-19T22:12:02 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:11:02
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-27
-   BatchHost=slurm-bm-27
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1445425 ArrayJobId=1445421 ArrayTaskId=4 JobName=review.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=42275 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:11 TimeLimit=08:30:00 TimeMin=N/A
-   SubmitTime=2022-05-19T22:11:02 EligibleTime=2022-05-19T22:11:02
-   AccrueTime=Unknown
-   StartTime=2022-05-19T22:11:02 EndTime=2022-05-20T06:41:02 Deadline=N/A
-   PreemptEligibleTime=2022-05-19T22:12:02 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:11:02
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-27
-   BatchHost=slurm-bm-27
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1445424 ArrayJobId=1445421 ArrayTaskId=3 JobName=review.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=42275 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:11 TimeLimit=08:30:00 TimeMin=N/A
-   SubmitTime=2022-05-19T22:11:02 EligibleTime=2022-05-19T22:11:02
-   AccrueTime=Unknown
-   StartTime=2022-05-19T22:11:02 EndTime=2022-05-20T06:41:02 Deadline=N/A
-   PreemptEligibleTime=2022-05-19T22:12:02 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:11:02
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-60
-   BatchHost=slurm-bm-60
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1445423 ArrayJobId=1445421 ArrayTaskId=2 JobName=review.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=42275 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:11 TimeLimit=08:30:00 TimeMin=N/A
-   SubmitTime=2022-05-19T22:11:02 EligibleTime=2022-05-19T22:11:02
-   AccrueTime=Unknown
-   StartTime=2022-05-19T22:11:02 EndTime=2022-05-20T06:41:02 Deadline=N/A
-   PreemptEligibleTime=2022-05-19T22:12:02 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:11:02
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-60
-   BatchHost=slurm-bm-60
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1445422 ArrayJobId=1445421 ArrayTaskId=1 JobName=review.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=42275 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:11 TimeLimit=08:30:00 TimeMin=N/A
-   SubmitTime=2022-05-19T22:11:02 EligibleTime=2022-05-19T22:11:02
-   AccrueTime=Unknown
-   StartTime=2022-05-19T22:11:02 EndTime=2022-05-20T06:41:02 Deadline=N/A
-   PreemptEligibleTime=2022-05-19T22:12:02 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-19T22:11:02
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:3451
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-60
-   BatchHost=slurm-bm-60
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/waveModels/review.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/waveModels
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/waveModels/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-node:
-slurm-bm-27.novalocal
+slurm-bm-33.novalocal
 RUN Script
