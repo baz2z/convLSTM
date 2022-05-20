@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./runDepthWise.py --run_idx ${SLURM_ARRAY_TASK_ID}
+python ./runBaseline.py --run_idx ${SLURM_ARRAY_TASK_ID}
 
