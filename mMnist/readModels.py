@@ -19,18 +19,15 @@ def visualize_wave(imgs):
     plt.show()
 
 
-class Wave(Dataset):
-    def __init__(self, file, isTrain=True):
-        # data loading
-        f = h5py.File("../../data/wave/" + file, 'r')
-        self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['test']
+class mMnist(Dataset):
+    def __init__(self):
+        self.data = numpy.load("../../data/movingMNIST/movingmnistdata.npz")["arr_0"].reshape(-1, 20, 64, 64)
 
     def __getitem__(self, item):
-        return self.data[f'{item}'.zfill(3)][:,:,:]
+        return self.data[item,:,:,:]
 
     def __len__(self):
-        return len(self.data)
+        return self.data.shape[0]
 
 def count_params(net):
     '''
@@ -40,20 +37,19 @@ def count_params(net):
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-mode = "horizon-20-70"
-model, modelName = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 36}).to(device), "lateral"
-run = "3"
+mode = "horizon-20-40"
+model, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
+run = "1"
 horizon = 40
 
-dataloader = DataLoader(dataset=Wave("wave-5000-60"), batch_size=10, shuffle=False, drop_last=False,
-                        collate_fn=lambda x: default_collate(x).to(device, torch.float))
-f = h5py.File("../../data/wave/testWave", 'r')
+dataloader = DataLoader(dataset=mMnist(), batch_size=2, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
+os.chdir("../trainedModels/mMnist/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
 
-model.load_state_dict(torch.load("baseline.pt", map_location=device))
+model.load_state_dict(torch.load("model.pt", map_location=device))
 model.eval()
 print(count_params(model))
 
@@ -70,19 +66,9 @@ plt.show()
 
 # example wave
 visData = iter(dataloader).__next__()
-pred = model(visData[:, :20, :, :], horizon=40).detach().cpu().numpy()
+pred = model(visData[:, :10, :, :], horizon=10).detach().cpu().numpy()
 
-
-sequence = 7
-# for one pixel
-w, h = pred.shape[2], pred.shape[3]
-groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
-prediction = pred[sequence, :, int(w / 2), int(h / 2)]
-plt.plot(groundTruth, label="groundTruth")
-plt.plot(prediction, label="prediction")
-plt.legend()
-plt.show()
-
+sequence = 1
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
-#visualize_wave(visData[sequence, :20, :, :], modelName)
+visualize_wave(visData[sequence, 10:, :, :])

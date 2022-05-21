@@ -19,8 +19,8 @@ def count_params(net):
 
 
 class mMnist(Dataset):
-    def __init__(self):
-        self.data = numpy.load("../../data/movingMNIST/movingmnistdata.npz")["arr_0"].reshape(-1, 20, 64, 64)
+    def __init__(self, data):
+        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 20, 64, 64)
 
     def __getitem__(self, item):
         return self.data[item,:,:,:]
@@ -97,14 +97,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     run = args.run_idx
     seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
+    params = count_params(seq)
     batch_size = 32
-    epochs = 5
+    epochs = 3
     learningRate = 0.0001
-    dataloader = DataLoader(dataset=mMnist(), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=mMnist(), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn = lambda x: default_collate(x).to(device,torch.float))
+    validation = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
     # begin to train
@@ -112,27 +113,31 @@ if __name__ == '__main__':
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            input_images = images[:, :10, :, :]
-            labels = images[:, 10:, :, :]
-            output = seq(input_images, 10)
+            input_images = images[:, :20, :, :]
+            labels = images[:, 20:, :, :]
+            output = seq(input_images, 40)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
+            print(loss)
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
             for i, images in enumerate(validation):
-                input_images = images[:, :10, :, :]
-                labels = images[:, 10:, :, :]
-                output = seq(input_images, 10)
+                input_images = images[:, :20, :, :]
+                labels = images[:, 20:, :, :]
+                output = seq(input_images, 40)
                 loss = criterion(output, labels)
+                print(loss)
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/wave/horizon-20-70/baseline/run" + str(run))
-    torch.save(seq.state_dict(), "baseline.pt")
+    os.chdir("../trainedModels/mMnist/horizon-20-40/baseline/run" + str(run))
+    torch.save(seq.state_dict(), "model.pt")
+    print(loss_plot_train)
+    print(loss_plot_val)
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
 
@@ -141,7 +146,8 @@ if __name__ == '__main__':
                      "epochs": epochs,
                      "batchSize": batch_size,
                      "learningRate": learningRate,
-                     "dataset": "wave-5000-90"
+                     "parameters": params,
+                     "dataset": "mnist-5000-60"
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
