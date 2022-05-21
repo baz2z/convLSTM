@@ -114,8 +114,8 @@ if __name__ == '__main__':
     for j in range(epochs):
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
-            labels = images[:, 20:30, :, :]
-            output = seq(input_images, 10)
+            labels = images[:, 20:, :, :]
+            output = seq(input_images, 40)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
@@ -127,8 +127,8 @@ if __name__ == '__main__':
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :20, :, :]
-                labels = images[:, 20:30, :, :]
-                output = seq(input_images, 10)
+                labels = images[:, 20:, :, :]
+                output = seq(input_images, 40)
                 loss = criterion(output, labels)
                 print(loss)
             loss_plot_val.append(loss)
