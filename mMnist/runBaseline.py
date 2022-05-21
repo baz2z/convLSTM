@@ -20,7 +20,7 @@ def count_params(net):
 
 class mMnist(Dataset):
     def __init__(self, data):
-        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 20, 64, 64)
+        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
 
     def __getitem__(self, item):
         return self.data[item,:,:,:]
@@ -99,14 +99,14 @@ if __name__ == '__main__':
     seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
-    epochs = 3
+    epochs = 60
     learningRate = 0.0001
     dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     validation = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
-    criterion = nn.MSELoss()
+    criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
@@ -114,8 +114,8 @@ if __name__ == '__main__':
     for j in range(epochs):
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
-            labels = images[:, 20:, :, :]
-            output = seq(input_images, 40)
+            labels = images[:, 20:30, :, :]
+            output = seq(input_images, 10)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
@@ -127,8 +127,8 @@ if __name__ == '__main__':
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :20, :, :]
-                labels = images[:, 20:, :, :]
-                output = seq(input_images, 40)
+                labels = images[:, 20:30, :, :]
+                output = seq(input_images, 10)
                 loss = criterion(output, labels)
                 print(loss)
             loss_plot_val.append(loss)
