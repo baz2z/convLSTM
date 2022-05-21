@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./runMnist.py
+python ./runBaseline.py
 
