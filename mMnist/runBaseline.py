@@ -149,6 +149,7 @@ if __name__ == '__main__':
                      "learningRate": learningRate,
                      "parameters": params,
                      "hiddenSize": hiddenSize,
+                     "Loss": criterion,
                      "dataset": "mnist-5000-60"
                      }
     with open('configuration.txt', 'w') as f:
