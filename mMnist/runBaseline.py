@@ -93,10 +93,10 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=5)
+    parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 36
+    hiddenSize = 12
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
