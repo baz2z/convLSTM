@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
     validation = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
