@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=1)
+    parser.add_argument('--run_idx', type=int, default=4)
     args = parser.parse_args()
     run = args.run_idx
     hiddenSize = 12
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     params = count_params(seq)
     batch_size = 32
     epochs = 60
-    learningRate = 0.0001
+    learningRate = 0.00001
     dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
