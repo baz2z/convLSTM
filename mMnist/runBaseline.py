@@ -122,7 +122,7 @@ if __name__ == '__main__':
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
-            print(loss)
+            #print(loss)
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
@@ -131,14 +131,14 @@ if __name__ == '__main__':
                 labels = images[:, 20:, :, :]
                 output = seq(input_images, 40)
                 loss = criterion(output, labels)
-                print(loss)
+                #print(loss)
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
     os.chdir("../trainedModels/mMnist/horizon-20-40/baseline/run" + str(run))
     torch.save(seq.state_dict(), "model.pt")
-    print(loss_plot_train)
-    print(loss_plot_val)
+    #print(loss_plot_train)
+    #print(loss_plot_val)
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
 
