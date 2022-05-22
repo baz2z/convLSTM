@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=4)
+    parser.add_argument('--run_idx', type=int, default=5)
     args = parser.parse_args()
     run = args.run_idx
     hiddenSize = 36
