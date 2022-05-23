@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import math
 import os
 
+
 def count_params(net):
     '''
     A utility function that counts the total number of trainable parameters in a network.
@@ -25,10 +26,11 @@ class Wave(Dataset):
         self.data = f['data']['train'] if self.isTrain else f['data']['test']
 
     def __getitem__(self, item):
-        return self.data[f'{item}'.zfill(3)][:,:,:]
+        return self.data[f'{item}'.zfill(3)][:, :, :]
 
     def __len__(self):
         return len(self.data)
+
 
 class Forecaster(nn.Module):
     '''
@@ -53,7 +55,7 @@ class Forecaster(nn.Module):
         self.decoder_layers = nn.ModuleList()
         for i in range(num_blocks):
             x_channels = 0 if i == 0 else h_channels
-            #x_channels = 1 if i == 0 else h_channels
+            # x_channels = 1 if i == 0 else h_channels
             self.encoder_layers.add_module(f'block_{i}', lstm_block(h_channels, h_channels, **lstm_kwargs))
             self.decoder_layers.add_module(f'block_{i}', lstm_block(x_channels, h_channels, **lstm_kwargs))
 
@@ -87,31 +89,48 @@ class Forecaster(nn.Module):
                 z = latent if i == 0 else h[i - 1]
                 h[i], c[i] = layer(z, h[i], c[i])
             output[:, t] = self.read(h[-1]).squeeze()
-            #latent = output[:, t]
+            # latent = output[:, t]
         return output
 
+
 def map(run):
-    lr = 0.1
-    if run == 1:
-        lr = 0.1
-    elif run == 2:
-        lr = 0.01
+    match run:
+        case 1:
+            return 0.01
+        case 2:
+            return 0.003
+        case 3:
+            return 0.002
+        case 4:
+            return 0.001
+        case 5:
+            return 0.0008
+        case 6:
+            return 0.0006
+        case 7:
+            return 0.0004
+        case 8:
+            return 0.0002
+
 
 if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=1)
+    parser.add_argument('--run_idx', type=int, default=4)
     args = parser.parse_args()
     run = args.run_idx
-    seq, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
+    hiddenSize = 12
+    seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
+    params = count_params(seq)
     batch_size = 32
-    epochs = 5
-    learningRate = 0.0001
+    epochs = 60
+    learningRate = map(run)
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
+    validation = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True,
+                            drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
@@ -139,8 +158,8 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/wave/horizon-20-70/baseline/run" + str(run))
-    torch.save(seq.state_dict(), "baseline.pt")
+    os.chdir("../trainedModels/wave/lr/baseline/run" + str(run))
+    torch.save(seq.state_dict(), "model.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
 
@@ -149,9 +168,10 @@ if __name__ == '__main__':
                      "epochs": epochs,
                      "batchSize": batch_size,
                      "learningRate": learningRate,
-                     "dataset": "wave-5000-90"
+                     "parameters": params,
+                     "hiddenSize": hiddenSize,
+                     "Loss": criterion,
+                     "dataset": "mnist-5000-60"
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
-
-
