@@ -39,7 +39,7 @@ def count_params(net):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 mode = "horizon-20-40"
 model, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
-run = "2"
+run = "1"
 horizon = 40
 
 dataloader = DataLoader(dataset=mMnist(), batch_size=2, shuffle=True, drop_last=True,
