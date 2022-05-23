@@ -96,7 +96,7 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=4)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 24
+    hiddenSize = 12
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
