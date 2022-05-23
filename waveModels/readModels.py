@@ -42,7 +42,7 @@ def count_params(net):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 mode = "horizon-20-70"
 model, modelName = Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 36}).to(device), "lateral"
-run = "3"
+run = "1"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-60"), batch_size=10, shuffle=False, drop_last=False,
