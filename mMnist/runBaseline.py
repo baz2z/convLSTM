@@ -101,7 +101,7 @@ if __name__ == '__main__':
     params = count_params(seq)
     batch_size = 32
     epochs = 60
-    learningRate = 0.0001
+    learningRate = 0.001
     dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
