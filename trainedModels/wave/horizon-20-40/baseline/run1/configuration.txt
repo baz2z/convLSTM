@@ -1,1 +1,1 @@
-{'model': 'baseline', 'epochs': 4, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 36517, 'hiddenSize': 12, 'lateralSize': 12, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'dataset': 'wave-5000-90'}
+{'model': 'baseline', 'epochs': 4, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 9187, 'hiddenSize': 6, 'lateralSize': 12, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'dataset': 'wave-5000-90'}
