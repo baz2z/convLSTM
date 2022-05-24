@@ -65,9 +65,9 @@ def count_params(net):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 mode = "horizon-20-70"
-modelName = "baseline"
-model, modelName = mapModel(modelName, 12, 12), "baseline"
-run = "1"
+modelName = "lateral"
+model = mapModel(modelName, 12, 12)
+run = "3"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
@@ -77,7 +77,7 @@ os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
 
-model.load_state_dict(torch.load("baseline.pt", map_location=device))
+#model.load_state_dict(torch.load("model.pt", map_location=device))
 model.eval()
 print(count_params(model))
 
