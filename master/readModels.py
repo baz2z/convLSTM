@@ -32,6 +32,30 @@ class Wave(Dataset):
     def __len__(self):
         return len(self.data)
 
+class mMnist(Dataset):
+    def __init__(self, data):
+        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
+
+    def __getitem__(self, item):
+        return self.data[item,:,:,:]
+
+    def __len__(self):
+        return self.data.shape[0]
+
+def mapModel(model, hiddenSize, lateralSize):
+    match model:
+        case "baseline":
+            return Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+        case "lateral":
+            return Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "twoLayer":
+            return Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "skip":
+            return Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "depthWise":
+            return Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
+
+
 def count_params(net):
     '''
     A utility function that counts the total number of trainable parameters in a network.
@@ -41,11 +65,12 @@ def count_params(net):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 mode = "horizon-20-70"
-model, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
-run = "5"
+modelName = "baseline"
+model, modelName = mapModel(modelName, 12, 12), "baseline"
+run = "1"
 horizon = 40
 
-dataloader = DataLoader(dataset=Wave("wave-5000-60"), batch_size=10, shuffle=False, drop_last=False,
+dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)

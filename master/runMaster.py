@@ -9,6 +9,7 @@ import h5py
 import matplotlib.pyplot as plt
 import math
 import os
+import numpy
 
 def count_params(net):
     '''
@@ -29,6 +30,16 @@ class Wave(Dataset):
 
     def __len__(self):
         return len(self.data)
+
+class mMnist(Dataset):
+    def __init__(self, data):
+        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
+
+    def __getitem__(self, item):
+        return self.data[item,:,:,:]
+
+    def __len__(self):
+        return self.data.shape[0]
 
 class Forecaster(nn.Module):
     '''
@@ -90,25 +101,78 @@ class Forecaster(nn.Module):
             #latent = output[:, t]
         return output
 
+def mapModel(model, hiddenSize, lateralSize):
+    match model:
+        case "baseline":
+            return Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+        case "lateral":
+            return Forecaster(hiddenSize, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "twoLayer":
+            return Forecaster(hiddenSize, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "skip":
+            return Forecaster(hiddenSize, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "depthWise":
+            return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
+
+def mapDataset(datasetTrain, datasetVal):
+    train = None
+    val = None
+
+    match datasetTrain:
+        case "wave-5000-90":
+            train = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "wave-5000-60":
+            train = DataLoader(dataset=Wave("wave-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "mnist-5000-60":
+            train = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
+    match datasetVal:
+        case "wave-5000-90":
+            val = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "mnist-100-60":
+            val = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    return train, val
 
 if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=4)
+    parser.add_argument('--model', type=str, default="baseline", choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
+    parser.add_argument('--dataset', type=str, default="wave")
+    parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
+    parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
+    parser.add_argument('--mode', type=str, default="horizon-20-70")
+    parser.add_argument('--context', type=int, default=20)
+    parser.add_argument('--horizon', type=int, default=70)
+    parser.add_argument('--learningRate', type=int, default=0.001)
+    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--hiddenSize', type=int, default=12)
+    parser.add_argument('--lateralSize', type=int, default=12)
+    parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
+    model = args.model
+    dataset = args.dataset
+    datasetTrain = args.datasetTrain
+    datasetVal = args.datasetVal
+    mode = args.mode
+    context = args.context
+    horizon = args.horizon
+    learningRate = args.learningRate
+    epochs = args.epochs
+    hiddenSize = args.hiddenSize
+    lateralSize = args.lateralSize
     run = args.run_idx
-    hiddenSize = 12
-    seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
-    params = count_params(seq)
     batch_size = 32
-    epochs = 60
-    learningRate = 0.001
-    dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
+    seq = mapModel(model, hiddenSize, lateralSize)
+    dataloader, validation = mapDataset(datasetTrain, datasetVal)
+
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
     # begin to train
@@ -116,37 +180,44 @@ if __name__ == '__main__':
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            input_images = images[:, :20, :, :]
-            labels = images[:, 20:, :, :]
-            output = seq(input_images, 70)
+            input_images = images[:, :context, :, :]
+            labels = images[:, context:, :, :]
+            output = seq(input_images, horizon)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
+            print(loss)
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
             for i, images in enumerate(validation):
-                input_images = images[:, :20, :, :]
-                labels = images[:, 20:, :, :]
-                output = seq(input_images, 70)
+                input_images = images[:, :context, :, :]
+                labels = images[:, context:, :, :]
+                output = seq(input_images, horizon)
                 loss = criterion(output, labels)
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/wave/horizon-20-70/baseline/run" + str(run))
-    torch.save(seq.state_dict(), "baseline.pt")
+    if not os.path.exists(f'../trainedModels/{dataset}/{mode}/{model}/run{run}'):
+        os.makedirs(f'../trainedModels/{dataset}/{mode}/{model}/run{run}')
+    os.chdir(f'../trainedModels/{dataset}/{mode}/{model}/run{run}')
+    torch.save(seq.state_dict(), "model.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
 
     # save config
-    configuration = {"model": modelName,
+    params = count_params(seq)
+    configuration = {"model": model,
                      "epochs": epochs,
                      "batchSize": batch_size,
                      "learningRate": learningRate,
                      "parameters": params,
                      "hiddenSize": hiddenSize,
+                     "lateralSize": lateralSize,
+                     "context": context,
+                     "horizon": horizon,
                      "Loss": criterion,
                      "dataset": "wave-5000-90"
                      }
