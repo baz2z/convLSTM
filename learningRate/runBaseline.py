@@ -96,21 +96,25 @@ class Forecaster(nn.Module):
 def map(run):
     match run:
         case 1:
-            return 0.01
-        case 2:
-            return 0.003
-        case 3:
             return 0.002
+        case 2:
+            return 0.0018
+        case 3:
+            return 0.0016
         case 4:
-            return 0.001
+            return 0.0014
         case 5:
-            return 0.0008
+            return 0.0012
         case 6:
-            return 0.0006
+            return 0.001
         case 7:
-            return 0.0004
+            return 0.0009
         case 8:
-            return 0.0002
+            return 0.0008
+        case 9:
+            return 0.0007
+        case 10:
+            return 0.0006
 
 
 if __name__ == '__main__':
@@ -120,11 +124,11 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=4)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 12
+    hiddenSize = 8
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
-    epochs = 60
+    epochs = 250
     learningRate = map(run)
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -158,6 +162,8 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
+    if not os.path.exists("../trainedModels/wave/lr/baseline/run" + str(run)):
+        os.makedirs("../trainedModels/wave/lr/baseline/run" + str(run))
     os.chdir("../trainedModels/wave/lr/baseline/run" + str(run))
     torch.save(seq.state_dict(), "model.pt")
     torch.save(loss_plot_train, "trainingLoss")

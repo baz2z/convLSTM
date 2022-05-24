@@ -47,13 +47,13 @@ def mapModel(model, hiddenSize, lateralSize):
         case "baseline":
             return Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         case "lateral":
-            return Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+            return Forecaster(hiddenSize, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
         case "twoLayer":
-            return Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+            return Forecaster(hiddenSize, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
         case "skip":
-            return Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+            return Forecaster(hiddenSize, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
         case "depthWise":
-            return Forecaster(12, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
+            return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
 
 
 def count_params(net):
@@ -64,10 +64,10 @@ def count_params(net):
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-mode = "horizon-20-70"
-modelName = "lateral"
+mode = "horizon-20-40"
+modelName = "skip"
 model = mapModel(modelName, 12, 12)
-run = "3"
+run = "1"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,

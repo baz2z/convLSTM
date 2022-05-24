@@ -153,7 +153,7 @@ if __name__ == '__main__':
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=70)
     parser.add_argument('--learningRate', type=float, default=0.001)
-    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--epochs', type=int, default=0)
     parser.add_argument('--hiddenSize', type=int, default=12)
     parser.add_argument('--lateralSize', type=int, default=12)
     parser.add_argument('--run_idx', type=int, default=1)
@@ -211,6 +211,7 @@ if __name__ == '__main__':
 
     # save config
     params = count_params(seq)
+    print(params)
     configuration = {"model": model,
                      "epochs": epochs,
                      "batchSize": batch_size,
