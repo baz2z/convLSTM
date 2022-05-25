@@ -185,7 +185,6 @@ if __name__ == '__main__':
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            print("Hi")
             input_images = images[:, :context, :, :]
             labels = images[:, context:context+horizon, :, :]
             output = seq(input_images, horizon)
