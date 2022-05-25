@@ -191,7 +191,7 @@ if __name__ == '__main__':
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
+            torch.nn.utils.clip_grad_norm_(seq.parameters(), 10)
             optimizer.step()
             scheduler.step()
         loss_plot_train.append(loss.item())

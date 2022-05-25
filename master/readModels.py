@@ -86,7 +86,7 @@ dataset = "wave"
 mode = "horizon-20-70"
 modelName = "baseline"
 model = mapModel(modelName, 8, 12)
-run = "5"
+run = "1"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
