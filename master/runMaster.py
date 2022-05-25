@@ -178,7 +178,7 @@ if __name__ == '__main__':
     dataloader, validation = mapDataset(datasetTrain, datasetVal)
 
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(seq.parameters(), lr=learningRate)
+    optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
     scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
