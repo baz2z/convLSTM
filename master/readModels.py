@@ -62,6 +62,24 @@ def count_params(net):
     '''
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
+def mse(values):
+    return ((values - values.mean(axis = 0))**2).mean(axis = 0)
+
+
+def mostSignificantPixel(imgs):
+    # images of shape: frames, width, height
+    f, w, h = imgs.shape
+    msp = [(0, 0), -1000]
+    for i in range(w):
+        for j in range(h):
+            values = numpy.array([])
+            for k in range(f):
+                value = imgs[k, i, j]
+                values = numpy.append(values, value)
+            var = mse(values)
+            if var > msp[1]:
+                msp = [(i, j), var]
+    return msp[0]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 mode = "horizon-20-40"
@@ -97,18 +115,20 @@ visData = iter(dataloader).__next__()
 pred = model(visData[:, :20, :, :], horizon=40).detach().cpu().numpy()
 
 
-sequence = 7
+sequence = 2
 # for one pixel
-w, h = pred.shape[2], pred.shape[3]
+
+w, h = mostSignificantPixel(pred[sequence, :, :, :])
 groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
 plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
 plt.legend()
+plt.title(f'{(w, h)}')
 plt.show()
 
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
-#visualize_wave(visData[sequence, :20, :, :], modelName)
+visualize_wave(visData[sequence, :20, :, :])
 f = open("configuration.txt", "r")
 print(f.read())
