@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import math
 import os
 import numpy
+from torch.optim.lr_scheduler import MultiStepLR
 
 def count_params(net):
     '''
@@ -178,6 +179,7 @@ if __name__ == '__main__':
 
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
+    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
 
@@ -191,6 +193,7 @@ if __name__ == '__main__':
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
+            scheduler.step()
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():

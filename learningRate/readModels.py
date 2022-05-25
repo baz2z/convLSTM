@@ -29,6 +29,19 @@ class mMnist(Dataset):
     def __len__(self):
         return self.data.shape[0]
 
+class Wave(Dataset):
+    def __init__(self, file, isTrain=True):
+        # data loading
+        f = h5py.File("../../data/wave/" + file, 'r')
+        self.isTrain = isTrain
+        self.data = f['data']['train'] if self.isTrain else f['data']['test']
+
+    def __getitem__(self, item):
+        return self.data[f'{item}'.zfill(3)][:,:,:]
+
+    def __len__(self):
+        return len(self.data)
+
 def count_params(net):
     '''
     A utility function that counts the total number of trainable parameters in a network.
@@ -38,11 +51,11 @@ def count_params(net):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 mode = "lr"
-model, modelName = Forecaster(12, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
-run = "4"
+model, modelName = Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
+run = "10"
 horizon = 40
 
-dataloader = DataLoader(dataset=mMnist(), batch_size=2, shuffle=True, drop_last=True,
+dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=2, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
@@ -71,6 +84,7 @@ pred = model(visData[:, :10, :, :], horizon=10).detach().cpu().numpy()
 sequence = 1
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
-visualize_wave(visData[sequence, 10:, :, :])
+visualize_wave(visData[sequence, 10:20, :, :])
 f = open("configuration.txt", "r")
 print(f.read())
+
