@@ -82,10 +82,10 @@ def mostSignificantPixel(imgs):
     return msp[0]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-mode = "horizon-20-40"
-modelName = "skip"
-model = mapModel(modelName, 12, 12)
-run = "1"
+mode = "AdamW"
+modelName = "baseline"
+model = mapModel(modelName, 6, 12)
+run = "5"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
@@ -95,7 +95,7 @@ os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
 
-#model.load_state_dict(torch.load("model.pt", map_location=device))
+model.load_state_dict(torch.load("model.pt", map_location=device))
 model.eval()
 print(count_params(model))
 
@@ -112,7 +112,7 @@ plt.show()
 
 # example wave
 visData = iter(dataloader).__next__()
-pred = model(visData[:, :20, :, :], horizon=40).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
 
 sequence = 2
