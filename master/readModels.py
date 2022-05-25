@@ -82,16 +82,17 @@ def mostSignificantPixel(imgs):
     return msp[0]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-mode = "AdamW"
+dataset = "wave"
+mode = "horizon-20-70"
 modelName = "baseline"
-model = mapModel(modelName, 6, 12)
+model = mapModel(modelName, 8, 12)
 run = "5"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
 
@@ -129,6 +130,6 @@ plt.show()
 
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
-visualize_wave(visData[sequence, :20, :, :])
+visualize_wave(visData[sequence, 20:, :, :])
 f = open("configuration.txt", "r")
 print(f.read())

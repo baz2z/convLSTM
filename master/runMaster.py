@@ -185,8 +185,9 @@ if __name__ == '__main__':
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
+            print("Hi")
             input_images = images[:, :context, :, :]
-            labels = images[:, context:, :, :]
+            labels = images[:, context:context+horizon, :, :]
             output = seq(input_images, horizon)
             loss = criterion(output, labels)
             optimizer.zero_grad()
@@ -199,7 +200,7 @@ if __name__ == '__main__':
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :context, :, :]
-                labels = images[:, context:, :, :]
+                labels = images[:, context:context+horizon, :, :]
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
             loss_plot_val.append(loss)
@@ -225,7 +226,7 @@ if __name__ == '__main__':
                      "context": context,
                      "horizon": horizon,
                      "Loss": criterion,
-                     "dataset": "wave-5000-90"
+                     "dataset": datasetTrain
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)

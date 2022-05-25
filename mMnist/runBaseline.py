@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
     validation = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
-    criterion = nn.MSELoss()
+    criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
@@ -115,8 +115,8 @@ if __name__ == '__main__':
     for j in range(epochs):
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
-            labels = images[:, 20:, :, :]
-            output = seq(input_images, 40)
+            labels = images[:, 20:30, :, :]
+            output = seq(input_images, 10)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
@@ -135,7 +135,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/mMnist/horizon-20-40/baseline/run" + str(run))
+    os.chdir("../trainedModels/mnistmnist/horizon-20-40/baseline/run" + str(run))
     torch.save(seq.state_dict(), "model.pt")
     #print(loss_plot_train)
     #print(loss_plot_val)

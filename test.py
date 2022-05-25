@@ -1,26 +1,44 @@
 import torch
-import numpy
-def mse(values):
-    return ((values - values.mean(axis = 0))**2).mean(axis = 0)
+from torch import nn
+
+batch_size = 1
+c, h, w = 1, 10, 10
+nb_classes = 2
+x = torch.randn(batch_size, c, h, w)
+target = torch.empty(batch_size, h, w, dtype=torch.long).random_(nb_classes)
+
+model = nn.Conv2d(c, nb_classes, 3, 1, 1)
+criterion = nn.CrossEntropyLoss()
+
+output = model(x)
+loss = criterion(output, target)
+loss.backward()
+
+"""
+batch_size = 1
+c, t, h, w = 1, 5, 10, 10
+nb_classes = 2
+x = torch.randn(batch_size, c, t, h, w)
+target = torch.empty(batch_size, t, h, w, dtype=torch.long).random_(nb_classes)
+
+model = nn.Conv2d(c, nb_classes, 3, 1, 1)
+criterion = nn.CrossEntropyLoss()
+
+output = model(x)
+loss = criterion(output, target)
+loss.backward()
+"""
 
 
-def mostSignificantPixel(imgs):
-    # images of shape: frames, width, height
-    f, w, h = imgs.shape
-    msp = [(0, 0), -1000]
-    for i in range(w):
-        for j in range(h):
-            values = numpy.array([])
-            for k in range(f):
-                value = imgs[k, i, j]
-                values = numpy.append(values, value)
-            var = mse(values)
-            print(f'var: {var}, pixel: {(i, j)}, values: {values}')
-            if var > msp[1]:
-                msp = [(i, j), var]
-    return msp
+batch_size = 1
+c, t, h, w = 5, 5, 10, 10
+nb_classes = 2
+x = torch.randn(batch_size, c, h, w)
+target = torch.empty(batch_size, t, h, w, dtype=torch.long).random_(nb_classes)
 
-a = torch.randn([3, 4, 4])
-a = a.numpy()
-print(a)
-print(mostSignificantPixel(a))
+model = nn.Conv2d(c, nb_classes, 3, 1, 1)
+criterion = nn.CrossEntropyLoss()
+
+output = model(x)
+loss = criterion(output, target)
+loss.backward()

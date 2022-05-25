@@ -45,7 +45,7 @@ horizon = 40
 dataloader = DataLoader(dataset=mMnist(), batch_size=2, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/mMnist/" + mode + "/" + modelName + "/" + "run" + run)
+os.chdir("../trainedModels/mnistmnist/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
 
