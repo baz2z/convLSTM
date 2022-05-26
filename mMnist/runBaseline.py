@@ -100,7 +100,7 @@ if __name__ == '__main__':
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
-    epochs = 60
+    epochs = 100
     learningRate = 0.001
     dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -114,6 +114,7 @@ if __name__ == '__main__':
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
+            print("hi")
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :].softmax(dim=3)
             output = seq(input_images, 10)
@@ -135,7 +136,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/mnistmnist/horizon-20-40/baseline/run" + str(run))
+    os.chdir("../trainedModels/mMnist/horizon-20-40/baseline/run" + str(run))
     torch.save(seq.state_dict(), "model.pt")
     #print(loss_plot_train)
     #print(loss_plot_val)

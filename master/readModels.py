@@ -84,9 +84,9 @@ def mostSignificantPixel(imgs):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-70"
-modelName = "baseline"
-model = mapModel(modelName, 8, 12)
-run = "1"
+modelName = "depthWise"
+model = mapModel(modelName, 8, 6)
+run = "5"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
