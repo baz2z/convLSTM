@@ -116,7 +116,7 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             print("hi")
             input_images = images[:, :20, :, :]
-            labels = images[:, 20:30, :, :].softmax(dim=3)
+            labels = images[:, 20:30, :, :]
             output = seq(input_images, 10)
             loss = criterion(output, labels)
             optimizer.zero_grad()
