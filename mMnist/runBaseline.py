@@ -119,7 +119,7 @@ if __name__ == '__main__':
             labels = labels.type(torch.long)
             output = seq(input_images, 10)
             b, t, w, h = output.shape
-            output_1 = (1 - output).float()
+            output_1 = (1 - output).long()
             output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
             output_final = torch.cat((output, output_1), dim = 1).requires_grad_()
             loss = criterion(output_final, labels)
