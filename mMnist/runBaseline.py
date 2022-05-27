@@ -125,6 +125,7 @@ if __name__ == '__main__':
             loss = criterion(output_final, labels)
             optimizer.zero_grad()
             loss.backward()
+            print(loss)
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
 

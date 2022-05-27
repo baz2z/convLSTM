@@ -150,11 +150,11 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default="wave")
     parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
     parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
-    parser.add_argument('--mode', type=str, default="horizon-20-70")
+    parser.add_argument('--mode', type=str, default="delete")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=70)
     parser.add_argument('--learningRate', type=float, default=0.001)
-    parser.add_argument('--epochs', type=int, default=0)
+    parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--hiddenSize', type=int, default=12)
     parser.add_argument('--lateralSize', type=int, default=12)
     parser.add_argument('--run_idx', type=int, default=1)
@@ -214,7 +214,7 @@ if __name__ == '__main__':
 
     # save config
     params = count_params(seq)
-    print(params)
+    averageLastLoss = (sum(loss_plot_val[-5:])/5).item()
     configuration = {"model": model,
                      "epochs": epochs,
                      "batchSize": batch_size,
@@ -225,6 +225,7 @@ if __name__ == '__main__':
                      "context": context,
                      "horizon": horizon,
                      "Loss": criterion,
+                     "averageLastLoss": averageLastLoss,
                      "dataset": datasetTrain
                      }
     with open('configuration.txt', 'w') as f:
