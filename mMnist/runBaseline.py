@@ -116,16 +116,19 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :]
-            labels = labels.type(torch.int64)
+
+            #labels = labels.type(torch.int64)
+            """
             output = seq(input_images, 10)
             b, t, w, h = output.shape
             output_1 = (1 - output).float()
             output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
             output_final = torch.cat((output, output_1), dim = 1).requires_grad_()
             loss = criterion(output_final, labels)
+            """
+            loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
-            print(loss)
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
 
