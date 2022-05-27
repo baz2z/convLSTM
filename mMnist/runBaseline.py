@@ -100,7 +100,7 @@ if __name__ == '__main__':
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
-    epochs = 100
+    epochs = 30
     learningRate = 0.001
     dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -142,14 +142,13 @@ if __name__ == '__main__':
                 output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
                 output_final = torch.cat((output, output_1), dim=1).requires_grad_()
                 loss = criterion(output_final, labels)
-                #print(loss)
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
     os.chdir("../trainedModels/mMnist/horizon-20-40/baseline/run" + str(run))
     torch.save(seq.state_dict(), "model.pt")
-    #print(loss_plot_train)
-    #print(loss_plot_val)
+    print(loss_plot_train)
+    print(loss_plot_val)
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
 
