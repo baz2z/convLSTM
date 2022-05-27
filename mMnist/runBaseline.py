@@ -116,7 +116,7 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :]
-            labels = labels.type(torch.int32)
+            labels = labels.type(torch.long)
             output = seq(input_images, 10)
             b, t, w, h = output.shape
             output_1 = (1 - output).float()
@@ -125,6 +125,7 @@ if __name__ == '__main__':
             loss = criterion(output_final, labels)
             optimizer.zero_grad()
             loss.backward()
+            print(loss)
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
 
