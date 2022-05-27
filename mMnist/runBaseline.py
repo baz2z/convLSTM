@@ -9,6 +9,7 @@ import h5py
 import matplotlib.pyplot as plt
 import math
 import os
+from torch.optim.lr_scheduler import MultiStepLR
 import numpy
 
 def count_params(net):
@@ -96,19 +97,21 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 8
+    hiddenSize = 24
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
-    batch_size = 32
-    epochs = 100
+    batch_size = 24
+    epochs = 10
     learningRate = 0.001
+
     dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     validation = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(seq.parameters(), lr=learningRate)
+    optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
+    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
 
@@ -126,6 +129,7 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
+            scheduler.step()
             optimizer.step()
 
 

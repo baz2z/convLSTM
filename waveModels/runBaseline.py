@@ -38,7 +38,7 @@ class Forecaster(nn.Module):
     Then the decoder state is projected into the future for a desired number of time steps.
     '''
 
-    def __init__(self, h_channels: int, lstm_block: callable, num_blocks: int = 1, lstm_kwargs={}):
+    def __init__(self, h_channels: int,     lstm_block: callable, num_blocks: int = 1, lstm_kwargs={}):
         '''
         :param h_channels: Number of hidden channels per layer (e.g. 12)
         :param lstm_block: A nn.Module that computes a single step of h, c = LSTM(x, h, c)
@@ -56,6 +56,14 @@ class Forecaster(nn.Module):
             #x_channels = 1 if i == 0 else h_channels
             self.encoder_layers.add_module(f'block_{i}', lstm_block(h_channels, h_channels, **lstm_kwargs))
             self.decoder_layers.add_module(f'block_{i}', lstm_block(x_channels, h_channels, **lstm_kwargs))
+
+        for m in self.encoder_layers:
+            if m.conv.bias is not None:
+                nn.init.constant_(m.conv.bias.data, 100)
+                
+        for m in self.decoder_layers:
+            if m.conv.bias is not None:
+                nn.init.constant_(m.conv.bias.data, 100)
 
         self.read = nn.Conv2d(h_channels, 1, 1)
 
@@ -95,14 +103,14 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=4)
+    parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 12
+    hiddenSize = 8
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
-    epochs = 60
+    epochs = 5
     learningRate = 0.001
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -123,7 +131,10 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
+            for i, layer in enumerate(seq.decoder_layers):
+                print(layer.conv.bias)
             optimizer.step()
+        print(loss)
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
@@ -135,7 +146,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/wave/horizon-20-70/baseline/run" + str(run))
+    os.chdir("../saveForLater/wave/delete/run" + str(run))
     torch.save(seq.state_dict(), "baseline.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
