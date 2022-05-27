@@ -25,5 +25,5 @@ hostname
 echo "RUN Script"
 
 python ./runMaster.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --dataset "wave" --datasetTrain "wave-5000-90" \
-                   --datasetVal "wave-5000-90" --mode "horizon-20-40" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 450 --hiddenSize 12 --lateralSize 12
+                   --datasetVal "wave-5000-90" --mode "delete" --context 20 --horizon 40 --learningRate 0.001 \
+                   --epochs 5 --hiddenSize 12 --lateralSize 12
