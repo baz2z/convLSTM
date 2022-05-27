@@ -117,7 +117,7 @@ if __name__ == '__main__':
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :]
 
-            labels = labels.type(torch.int64)
+            #labels = labels.type(torch.int64)
 
             output = seq(input_images, 10)
             """
