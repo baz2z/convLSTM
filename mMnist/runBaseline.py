@@ -117,9 +117,10 @@ if __name__ == '__main__':
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :]
 
-            #labels = labels.type(torch.int64)
-            """
+            labels = labels.type(torch.int64)
+
             output = seq(input_images, 10)
+            """
             b, t, w, h = output.shape
             output_1 = (1 - output).float()
             output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
