@@ -49,42 +49,45 @@ def count_params(net):
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-mode = "lr"
-model, modelName = Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
-run = "10"
-horizon = 40
+if __name__ == '__main__':
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    mode = "lr"
+    model, modelName = Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
+    run = "10"
+    horizon = 40
 
-dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=2, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=2, shuffle=True, drop_last=True,
+                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
+    os.chdir("../trainedModels/wave/" + mode + "/" + modelName + "/" + "run" + run)
 
-# model
+    # model
 
-model.load_state_dict(torch.load("model.pt", map_location=device))
-model.eval()
-print(count_params(model))
+    model.load_state_dict(torch.load("model.pt", map_location=device))
+    model.eval()
+    print(count_params(model))
 
-# loss
-trainLoss = torch.load("trainingLoss", map_location=device)
-valLoss = torch.load("validationLoss", map_location=device)
-print(trainLoss[-1])
+    # loss
+    trainLoss = torch.load("trainingLoss", map_location=device)
+    valLoss = torch.load("validationLoss", map_location=device)
+    print(trainLoss[-1])
 
-plt.yscale("log")
-plt.plot(trainLoss, label="trainLoss")
-plt.plot(valLoss, label="valLoss")
-plt.legend()
-plt.show()
+    plt.yscale("log")
+    plt.plot(trainLoss, label="trainLoss")
+    plt.plot(valLoss, label="valLoss")
+    plt.legend()
+    plt.title(open("configuration.txt", "r").read()[70:76])
+    plt.show()
 
-# example wave
-visData = iter(dataloader).__next__()
-pred = model(visData[:, :10, :, :], horizon=10).detach().cpu().numpy()
+    # example wave
+    visData = iter(dataloader).__next__()
+    pred = model(visData[:, :10, :, :], horizon=10).detach().cpu().numpy()
 
-sequence = 1
-# for entire sequence
-visualize_wave(pred[sequence, :, :, :])
-visualize_wave(visData[sequence, 10:20, :, :])
-f = open("configuration.txt", "r")
-print(f.read())
+    sequence = 1
+    # for entire sequence
+    visualize_wave(pred[sequence, :, :, :])
+    visualize_wave(visData[sequence, 10:20, :, :])
+
+    f = open("configuration.txt", "r")
+    print(f.read())
 

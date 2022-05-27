@@ -93,10 +93,10 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--run_idx', type=int, default=4)
+    parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 12
+    hiddenSize = 8
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
@@ -114,24 +114,34 @@ if __name__ == '__main__':
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            print("hi")
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :]
+            labels = labels.type(torch.int64)
             output = seq(input_images, 10)
-            loss = criterion(output, labels)
+            b, t, w, h = output.shape
+            output_1 = (1 - output).float()
+            output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
+            output_final = torch.cat((output, output_1), dim = 1).requires_grad_()
+            loss = criterion(output_final, labels)
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
-            #print(loss)
+
+
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :20, :, :]
-                labels = images[:, 20:, :, :]
-                output = seq(input_images, 40)
-                loss = criterion(output, labels)
+                labels = images[:, 20:30, :, :]
+                labels = labels.type(torch.int64)
+                output = seq(input_images, 10)
+                b, t, w, h = output.shape
+                output_1 = (1 - output).float()
+                output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
+                output_final = torch.cat((output, output_1), dim=1).requires_grad_()
+                loss = criterion(output_final, labels)
                 #print(loss)
             loss_plot_val.append(loss)
 
