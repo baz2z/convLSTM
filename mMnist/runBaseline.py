@@ -116,7 +116,7 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :]
-            labels = labels.type(torch.int64)
+            labels = labels.type(torch.int32)
             output = seq(input_images, 10)
             b, t, w, h = output.shape
             output_1 = (1 - output).float()
