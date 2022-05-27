@@ -26,6 +26,13 @@ b = 1 - a
 a, b = torch.reshape(a, (1, 1, 10, 6, 6)), torch.reshape(b, (1, 1, 10, 6, 6))
 c = torch.cat((a, b), dim=1)
 c = c.requires_grad_()
-target = torch.empty(1, 10, 6, 6, dtype=torch.float).random_(2)
+target = torch.empty(1, 10, 6, 6, dtype=torch.long).random_(2)
 output = loss(c, target)
+output.backward()
+
+
+loss = nn.CrossEntropyLoss()
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.empty(3, dtype=torch.long).random_(5)
+output = loss(input, target)
 output.backward()
