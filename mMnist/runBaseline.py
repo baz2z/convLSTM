@@ -100,9 +100,9 @@ if __name__ == '__main__':
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
-    epochs = 10
+    epochs = 100
     learningRate = 0.001
-    dataloader = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     validation = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
@@ -117,9 +117,6 @@ if __name__ == '__main__':
             input_images = images[:, :20, :, :]
             labels = images[:, 20:30, :, :]
             labels = labels.type(torch.long)
-
-            print(torch.unique(labels))
-
             output = seq(input_images, 10)
             b, t, w, h = output.shape
             output_1 = (1 - output)
@@ -128,7 +125,6 @@ if __name__ == '__main__':
             loss = criterion(output_final, labels)
             optimizer.zero_grad()
             loss.backward()
-            print(loss)
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
 
