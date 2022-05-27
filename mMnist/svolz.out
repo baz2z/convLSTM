@@ -1,16 +1,16 @@
 /mnt/qb/work/butz/svolz67/dev/models/mMnist
 JOB DATA
-JobId=1469161 ArrayJobId=1469161 ArrayTaskId=0 JobName=review.sh
+JobId=1469162 ArrayJobId=1469162 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=41137 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:00 TimeLimit=12:30:00 TimeMin=N/A
-   SubmitTime=2022-05-27T18:56:43 EligibleTime=2022-05-27T18:56:43
+   RunTime=00:00:01 TimeLimit=12:30:00 TimeMin=N/A
+   SubmitTime=2022-05-27T19:00:48 EligibleTime=2022-05-27T19:00:48
    AccrueTime=Unknown
-   StartTime=2022-05-27T18:56:44 EndTime=2022-05-28T07:26:44 Deadline=N/A
-   PreemptEligibleTime=2022-05-27T18:57:44 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-27T18:56:44
+   StartTime=2022-05-27T19:00:48 EndTime=2022-05-28T07:30:48 Deadline=N/A
+   PreemptEligibleTime=2022-05-27T19:01:48 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-27T19:00:48
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:11843
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-55
@@ -35,65 +35,5 @@ JobId=1469161 ArrayJobId=1469161 ArrayTaskId=0 JobName=review.sh
 node:
 slurm-bm-55.novalocal
 RUN Script
-tensor([0, 1], device='cuda:0')
-tensor(0.6949, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.5715, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.4801, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.4176, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.3715, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.3473, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.3231, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.3039, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2985, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2879, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2705, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2639, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2546, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2546, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2486, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2419, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2430, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2312, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2301, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2295, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2267, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2276, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2221, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2203, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2221, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2181, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2139, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2155, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2180, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-tensor([0, 1], device='cuda:0')
-tensor(0.2114, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
-[0.4800986349582672, 0.3473352789878845, 0.2984737753868103, 0.2639114260673523, 0.2486032247543335, 0.23124516010284424, 0.22672298550605774, 0.22032172977924347, 0.213907390832901, 0.21143107116222382]
-[tensor(0.4208, device='cuda:0'), tensor(0.3290, device='cuda:0'), tensor(0.2813, device='cuda:0'), tensor(0.2561, device='cuda:0'), tensor(0.2395, device='cuda:0'), tensor(0.2330, device='cuda:0'), tensor(0.2276, device='cuda:0'), tensor(0.2187, device='cuda:0'), tensor(0.2195, device='cuda:0'), tensor(0.2082, device='cuda:0')]
+[0.1894746720790863, 0.19110961258411407, 0.18896596133708954, 0.18199555575847626, 0.17714901268482208, 0.1751231998205185, 0.1639692485332489, 0.16733577847480774, 0.1707695871591568, 0.1644379198551178, 0.15846320986747742, 0.16525980830192566, 0.16272583603858948, 0.16167426109313965, 0.16287383437156677, 0.15686817467212677, 0.157911017537117, 0.16314038634300232, 0.16209250688552856, 0.15559245645999908, 0.15285412967205048, 0.16291046142578125, 0.1588512361049652, 0.15471602976322174, 0.16184136271476746, 0.15779805183410645, 0.16203573346138, 0.15659359097480774, 0.15017034113407135, 0.1499626189470291, 0.1538199633359909, 0.15385785698890686, 0.1576683074235916, 0.158488929271698, 0.14242853224277496, 0.16135744750499725, 0.15086156129837036, 0.15241090953350067, 0.14665260910987854, 0.15700730681419373, 0.1577814668416977, 0.1472877860069275, 0.1522844135761261, 0.15309792757034302, 0.1543050855398178, 0.14851026237010956, 0.1584969460964203, 0.15879395604133606, 0.1513683944940567, 0.15221866965293884, 0.14699378609657288, 0.15854687988758087, 0.1577431708574295, 0.1464841365814209, 0.15039213001728058, 0.16332095861434937, 0.1556207835674286, 0.14892743527889252, 0.1543131172657013, 0.1574486494064331, 0.15098387002944946, 0.1530352383852005, 0.16615870594978333, 0.1564319133758545, 0.1596655696630478, 0.15286484360694885, 0.1518043577671051, 0.14567670226097107, 0.15265688300132751, 0.1490914225578308, 0.15118591487407684, 0.16036531329154968, 0.16305884718894958, 0.15601301193237305, 0.15984384715557098, 0.15046879649162292, 0.1608256846666336, 0.15198104083538055, 0.15576453506946564, 0.15841244161128998, 0.14909031987190247, 0.1523924320936203, 0.1503382921218872, 0.15733212232589722, 0.14712998270988464, 0.14591987431049347, 0.1584148406982422, 0.1518857777118683, 0.1569482386112213, 0.15667274594306946, 0.14651137590408325, 0.15468177199363708, 0.15051843225955963, 0.15473493933677673, 0.15203732252120972, 0.1488092988729477, 0.15525883436203003, 0.15443108975887299, 0.14678707718849182, 0.15939609706401825]
+[tensor(0.1975, device='cuda:0'), tensor(0.1997, device='cuda:0'), tensor(0.1955, device='cuda:0'), tensor(0.1739, device='cuda:0'), tensor(0.1782, device='cuda:0'), tensor(0.1718, device='cuda:0'), tensor(0.1626, device='cuda:0'), tensor(0.1666, device='cuda:0'), tensor(0.1562, device='cuda:0'), tensor(0.1509, device='cuda:0'), tensor(0.1565, device='cuda:0'), tensor(0.1604, device='cuda:0'), tensor(0.1576, device='cuda:0'), tensor(0.1655, device='cuda:0'), tensor(0.1605, device='cuda:0'), tensor(0.1482, device='cuda:0'), tensor(0.1520, device='cuda:0'), tensor(0.1568, device='cuda:0'), tensor(0.1522, device='cuda:0'), tensor(0.1569, device='cuda:0'), tensor(0.1530, device='cuda:0'), tensor(0.1523, device='cuda:0'), tensor(0.1500, device='cuda:0'), tensor(0.1462, device='cuda:0'), tensor(0.1591, device='cuda:0'), tensor(0.1499, device='cuda:0'), tensor(0.1538, device='cuda:0'), tensor(0.1602, device='cuda:0'), tensor(0.1492, device='cuda:0'), tensor(0.1516, device='cuda:0'), tensor(0.1569, device='cuda:0'), tensor(0.1547, device='cuda:0'), tensor(0.1589, device='cuda:0'), tensor(0.1518, device='cuda:0'), tensor(0.1472, device='cuda:0'), tensor(0.1575, device='cuda:0'), tensor(0.1417, device='cuda:0'), tensor(0.1460, device='cuda:0'), tensor(0.1515, device='cuda:0'), tensor(0.1547, device='cuda:0'), tensor(0.1490, device='cuda:0'), tensor(0.1545, device='cuda:0'), tensor(0.1504, device='cuda:0'), tensor(0.1559, device='cuda:0'), tensor(0.1480, device='cuda:0'), tensor(0.1488, device='cuda:0'), tensor(0.1526, device='cuda:0'), tensor(0.1531, device='cuda:0'), tensor(0.1538, device='cuda:0'), tensor(0.1456, device='cuda:0'), tensor(0.1590, device='cuda:0'), tensor(0.1472, device='cuda:0'), tensor(0.1509, device='cuda:0'), tensor(0.1496, device='cuda:0'), tensor(0.1591, device='cuda:0'), tensor(0.1563, device='cuda:0'), tensor(0.1563, device='cuda:0'), tensor(0.1468, device='cuda:0'), tensor(0.1447, device='cuda:0'), tensor(0.1457, device='cuda:0'), tensor(0.1539, device='cuda:0'), tensor(0.1528, device='cuda:0'), tensor(0.1569, device='cuda:0'), tensor(0.1491, device='cuda:0'), tensor(0.1635, device='cuda:0'), tensor(0.1496, device='cuda:0'), tensor(0.1456, device='cuda:0'), tensor(0.1523, device='cuda:0'), tensor(0.1559, device='cuda:0'), tensor(0.1594, device='cuda:0'), tensor(0.1569, device='cuda:0'), tensor(0.1519, device='cuda:0'), tensor(0.1504, device='cuda:0'), tensor(0.1455, device='cuda:0'), tensor(0.1500, device='cuda:0'), tensor(0.1510, device='cuda:0'), tensor(0.1416, device='cuda:0'), tensor(0.1582, device='cuda:0'), tensor(0.1564, device='cuda:0'), tensor(0.1535, device='cuda:0'), tensor(0.1486, device='cuda:0'), tensor(0.1470, device='cuda:0'), tensor(0.1538, device='cuda:0'), tensor(0.1546, device='cuda:0'), tensor(0.1544, device='cuda:0'), tensor(0.1602, device='cuda:0'), tensor(0.1511, device='cuda:0'), tensor(0.1640, device='cuda:0'), tensor(0.1529, device='cuda:0'), tensor(0.1470, device='cuda:0'), tensor(0.1510, device='cuda:0'), tensor(0.1547, device='cuda:0'), tensor(0.1451, device='cuda:0'), tensor(0.1516, device='cuda:0'), tensor(0.1449, device='cuda:0'), tensor(0.1481, device='cuda:0'), tensor(0.1506, device='cuda:0'), tensor(0.1530, device='cuda:0'), tensor(0.1426, device='cuda:0'), tensor(0.1503, device='cuda:0')]
