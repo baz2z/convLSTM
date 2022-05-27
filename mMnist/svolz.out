@@ -1,20 +1,20 @@
 /mnt/qb/work/butz/svolz67/dev/models/mMnist
 JOB DATA
-JobId=1468281 ArrayJobId=1468281 ArrayTaskId=0 JobName=review.sh
+JobId=1469161 ArrayJobId=1469161 ArrayTaskId=0 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=41411 Nice=0 Account=butz QOS=normal
+   Priority=41137 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=12:30:00 TimeMin=N/A
-   SubmitTime=2022-05-27T11:24:14 EligibleTime=2022-05-27T11:24:14
+   RunTime=00:00:00 TimeLimit=12:30:00 TimeMin=N/A
+   SubmitTime=2022-05-27T18:56:43 EligibleTime=2022-05-27T18:56:43
    AccrueTime=Unknown
-   StartTime=2022-05-27T11:24:14 EndTime=2022-05-27T23:54:14 Deadline=N/A
-   PreemptEligibleTime=2022-05-27T11:25:14 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-27T11:24:14
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:11337
+   StartTime=2022-05-27T18:56:44 EndTime=2022-05-28T07:26:44 Deadline=N/A
+   PreemptEligibleTime=2022-05-27T18:57:44 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-27T18:56:44
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:11843
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-05
-   BatchHost=slurm-bm-05
+   NodeList=slurm-bm-55
+   BatchHost=slurm-bm-55
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
@@ -33,5 +33,67 @@ JobId=1468281 ArrayJobId=1468281 ArrayTaskId=0 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-05.sdn
+slurm-bm-55.novalocal
 RUN Script
+tensor([0, 1], device='cuda:0')
+tensor(0.6949, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.5715, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.4801, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.4176, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.3715, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.3473, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.3231, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.3039, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2985, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2879, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2705, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2639, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2546, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2546, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2486, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2419, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2430, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2312, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2301, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2295, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2267, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2276, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2221, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2203, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2221, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2181, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2139, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2155, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2180, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+tensor([0, 1], device='cuda:0')
+tensor(0.2114, device='cuda:0', grad_fn=<NllLoss2DBackward0>)
+[0.4800986349582672, 0.3473352789878845, 0.2984737753868103, 0.2639114260673523, 0.2486032247543335, 0.23124516010284424, 0.22672298550605774, 0.22032172977924347, 0.213907390832901, 0.21143107116222382]
+[tensor(0.4208, device='cuda:0'), tensor(0.3290, device='cuda:0'), tensor(0.2813, device='cuda:0'), tensor(0.2561, device='cuda:0'), tensor(0.2395, device='cuda:0'), tensor(0.2330, device='cuda:0'), tensor(0.2276, device='cuda:0'), tensor(0.2187, device='cuda:0'), tensor(0.2195, device='cuda:0'), tensor(0.2082, device='cuda:0')]

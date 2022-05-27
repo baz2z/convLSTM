@@ -24,5 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./runBaseline.py
+CUDA_LAUNCH_BLOCKING=1 python ./runBaseline.py
+
 
