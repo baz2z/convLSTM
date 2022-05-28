@@ -31,7 +31,7 @@ def mapModel(model, hiddenSize, lateralSize):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-40"
-modelName = "skip"
+modelName = "baseline"
 run = "3"
 
 
@@ -41,7 +41,7 @@ run = "3"
 lossTotal = []
 for i in range(5):
     i = i+1
-    os.chdir(f"C:/Users/Sebastian/Desktop/remote/convLSTM/trainedModels/wave/horizon-20-70/{modelName}/run{i}")
+    os.chdir(f"C:/Users/Sebastian/Desktop/remote/convLSTM/trainedModels/wave/lr/{modelName}/run{i}")
     trainLoss = torch.load("trainingLoss", map_location=device)
     valLoss = torch.load("validationLoss", map_location=device)
     averageLastLoss = (sum(valLoss[-5:]) / 5).item()
@@ -56,3 +56,6 @@ model = mapModel(modelName, 8, 6)
 model.load_state_dict(torch.load("model.pt", map_location=device))
 model.eval()
 print(count_params(model))
+
+f = open("configuration.txt", "r")
+print(f.read())
