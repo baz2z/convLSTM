@@ -9,6 +9,7 @@ import h5py
 import matplotlib.pyplot as plt
 import math
 import os
+from torch.optim.lr_scheduler import MultiStepLR
 
 
 def count_params(net):
@@ -95,25 +96,25 @@ class Forecaster(nn.Module):
 
 def map(run):
     match run:
-        case 1:
+        case 1 | 2 | 3 | 4 | 5:
             return 0.002
-        case 2:
+        case 6 | 7 | 8 | 9 | 10:
             return 0.0018
-        case 3:
+        case 11 | 12 | 13 | 14 | 15:
             return 0.0016
-        case 4:
+        case 16 | 17 | 18 | 19 | 20:
             return 0.0014
-        case 5:
+        case 21 | 22 | 23 | 24 | 25:
             return 0.0012
-        case 6:
+        case 26 | 27 | 28 | 29 | 30:
             return 0.001
-        case 7:
+        case 31 | 32 | 33 | 34 | 35:
             return 0.0009
-        case 8:
+        case 36 | 37 | 38 | 39 | 40:
             return 0.0008
-        case 9:
+        case 41 | 42 | 43 | 44 | 45:
             return 0.0007
-        case 10:
+        case 46 | 47 | 48 | 49 | 50:
             return 0.0006
 
 
@@ -128,7 +129,7 @@ if __name__ == '__main__':
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 32
-    epochs = 250
+    epochs = 10
     learningRate = map(run)
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -137,7 +138,8 @@ if __name__ == '__main__':
                             drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(seq.parameters(), lr=learningRate)
+    optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
+    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
 
