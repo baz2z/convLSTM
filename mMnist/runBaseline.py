@@ -97,10 +97,10 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 24
+    hiddenSize = 48
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
-    batch_size = 24
+    batch_size = 36
     epochs = 400
     learningRate = 0.001
 
@@ -111,14 +111,14 @@ if __name__ == '__main__':
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
-    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
+    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.7)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
-            input_images = images[:, :20, :, :]
-            labels = images[:, 20:30, :, :]
+            input_images = images[:, :10, :, :]
+            labels = images[:, 10:20, :, :]
             labels = labels.type(torch.long)
             output = seq(input_images, 10)
             b, t, w, h = output.shape
@@ -129,17 +129,18 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
-            scheduler.step()
             optimizer.step()
+            scheduler.step()
+
 
 
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
             for i, images in enumerate(validation):
-                input_images = images[:, :20, :, :]
-                labels = images[:, 20:30, :, :]
-                labels = labels.type(torch.int64)
+                input_images = images[:, :10, :, :]
+                labels = images[:, 10:20, :, :]
+                labels = labels.type(torch.long)
                 output = seq(input_images, 10)
                 b, t, w, h = output.shape
                 output_1 = (1 - output).float()
