@@ -1,1 +1,1 @@
-{'model': 'baseline', 'epochs': 250, 'batchSize': 32, 'learningRate': 0.0008, 'parameters': 16281, 'hiddenSize': 8, 'Loss': MSELoss(), 'dataset': 'mnist-5000-60'}
+{'model': 'baseline', 'epochs': 7, 'batchSize': 32, 'learningRate': 0.0018, 'parameters': 16281, 'hiddenSize': 8, 'Loss': MSELoss(), 'dataset': 'mnist-5000-60'}
