@@ -45,7 +45,7 @@ class mMnist(Dataset):
         return self.data.shape[0]
 
 
-def mapModel(model, hiddenSize, lateralSize):
+def mapModel(model):
     match model:
         case "baseline":
             return Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
@@ -88,16 +88,16 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "clip"
-modelName = "baseline"
-model = mapModel(modelName, 8, 6)
-run = "2"
+mode = "testSpike"
+modelName = "lateral"
+model = mapModel(modelName)
+run = "1"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/0.1/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/" + "run" + run)
 
 # model
 
