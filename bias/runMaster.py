@@ -114,7 +114,7 @@ class Forecaster(nn.Module):
 def mapModel(model):
     match model:
         case "baseline":
-            return Forecaster(8, baseline, num_blocks=2, bias=(True, 40), lstm_kwargs={'k': 3}).to(device)
+            return Forecaster(8, baseline, num_blocks=2, bias=(False, 40), lstm_kwargs={'k': 3}).to(device)
         case "lateral":
             return Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
         case "twoLayer":
