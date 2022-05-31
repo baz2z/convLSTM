@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 import math
 import os
 import numpy
-from torch.optim.lr_scheduler import MultiStepLR
+from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
+
 
 def count_params(net):
     '''
@@ -27,20 +28,22 @@ class Wave(Dataset):
         self.data = f['data']['train'] if self.isTrain else f['data']['test']
 
     def __getitem__(self, item):
-        return self.data[f'{item}'.zfill(3)][:,:,:]
+        return self.data[f'{item}'.zfill(3)][:, :, :]
 
     def __len__(self):
         return len(self.data)
+
 
 class mMnist(Dataset):
     def __init__(self, data):
         self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
 
     def __getitem__(self, item):
-        return self.data[item,:,:,:]
+        return self.data[item, :, :, :]
 
     def __len__(self):
         return self.data.shape[0]
+
 
 class Forecaster(nn.Module):
     '''
@@ -65,7 +68,7 @@ class Forecaster(nn.Module):
         self.decoder_layers = nn.ModuleList()
         for i in range(num_blocks):
             x_channels = 0 if i == 0 else h_channels
-            #x_channels = 1 if i == 0 else h_channels
+            # x_channels = 1 if i == 0 else h_channels
             self.encoder_layers.add_module(f'block_{i}', lstm_block(h_channels, h_channels, **lstm_kwargs))
             self.decoder_layers.add_module(f'block_{i}', lstm_block(x_channels, h_channels, **lstm_kwargs))
 
@@ -99,10 +102,11 @@ class Forecaster(nn.Module):
                 z = latent if i == 0 else h[i - 1]
                 h[i], c[i] = layer(z, h[i], c[i])
             output[:, t] = self.read(h[-1]).squeeze()
-            #latent = output[:, t]
+            # latent = output[:, t]
         return output
 
-def mapModel(model, hiddenSize, lateralSize):
+
+def mapModel(model):
     match model:
         case "baseline":
             return Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
@@ -115,46 +119,44 @@ def mapModel(model, hiddenSize, lateralSize):
         case "depthWise":
             return Forecaster(8, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 6}).to(device)
 
+
 def mapDataset(datasetTrain, datasetVal):
     train = None
     val = None
 
     match datasetTrain:
-        case "wave-5000-90":
-            train = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-60":
-            train = DataLoader(dataset=Wave("wave-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "wave-10000-90":
+            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-5000-60":
             train = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     match datasetVal:
-        case "wave-5000-90":
-            val = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-60":
-            val = DataLoader(dataset=Wave("wave-5000-60", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "wave-10000-90":
+            val = DataLoader(dataset=Wave("wave-10000-90", isTrain=False), batch_size=batch_size, shuffle=True,
+                             drop_last=True,
+                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-100-60":
             val = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     return train, val
+
 
 if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="baseline", choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
+    parser.add_argument('--model', type=str, default="baseline",
+                        choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
-    parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
+    parser.add_argument('--datasetTrain', type=str, default="wave-10000-90")
+    parser.add_argument('--datasetVal', type=str, default="wave-10000-90")
     parser.add_argument('--mode', type=str, default="delete")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=70)
     parser.add_argument('--learningRate', type=float, default=0.001)
-    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--epochs', type=int, default=20)
     parser.add_argument('--hiddenSize', type=int, default=12)
     parser.add_argument('--lateralSize', type=int, default=12)
     parser.add_argument('--run_idx', type=int, default=1)
@@ -173,38 +175,38 @@ if __name__ == '__main__':
     run = args.run_idx
     batch_size = 32
 
-
-    seq = mapModel(model, hiddenSize, lateralSize)
+    seq = mapModel(model)
     dataloader, validation = mapDataset(datasetTrain, datasetVal)
 
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
-    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
+    # scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
+    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
-
+    lrs = []
     for j in range(epochs):
         for i, images in enumerate(dataloader):
             input_images = images[:, :context, :, :]
-            labels = images[:, context:context+horizon, :, :]
+            labels = images[:, context:context + horizon, :, :]
             output = seq(input_images, horizon)
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 10)
             optimizer.step()
-            scheduler.step()
+        scheduler.step()
+        lrs.append(optimizer.param_groups[0]["lr"])
         loss_plot_train.append(loss.item())
-
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :context, :, :]
-                labels = images[:, context:context+horizon, :, :]
+                labels = images[:, context:context + horizon, :, :]
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
             loss_plot_val.append(loss)
 
-    # save model and test and train loss and parameters in txt file and python file with class
+    # # save model and test and train loss and parameters in txt file and python file with class
     if not os.path.exists(f'../trainedModels/{dataset}/{mode}/{model}/run{run}'):
         os.makedirs(f'../trainedModels/{dataset}/{mode}/{model}/run{run}')
     os.chdir(f'../trainedModels/{dataset}/{mode}/{model}/run{run}')
@@ -214,14 +216,12 @@ if __name__ == '__main__':
 
     # save config
     params = count_params(seq)
-    averageLastLoss = (sum(loss_plot_val[-5:])/5).item()
+    averageLastLoss = (sum(loss_plot_val[-50:]) / 50).item()
     configuration = {"model": model,
                      "epochs": epochs,
                      "batchSize": batch_size,
                      "learningRate": learningRate,
                      "parameters": params,
-                     "hiddenSize": hiddenSize,
-                     "lateralSize": lateralSize,
                      "context": context,
                      "horizon": horizon,
                      "Loss": criterion,
@@ -230,5 +230,3 @@ if __name__ == '__main__':
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
-
-

@@ -6,6 +6,9 @@ class baseline(nn.Module):
     def __init__(self, x_channels, h_channels, k = 1):
         super(baseline, self).__init__()
         self.conv = nn.Conv2d(x_channels + h_channels, 4 * h_channels, k, bias=True, padding="same")
+        #self.conv.bias[h_channels: 2*h_channels] auf 𝑏𝑓 ∼ log(𝒰([1, 𝑇max − 1])), 𝑏𝑖 = −𝑏 Tmax = horizon (oder periodendauer)
+
+        self.conv.bias[h_channels: 2 * h_channels]
 
     def forward(self, x, h, c):
         z = torch.cat((x, h), dim=1) if x is not None else h

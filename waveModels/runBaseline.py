@@ -57,13 +57,6 @@ class Forecaster(nn.Module):
             self.encoder_layers.add_module(f'block_{i}', lstm_block(h_channels, h_channels, **lstm_kwargs))
             self.decoder_layers.add_module(f'block_{i}', lstm_block(x_channels, h_channels, **lstm_kwargs))
 
-        for m in self.encoder_layers:
-            if m.conv.bias is not None:
-                nn.init.constant_(m.conv.bias.data, 100)
-                
-        for m in self.decoder_layers:
-            if m.conv.bias is not None:
-                nn.init.constant_(m.conv.bias.data, 100)
 
         self.read = nn.Conv2d(h_channels, 1, 1)
 

@@ -7,13 +7,14 @@ import math
 import numpy
 from torch.utils.data import Dataset, DataLoader, default_collate
 
+
 def visualize_wave(imgs):
     t, w, h = imgs.shape
     for i in range(t):
         plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
         plt.title(i, fontsize=9)
         plt.axis("off")
-        image = imgs[i,:,:]
+        image = imgs[i, :, :]
         plt.imshow(image, cmap="gray")
     plt.subplots_adjust(hspace=0.4)
     plt.show()
@@ -27,20 +28,22 @@ class Wave(Dataset):
         self.data = f['data']['train'] if self.isTrain else f['data']['test']
 
     def __getitem__(self, item):
-        return self.data[f'{item}'.zfill(3)][:,:,:]
+        return self.data[f'{item}'.zfill(3)][:, :, :]
 
     def __len__(self):
         return len(self.data)
+
 
 class mMnist(Dataset):
     def __init__(self, data):
         self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
 
     def __getitem__(self, item):
-        return self.data[item,:,:,:]
+        return self.data[item, :, :, :]
 
     def __len__(self):
         return self.data.shape[0]
+
 
 def mapModel(model, hiddenSize, lateralSize):
     match model:
@@ -62,8 +65,9 @@ def count_params(net):
     '''
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
+
 def mse(values):
-    return ((values - values.mean(axis = 0))**2).mean(axis = 0)
+    return ((values - values.mean(axis=0)) ** 2).mean(axis=0)
 
 
 def mostSignificantPixel(imgs):
@@ -81,12 +85,13 @@ def mostSignificantPixel(imgs):
                 msp = [(i, j), var]
     return msp[0]
 
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "horizon-20-40"
-modelName = "depthWise"
+mode = "horizon-20-70"
+modelName = "baseline"
 model = mapModel(modelName, 8, 6)
-run = "3"
+run = "1"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
@@ -114,7 +119,6 @@ plt.show()
 # example wave
 visData = iter(dataloader).__next__()
 pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
-
 
 sequence = 2
 # for one pixel

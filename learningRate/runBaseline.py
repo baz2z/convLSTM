@@ -9,7 +9,7 @@ import h5py
 import matplotlib.pyplot as plt
 import math
 import os
-from torch.optim.lr_scheduler import MultiStepLR
+from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
 
 
 def count_params(net):
@@ -97,25 +97,24 @@ class Forecaster(nn.Module):
 def map(run):
     match run:
         case 1 | 2 | 3 | 4 | 5:
-            return 0.002
+            return 0.1
         case 6 | 7 | 8 | 9 | 10:
-            return 0.0018
+            return 0.05
         case 11 | 12 | 13 | 14 | 15:
-            return 0.0016
+            return 0.01
         case 16 | 17 | 18 | 19 | 20:
-            return 0.0014
+            return 0.005
         case 21 | 22 | 23 | 24 | 25:
-            return 0.0012
-        case 26 | 27 | 28 | 29 | 30:
             return 0.001
+        case 26 | 27 | 28 | 29 | 30:
+            return 0.0005
         case 31 | 32 | 33 | 34 | 35:
-            return 0.0009
+            return 0.0001
         case 36 | 37 | 38 | 39 | 40:
-            return 0.0008
+            return 0.00005
         case 41 | 42 | 43 | 44 | 45:
-            return 0.0007
-        case 46 | 47 | 48 | 49 | 50:
-            return 0.0006
+            return 0.00001
+
 
 
 if __name__ == '__main__':
@@ -131,15 +130,15 @@ if __name__ == '__main__':
     batch_size = 32
     epochs = 450
     learningRate = map(run)
-    dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True,
+    validation = DataLoader(dataset=Wave("wave-10000-90", isTrain=False), batch_size=batch_size, shuffle=True,
                             drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
-    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
+    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
 
@@ -151,10 +150,11 @@ if __name__ == '__main__':
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
+            torch.nn.utils.clip_grad_norm_(seq.parameters(), 10)
             optimizer.step()
-        loss_plot_train.append(loss.item())
 
+        loss_plot_train.append(loss.item())
+        scheduler.step()
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :20, :, :]
@@ -179,7 +179,7 @@ if __name__ == '__main__':
                      "parameters": params,
                      "hiddenSize": hiddenSize,
                      "Loss": criterion,
-                     "dataset": "mnist-5000-60"
+                     "dataset": "mnist-10000-90"
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
