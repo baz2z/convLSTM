@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --ntasks=5
 #SBATCH --array=1-5                              # Number of tasks (see below)
-#SBATCH --nodes=2                                   # Ensure that all cores are on one machine
+#SBATCH --nodes=1                                   # Ensure that all cores are on one machine
 #SBeTCH --cpus-per-task=1
 #SBATCH --partition=gpu-2080ti                     # Partition to submit to
 #SBATCH --time=0-12:00           					# Runtime in D-HH:MM
@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./runMaster.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --dataset "wave" --datasetTrain "wave-5000-90" \
-                   --datasetVal "wave-5000-90" --mode "batchSize" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 200 --batchSize 256 --clip 10
+python ./runMaster.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral" --dataset "wave" --datasetTrain "wave-5000-90" \
+                   --datasetVal "wave-5000-90" --mode "testSpike" --context 20 --horizon 40 --learningRate 0.001 \
+                   --epochs 200 --batchSize 34 --clip 10

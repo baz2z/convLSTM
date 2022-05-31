@@ -91,13 +91,13 @@ dataset = "wave"
 mode = "clip"
 modelName = "baseline"
 model = mapModel(modelName, 8, 6)
-run = "1"
+run = "2"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/10/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/0.1/" + "run" + run)
 
 # model
 
@@ -122,7 +122,7 @@ pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
 sequence = 2
 # for one pixel
-
+"""
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
 groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
@@ -137,3 +137,4 @@ visualize_wave(pred[sequence, :, :, :])
 visualize_wave(visData[sequence, 20:, :, :])
 f = open("configuration.txt", "r")
 print(f.read())
+"""
