@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import math
 import os
 
+
 def count_params(net):
     '''
     A utility function that counts the total number of trainable parameters in a network.
@@ -25,10 +26,11 @@ class Wave(Dataset):
         self.data = f['data']['train'] if self.isTrain else f['data']['test']
 
     def __getitem__(self, item):
-        return self.data[f'{item}'.zfill(3)][:,:,:]
+        return self.data[f'{item}'.zfill(3)][:, :, :]
 
     def __len__(self):
         return len(self.data)
+
 
 class Forecaster(nn.Module):
     '''
@@ -38,7 +40,7 @@ class Forecaster(nn.Module):
     Then the decoder state is projected into the future for a desired number of time steps.
     '''
 
-    def __init__(self, h_channels: int,     lstm_block: callable, num_blocks: int = 1, lstm_kwargs={}):
+    def __init__(self, h_channels: int, lstm_block: callable, num_blocks: int = 1, lstm_kwargs={}):
         '''
         :param h_channels: Number of hidden channels per layer (e.g. 12)
         :param lstm_block: A nn.Module that computes a single step of h, c = LSTM(x, h, c)
@@ -53,10 +55,9 @@ class Forecaster(nn.Module):
         self.decoder_layers = nn.ModuleList()
         for i in range(num_blocks):
             x_channels = 0 if i == 0 else h_channels
-            #x_channels = 1 if i == 0 else h_channels
+            # x_channels = 1 if i == 0 else h_channels
             self.encoder_layers.add_module(f'block_{i}', lstm_block(h_channels, h_channels, **lstm_kwargs))
             self.decoder_layers.add_module(f'block_{i}', lstm_block(x_channels, h_channels, **lstm_kwargs))
-
 
         self.read = nn.Conv2d(h_channels, 1, 1)
 
@@ -88,7 +89,7 @@ class Forecaster(nn.Module):
                 z = latent if i == 0 else h[i - 1]
                 h[i], c[i] = layer(z, h[i], c[i])
             output[:, t] = self.read(h[-1]).squeeze()
-            #latent = output[:, t]
+            # latent = output[:, t]
         return output
 
 
@@ -108,7 +109,8 @@ if __name__ == '__main__':
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
+    validation = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True,
+                            drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     criterion = nn.MSELoss()
     optimizer = optim.Adam(seq.parameters(), lr=learningRate)
@@ -124,10 +126,10 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
-            for i, layer in enumerate(seq.decoder_layers):
-                print(layer.conv.bias)
             optimizer.step()
         print(loss)
+        for i, layer in enumerate(seq.decoder_layers):
+            print(layer.conv.bias)
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
@@ -156,5 +158,3 @@ if __name__ == '__main__':
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
-
-
