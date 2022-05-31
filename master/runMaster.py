@@ -120,7 +120,7 @@ def mapModel(model):
             return Forecaster(8, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 6}).to(device)
 
 
-def mapDataset(datasetTrain, datasetVal):
+def mapDataset(datasetTrain, datasetVal, batch_size):
     train = None
     val = None
 
@@ -150,9 +150,9 @@ if __name__ == '__main__':
     parser.add_argument('--model', type=str, default="baseline",
                         choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--datasetTrain', type=str, default="wave-10000-90")
-    parser.add_argument('--datasetVal', type=str, default="wave-10000-90")
-    parser.add_argument('--mode', type=str, default="delete")
+    parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
+    parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
+    parser.add_argument('--mode', type=str, default="clipping")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=70)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -160,6 +160,8 @@ if __name__ == '__main__':
     parser.add_argument('--hiddenSize', type=int, default=12)
     parser.add_argument('--lateralSize', type=int, default=12)
     parser.add_argument('--run_idx', type=int, default=1)
+    parser.add_argument('--clip', type=int, default=10)
+    parser.add_argument('--batchSize', type=int, default=32)
     args = parser.parse_args()
     model = args.model
     dataset = args.dataset
@@ -173,10 +175,11 @@ if __name__ == '__main__':
     hiddenSize = args.hiddenSize
     lateralSize = args.lateralSize
     run = args.run_idx
-    batch_size = 32
+    batch_size = args.batchSize
+    clip = args.clip
 
     seq = mapModel(model)
-    dataloader, validation = mapDataset(datasetTrain, datasetVal)
+    dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
 
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
@@ -193,10 +196,9 @@ if __name__ == '__main__':
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(seq.parameters(), 10)
+            torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
             optimizer.step()
         scheduler.step()
-        lrs.append(optimizer.param_groups[0]["lr"])
         loss_plot_train.append(loss.item())
         with torch.no_grad():
             for i, images in enumerate(validation):
@@ -207,9 +209,10 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    if not os.path.exists(f'../trainedModels/{dataset}/{mode}/{model}/run{run}'):
-        os.makedirs(f'../trainedModels/{dataset}/{mode}/{model}/run{run}')
-    os.chdir(f'../trainedModels/{dataset}/{mode}/{model}/run{run}')
+    path = f'../trainedModels/{dataset}/{mode}/{model}/{clip}/run{run}'
+    if not os.path.exists(path):
+        os.makedirs(path)
+    os.chdir(path)
     torch.save(seq.state_dict(), "model.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
