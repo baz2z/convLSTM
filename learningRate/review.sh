@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --ntasks=45
 #SBATCH --array=1-45                            # Number of tasks (see below)
-#SBATCH --nodes=1                                   # Ensure that all cores are on one machine
+#SBATCH --nodes=2                                   # Ensure that all cores are on one machine
 #SBeTCH --cpus-per-task=1
 #SBATCH --partition=gpu-2080ti                     # Partition to submit to
 #SBATCH --time=0-24:00           					# Runtime in D-HH:MM
