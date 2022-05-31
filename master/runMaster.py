@@ -128,6 +128,9 @@ def mapDataset(datasetTrain, datasetVal, batch_size):
         case "wave-10000-90":
             train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "wave-5000-90":
+            train = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-5000-60":
             train = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -135,6 +138,10 @@ def mapDataset(datasetTrain, datasetVal, batch_size):
     match datasetVal:
         case "wave-10000-90":
             val = DataLoader(dataset=Wave("wave-10000-90", isTrain=False), batch_size=batch_size, shuffle=True,
+                             drop_last=True,
+                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "wave-5000-90":
+            val = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True,
                              drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-100-60":
