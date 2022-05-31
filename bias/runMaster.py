@@ -223,7 +223,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/withBias/run{run}'
+    path = f'../trainedModels/{dataset}/{mode}/{model}/withoutBias/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)
