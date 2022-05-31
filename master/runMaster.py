@@ -167,7 +167,7 @@ if __name__ == '__main__':
     parser.add_argument('--hiddenSize', type=int, default=12)
     parser.add_argument('--lateralSize', type=int, default=12)
     parser.add_argument('--run_idx', type=int, default=1)
-    parser.add_argument('--clip', type=int, default=10)
+    parser.add_argument('--clip', type=float, default=10)
     parser.add_argument('--batchSize', type=int, default=32)
     args = parser.parse_args()
     model = args.model
