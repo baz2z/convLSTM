@@ -226,7 +226,7 @@ if __name__ == '__main__':
     path = f'../trainedModels/{dataset}/{mode}/{model}/withBias/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
-    os.chdir(path)
+    os.chdir(path )
     torch.save(seq.state_dict(), "model.pt")
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
