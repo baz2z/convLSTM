@@ -1,16 +1,48 @@
 /mnt/qb/work/butz/svolz67/dev/models/master
 JOB DATA
-JobId=1478555 ArrayJobId=1478553 ArrayTaskId=2 JobName=review.sh
+JobId=1478553 ArrayJobId=1478553 ArrayTaskId=5 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=38819 Nice=0 Account=butz QOS=normal
+   Priority=39067 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=12:00:00 TimeMin=N/A
    SubmitTime=2022-05-31T16:33:04 EligibleTime=2022-05-31T16:33:05
    AccrueTime=2022-05-31T16:33:14
-   StartTime=2022-05-31T17:55:26 EndTime=2022-06-01T05:55:26 Deadline=N/A
-   PreemptEligibleTime=2022-05-31T17:56:26 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-31T17:55:26
+   StartTime=2022-05-31T22:05:19 EndTime=2022-06-01T10:05:19 Deadline=N/A
+   PreemptEligibleTime=2022-05-31T22:06:19 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-31T22:05:19
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:9408
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=bg-slurmb-bm-3
+   BatchHost=bg-slurmb-bm-3
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/master/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/master
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1478557 ArrayJobId=1478553 ArrayTaskId=4 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=38983 Nice=0 Account=butz QOS=normal
+   JobState=COMPLETED Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=01:25:13 TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-05-31T16:33:04 EligibleTime=2022-05-31T16:33:05
+   AccrueTime=2022-05-31T16:33:14
+   StartTime=2022-05-31T20:40:06 EndTime=2022-05-31T22:05:19 Deadline=N/A
+   PreemptEligibleTime=2022-05-31T20:41:06 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-05-31T20:40:06
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:9408
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=bg-slurmb-bm-3
