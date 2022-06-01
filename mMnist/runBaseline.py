@@ -9,7 +9,7 @@ import h5py
 import matplotlib.pyplot as plt
 import math
 import os
-from torch.optim.lr_scheduler import MultiStepLR
+from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
 import numpy
 
 def count_params(net):
@@ -57,6 +57,7 @@ class Forecaster(nn.Module):
             self.decoder_layers.add_module(f'block_{i}', lstm_block(x_channels, h_channels, **lstm_kwargs))
 
         self.read = nn.Conv2d(h_channels, 1, 1)
+        self.read2 = nn.Sigmoid() # for BCE loss
 
     def forward(self, x, horizon: int = 1):
         '''
@@ -85,7 +86,7 @@ class Forecaster(nn.Module):
             for i, layer in enumerate(self.decoder_layers):
                 z = latent if i == 0 else h[i - 1]
                 h[i], c[i] = layer(z, h[i], c[i])
-            output[:, t] = self.read(h[-1]).squeeze()
+            output[:, t] = self.read2(self.read(h[-1]).squeeze())
             #latent = output[:, t]
         return output
 
@@ -97,63 +98,50 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     args = parser.parse_args()
     run = args.run_idx
-    hiddenSize = 48
+    hiddenSize = 12
     seq, modelName = Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
     params = count_params(seq)
     batch_size = 36
-    epochs = 400
+    epochs = 200
     learningRate = 0.001
 
-    dataloader = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloader = DataLoader(dataset=mMnist("mnist-5000-60-const"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    validation = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+    validation = DataLoader(dataset=mMnist("mnist-100-60-const"), batch_size=batch_size, shuffle=True, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.BCELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
-    scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.7)
+    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
 
     for j in range(epochs):
         for i, images in enumerate(dataloader):
             input_images = images[:, :10, :, :]
-            labels = images[:, 10:20, :, :]
-            labels = labels.type(torch.long)
-            output = seq(input_images, 10)
+            labels = images[:, 10:11, :, :]
+            output = seq(input_images, 1)
             b, t, w, h = output.shape
-            output_1 = (1 - output)
-            output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
-            output_final = torch.cat((output, output_1), dim = 1).requires_grad_()
-            loss = criterion(output_final, labels)
+            loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), 20)
             optimizer.step()
-            scheduler.step()
-
-
-
+        scheduler.step()
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :10, :, :]
-                labels = images[:, 10:20, :, :]
-                labels = labels.type(torch.long)
-                output = seq(input_images, 10)
+                labels = images[:, 10:11, :, :]
+                output = seq(input_images, 1)
                 b, t, w, h = output.shape
-                output_1 = (1 - output).float()
-                output, output_1 = torch.reshape(output, (b, 1, t, w, h)), torch.reshape(output_1, (b, 1, t, w, h))
-                output_final = torch.cat((output, output_1), dim=1).requires_grad_()
-                loss = criterion(output_final, labels)
+                loss = criterion(output, labels)
             loss_plot_val.append(loss)
 
     # save model and test and train loss and parameters in txt file and python file with class
-    os.chdir("../trainedModels/mMnist/horizon-20-40/baseline/run" + str(run))
+    os.chdir("../trainedModels/mnist/horizon-20-40/baseline/run" + str(run))
     torch.save(seq.state_dict(), "model.pt")
-    print(loss_plot_train)
-    print(loss_plot_val)
     torch.save(loss_plot_train, "trainingLoss")
     torch.save(loss_plot_val, "validationLoss")
 
@@ -165,7 +153,7 @@ if __name__ == '__main__':
                      "parameters": params,
                      "hiddenSize": hiddenSize,
                      "Loss": criterion,
-                     "dataset": "mnist-5000-60"
+                     "dataset": "mnist-5000-60-const"
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)

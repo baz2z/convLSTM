@@ -53,7 +53,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     mode = "lr"
     model, modelName = Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
-    run = "11"
+    run = "13"
     horizon = 40
 
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=2, shuffle=True, drop_last=True,
@@ -66,6 +66,8 @@ if __name__ == '__main__':
     model.load_state_dict(torch.load("model.pt", map_location=device))
     model.eval()
     print(count_params(model))
+    f = open("configuration.txt", "r")
+    print(f.read())
 
     # loss
     trainLoss = torch.load("trainingLoss", map_location=device)
@@ -78,7 +80,7 @@ if __name__ == '__main__':
     plt.legend()
     plt.title(open("configuration.txt", "r").read()[70:76])
     plt.show()
-
+    """
     # example wave
     visData = iter(dataloader).__next__()
     pred = model(visData[:, :10, :, :], horizon=10).detach().cpu().numpy()
@@ -87,7 +89,6 @@ if __name__ == '__main__':
     # for entire sequence
     visualize_wave(pred[sequence, :, :, :])
     visualize_wave(visData[sequence, 10:20, :, :])
+"""
 
-    f = open("configuration.txt", "r")
-    print(f.read())
 
