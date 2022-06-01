@@ -91,7 +91,7 @@ dataset = "wave"
 mode = "testSpike"
 modelName = "lateral"
 model = mapModel(modelName)
-run = "1"
+run = "5"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
