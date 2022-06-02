@@ -88,8 +88,8 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "horizon-20-70"
-modelName = "baseline"
+mode = "testSpike"
+modelName = "lateral"
 model = mapModel(modelName)
 run = "1"
 horizon = 40
@@ -115,7 +115,7 @@ plt.plot(trainLoss, label="trainLoss")
 plt.plot(valLoss, label="valLoss")
 plt.legend()
 plt.show()
-
+"""
 # example wave
 visData = iter(dataloader).__next__()
 pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
@@ -135,5 +135,6 @@ plt.show()
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
 visualize_wave(visData[sequence, 20:, :, :])
+"""
 f = open("configuration.txt", "r")
 print(f.read())
