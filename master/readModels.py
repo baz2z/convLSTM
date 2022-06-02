@@ -88,10 +88,10 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "testSpike"
-modelName = "lateral"
+mode = "horizon-20-70"
+modelName = "baseline"
 model = mapModel(modelName)
-run = "5"
+run = "1"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
@@ -122,7 +122,7 @@ pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
 sequence = 2
 # for one pixel
-"""
+
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
 groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
@@ -137,4 +137,3 @@ visualize_wave(pred[sequence, :, :, :])
 visualize_wave(visData[sequence, 20:, :, :])
 f = open("configuration.txt", "r")
 print(f.read())
-"""
