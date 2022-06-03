@@ -88,16 +88,16 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "lr"
+mode = "clip"
 modelName = "baseline"
 model = mapModel(modelName)
-run = "22"
+run = "2"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/0.0001/" + "run" + run)
 
 # model
 

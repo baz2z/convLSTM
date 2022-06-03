@@ -1,1 +1,0 @@
-{'model': 'baseline', 'epochs': 200, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 16281, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'averageLastLoss': 3.4663084079511464e-05, 'dataset': 'wave-5000-90'}

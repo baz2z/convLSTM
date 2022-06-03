@@ -203,10 +203,11 @@ if __name__ == '__main__':
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
+            torch.nn.utils.clip_grad_norm_(seq.parameters(), 0.1)
             optimizer.step()
         #scheduler.step()
         loss_plot_train.append(loss.item())
+
         with torch.no_grad():
             for i, images in enumerate(validation):
                 input_images = images[:, :context, :, :]
@@ -216,7 +217,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss)
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/run{run}'
+    path = f'../trainedModels/{dataset}/{mode}/{model}-clip/{clip}/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)
@@ -236,7 +237,8 @@ if __name__ == '__main__':
                      "horizon": horizon,
                      "Loss": criterion,
                      "averageLastLoss": averageLastLoss,
-                     "dataset": datasetTrain
+                     "dataset": datasetTrain,
+                     "clip": clip
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
