@@ -53,7 +53,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     mode = "lr"
     model, modelName = Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device), "baseline"
-    run = "13"
+    run = "45"
     horizon = 40
 
     dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=2, shuffle=True, drop_last=True,
