@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./runMaster.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral" --dataset "wave" --datasetTrain "wave-10000-90" \
+python ./runMaster.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "twoLayer" --dataset "wave" --datasetTrain "wave-10000-90" \
                    --datasetVal "wave-10000-90" --mode "horizon-20-70" --context 20 --horizon 70 --learningRate 0.001 \
                    --epochs 500 --batchSize 32 --clip 10
