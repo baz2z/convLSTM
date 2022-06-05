@@ -201,8 +201,6 @@ if __name__ == '__main__':
     loss_plot_train, loss_plot_val = [], []
     lrs = []
     for j in range(epochs):
-        for i, layer in enumerate(seq.decoder_layers):
-            print(layer.conv.bias)
         for i, images in enumerate(dataloader):
             input_images = images[:, :context, :, :]
             labels = images[:, context:context + horizon, :, :]
