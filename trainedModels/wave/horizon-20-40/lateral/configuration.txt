@@ -1,1 +1,1 @@
-{'lateralloss': 2.7330546e-07}
+{'lateralloss': 2.7379284e-07}
