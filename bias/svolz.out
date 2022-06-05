@@ -160,3 +160,6 @@ JobId=1495767 ArrayJobId=1495766 ArrayTaskId=1 JobName=review.sh
    MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
    NtasksPerTRES:0
 
+node:
+slurm-bm-16.novalocal
+RUN Script
