@@ -80,7 +80,7 @@ criterion = nn.MSELoss()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-40"
-modelName = "twoLayer"
+modelName = "skip"
 model = mapModel(modelName)
 context = 20
 horizon = 40
@@ -116,6 +116,7 @@ finalLoss = numpy.mean(modelsLoss)
 
 print(os.getcwd())
 configuration = {f'{modelName}loss': finalLoss}
+print(configuration)
 with open('configuration.txt', 'w') as f:
     print(configuration, file=f)
 
