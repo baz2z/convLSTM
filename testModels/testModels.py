@@ -98,7 +98,7 @@ for runNbr in range(5):
             labels = images[:, context:context + horizon, :, :]
             output = model(input_images, horizon)
             loss = criterion(output, labels)
-            runningLoss.append(loss)
+            runningLoss.append(loss.cpu())
         modelsLoss.append(numpy.mean(runningLoss))
     os.chdir("../")
 
