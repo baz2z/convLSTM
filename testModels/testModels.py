@@ -114,6 +114,7 @@ for runNbr in range(5):
 
 finalLoss = numpy.mean(modelsLoss)
 
+print(os.getcwd())
 configuration = {f'{modelName}loss': finalLoss}
 with open('configuration.txt', 'w') as f:
     print(configuration, file=f)
