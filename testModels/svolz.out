@@ -1,16 +1,16 @@
 /mnt/qb/work/butz/svolz67/dev/models/testModels
 JOB DATA
-JobId=1497498 ArrayJobId=1497498 ArrayTaskId=1 JobName=review.sh
+JobId=1497510 ArrayJobId=1497510 ArrayTaskId=1 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=38202 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=12:00:00 TimeMin=N/A
-   SubmitTime=2022-06-05T18:22:36 EligibleTime=2022-06-05T18:22:37
+   SubmitTime=2022-06-05T18:36:40 EligibleTime=2022-06-05T18:36:40
    AccrueTime=Unknown
-   StartTime=2022-06-05T18:22:37 EndTime=2022-06-06T06:22:37 Deadline=N/A
-   PreemptEligibleTime=2022-06-05T18:23:37 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-05T18:22:37
+   StartTime=2022-06-05T18:36:40 EndTime=2022-06-06T06:36:40 Deadline=N/A
+   PreemptEligibleTime=2022-06-05T18:37:40 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-05T18:36:40
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:20568
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=bg-slurmb-bm-3
@@ -35,4 +35,5 @@ JobId=1497498 ArrayJobId=1497498 ArrayTaskId=1 JobName=review.sh
 node:
 bg-slurmb-bm-3.novalocal
 RUN Script
-/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-40/twoLayer
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-40/skip
+{'skiploss': 1.7540003e-07}
