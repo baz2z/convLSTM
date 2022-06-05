@@ -88,16 +88,16 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "clip"
+mode = "bias"
 modelName = "baseline"
 model = mapModel(modelName)
-run = "2"
+run = "5"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/0.0001/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/withBias/" + "run" + run)
 
 # model
 
@@ -108,11 +108,41 @@ print(count_params(model))
 # loss
 trainLoss = torch.load("trainingLoss", map_location=device)
 valLoss = torch.load("validationLoss", map_location=device)
-print(trainLoss[-1])
+
+def smoothess(arr):
+    window_size = 49
+    padding = window_size // 2
+    i = 0
+    moving_averages = []
+
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(arr) - window_size + 1:
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = arr[i: i + window_size]
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        # Shift window to right by one position
+        i += 1
+
+
+    diff = [a-b for (a, b) in zip(arr[padding:-padding], moving_averages)]
+    mse = (numpy.square(diff)).mean(axis=0)
+    moving_averages_final = numpy.pad(moving_averages, (padding, padding), "constant", constant_values=(0, 0))
+    return moving_averages_final, mse
+
+movingAvg, smoothness = smoothess(trainLoss)
+print(f'smoothness:{smoothness}')
+
 
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
 plt.plot(valLoss, label="valLoss")
+plt.plot(movingAvg, label = "avg")
 plt.legend()
 plt.show()
 
@@ -130,11 +160,11 @@ plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
 plt.legend()
 plt.title(f'{(w, h)}')
-plt.show()
+#plt.show()
 
 # for entire sequence
-visualize_wave(pred[sequence, :, :, :])
-visualize_wave(visData[sequence, 20:, :, :])
-""""""
+#visualize_wave(pred[sequence, :, :, :])
+#visualize_wave(visData[sequence, 20:, :, :])
+
 f = open("configuration.txt", "r")
 print(f.read())

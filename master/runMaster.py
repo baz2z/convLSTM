@@ -159,7 +159,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default="wave")
     parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
     parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
-    parser.add_argument('--mode', type=str, default="clipping")
+    parser.add_argument('--mode', type=str, default="test")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=70)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -184,7 +184,7 @@ if __name__ == '__main__':
     run = args.run_idx
     batch_size = args.batchSize
     clip = args.clip
-
+    batch_size = 15
     seq = mapModel(model)
     dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
 
@@ -203,7 +203,7 @@ if __name__ == '__main__':
             loss = criterion(output, labels)
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(seq.parameters(), 0.1)
+            torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
             optimizer.step()
         scheduler.step()
         loss_plot_train.append(loss.item())
@@ -214,7 +214,7 @@ if __name__ == '__main__':
                 labels = images[:, context:context + horizon, :, :]
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
-            loss_plot_val.append(loss)
+            loss_plot_val.append(loss.item())
 
     # # save model and test and train loss and parameters in txt file and python file with class
     path = f'../trainedModels/{dataset}/{mode}/{model}/run{run}'
