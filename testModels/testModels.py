@@ -81,7 +81,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 model = mapModel(modelName)
 context = 20
-horizon = 40
+horizon = 70
 
 
 dataloader = DataLoader(dataset=Wave("wave-1000-90-test"), batch_size=32, shuffle=False, drop_last=True,

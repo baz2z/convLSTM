@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./testModels.py --model "skip" --mode "horizon-20-40"
+python ./testModels.py --model "depthWise" --mode "horizon-20-70"
 
