@@ -1,1 +1,1 @@
-{'model': 'depthWise', 'epochs': 450, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 14265, 'hiddenSize': 8, 'lateralSize': 6, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'dataset': 'wave-5000-90'}
+{'model': 'depthWise', 'epochs': 500, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 14265, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'averageLastLoss': 2.786622417261242e-07, 'dataset': 'wave-10000-90', 'clip': 10.0}

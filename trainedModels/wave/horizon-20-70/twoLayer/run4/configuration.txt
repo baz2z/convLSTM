@@ -1,1 +1,1 @@
-{'model': 'twoLayer', 'epochs': 450, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 16885, 'hiddenSize': 8, 'lateralSize': 12, 'context': 20, 'horizon': 70, 'Loss': MSELoss(), 'dataset': 'wave-5000-90'}
+{'model': 'twoLayer', 'epochs': 500, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 16885, 'context': 20, 'horizon': 70, 'Loss': MSELoss(), 'averageLastLoss': 4.3664860527314886e-07, 'dataset': 'wave-10000-90', 'clip': 10.0}
