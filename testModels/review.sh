@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./testModel.py --model "twoLayer" --mode "horizon-20-40"
+python ./testModels.py --model "twoLayer" --mode "horizon-20-40"
 
