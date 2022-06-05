@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./testModel.py
+python ./testModels.py
 
