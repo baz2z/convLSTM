@@ -1,3 +1,5 @@
+import argparse
+
 from models import baseline, lateral, skipConnection, depthWise, twoLayer, Forecaster
 import torch
 import os
@@ -66,12 +68,19 @@ def visualize_wave(imgs):
     plt.subplots_adjust(hspace=0.4)
     plt.show()
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', type=str, default="baseline",
+                    choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
+parser.add_argument('--mode', type=str, default="test")
 
+args = parser.parse_args()
+modelName = args.model
+mode = args.mode
 criterion = nn.MSELoss()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "horizon-20-40"
-modelName = "baseline"
+
+
 model = mapModel(modelName)
 context = 20
 horizon = 40
@@ -84,6 +93,7 @@ os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
 
 
 # calculated train loss on new dataset and average the loss
+
 
 modelsLoss = []
 for runNbr in range(5):
