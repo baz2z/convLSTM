@@ -80,13 +80,13 @@ criterion = nn.MSELoss()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-40"
-modelName = "lateral"
+modelName = "twoLayer"
 model = mapModel(modelName)
 context = 20
 horizon = 40
 
 
-dataloader = DataLoader(dataset=Wave("wave-1000-90-test"), batch_size=25, shuffle=False, drop_last=True,
+dataloader = DataLoader(dataset=Wave("wave-1000-90-test"), batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
