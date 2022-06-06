@@ -114,7 +114,7 @@ def mostSignificantPixel(imgs):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "testSpike"
-modelName = "lateral"
+modelName = "lateral-clip"
 model = mapModel(modelName)
 run = "1"
 horizon = 40
@@ -122,7 +122,7 @@ horizon = 40
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/1")
 
 # model
 
@@ -136,7 +136,7 @@ os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
 
 # Smoothness
 modelsSmoothness = []
-for runNbr in range(3):
+for runNbr in range(5):
     runNbr = runNbr + 1
     os.chdir(f'./run{runNbr}')
     trainLoss = torch.load("trainingLoss", map_location=device)
@@ -151,6 +151,7 @@ print(f'smoothness:{avg}')
 
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
+
 plt.plot(valLoss, label="valLoss")
 plt.plot(movingAvg, label = "avg")
 plt.legend()

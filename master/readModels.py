@@ -114,21 +114,21 @@ def mostSignificantPixel(imgs):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "testSpike"
-modelName = "lateral"
+modelName = "lateral-batch"
 model = mapModel(modelName)
-run = "1"
+run = "4"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/64/" + "run" + run)
 
 # model
 
-model.load_state_dict(torch.load("model.pt", map_location=device))
-model.eval()
-print(count_params(model))
+# model.load_state_dict(torch.load("model.pt", map_location=device))
+# model.eval()
+# print(count_params(model))
 
 # loss
 trainLoss = torch.load("trainingLoss", map_location=device)
@@ -140,7 +140,7 @@ valLoss = torch.load("validationLoss", map_location=device)
 movingAvg, smoothness = smoothess(trainLoss)
 print(f'smoothness:{smoothness}')
 
-"""
+
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
 plt.plot(valLoss, label="valLoss")
@@ -170,4 +170,3 @@ plt.title(f'{(w, h)}')
 
 f = open("configuration.txt", "r")
 print(f.read())
-"""
