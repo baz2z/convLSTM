@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./testModels.py --model "depthWise" --mode "horizon-20-70"
+python ./testModels.py --model "baseline" --mode "bias"
 
