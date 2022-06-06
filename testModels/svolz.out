@@ -1,20 +1,20 @@
 /mnt/qb/work/butz/svolz67/dev/models/testModels
 JOB DATA
-JobId=1497529 ArrayJobId=1497529 ArrayTaskId=1 JobName=review.sh
+JobId=1498387 ArrayJobId=1498387 ArrayTaskId=1 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=38202 Nice=0 Account=butz QOS=normal
+   Priority=38767 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=12:00:00 TimeMin=N/A
-   SubmitTime=2022-06-05T18:53:39 EligibleTime=2022-06-05T18:53:40
+   RunTime=INVALID TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-06-06T12:39:07 EligibleTime=2022-06-06T12:39:08
    AccrueTime=Unknown
-   StartTime=2022-06-05T18:53:40 EndTime=2022-06-06T06:53:40 Deadline=N/A
-   PreemptEligibleTime=2022-06-05T18:54:40 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-05T18:53:40
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:20568
+   StartTime=2022-06-06T12:39:08 EndTime=2022-06-07T00:39:08 Deadline=N/A
+   PreemptEligibleTime=2022-06-06T12:40:08 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-06T12:39:08
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:19075
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=bg-slurmb-bm-3
-   BatchHost=bg-slurmb-bm-3
+   NodeList=slurm-bm-40
+   BatchHost=slurm-bm-40
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
@@ -33,9 +33,7 @@ JobId=1497529 ArrayJobId=1497529 ArrayTaskId=1 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-bg-slurmb-bm-3.novalocal
+slurm-bm-40.novalocal
 RUN Script
-/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/twoLayer
-{'twoLayerloss': 5.6899003e-06}
-/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise
-{'depthWiseloss': 3.043439e-06}
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/bias/baseline/withoutBias
+{'baselineloss': 9.675505e-06}
