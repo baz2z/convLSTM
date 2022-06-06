@@ -74,7 +74,11 @@ class Forecaster(nn.Module):
 
         if bias[0]:
             for i, layer in enumerate(self.decoder_layers):
-                b_f = torch.log((bias[1] - 0) * torch.rand(h_channels))
+                b_f = torch.log(((bias[1]-1) - 1) * torch.rand(h_channels) + 1)
+                layer.conv.bias.data[:h_channels] = -1 * b_f # init input gate
+                layer.conv.bias.data[h_channels:2 * h_channels] =  b_f # init forget gate
+            for i, layer in enumerate(self.encoder_layers):
+                b_f = torch.log(((bias[1]-1) - 1) * torch.rand(h_channels) + 1)
                 layer.conv.bias.data[:h_channels] = -1 * b_f # init input gate
                 layer.conv.bias.data[h_channels:2 * h_channels] =  b_f # init forget gate
         self.read = nn.Conv2d(h_channels, 1, 1)
@@ -219,7 +223,6 @@ if __name__ == '__main__':
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
             loss_plot_val.append(loss)
-
     # # save model and test and train loss and parameters in txt file and python file with class
     path = f'../trainedModels/{dataset}/{mode}/{model}/withBias/run{run}'
     if not os.path.exists(path):

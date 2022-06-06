@@ -122,25 +122,33 @@ horizon = 40
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
 
 # model
 
-model.load_state_dict(torch.load("model.pt", map_location=device))
-model.eval()
-print(count_params(model))
+# model.load_state_dict(torch.load("model.pt", map_location=device))
+# model.eval()
+# print(count_params(model))
 
 # loss
-trainLoss = torch.load("trainingLoss", map_location=device)
-valLoss = torch.load("validationLoss", map_location=device)
+
 
 
 # Smoothness
+modelsSmoothness = []
+for runNbr in range(3):
+    runNbr = runNbr + 1
+    os.chdir(f'./run{runNbr}')
+    trainLoss = torch.load("trainingLoss", map_location=device)
+    valLoss = torch.load("validationLoss", map_location=device)
+    movingAvg, smoothness = smoothess(trainLoss)
+    modelsSmoothness.append(smoothness)
+    os.chdir("../")
 
-movingAvg, smoothness = smoothess(trainLoss)
-print(f'smoothness:{smoothness}')
+avg = numpy.mean(modelsSmoothness)
+print(f'smoothness:{avg}')
 
-"""
+
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
 plt.plot(valLoss, label="valLoss")
@@ -170,4 +178,3 @@ plt.title(f'{(w, h)}')
 
 f = open("configuration.txt", "r")
 print(f.read())
-"""
