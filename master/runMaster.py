@@ -226,7 +226,7 @@ if __name__ == '__main__':
 
     # save config
     params = count_params(seq)
-    averageLastLoss = (sum(loss_plot_val[-50:]) / 50).item()
+    averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
     configuration = {"model": model,
                      "epochs": epochs,
                      "batchSize": batch_size,
