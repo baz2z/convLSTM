@@ -184,7 +184,6 @@ if __name__ == '__main__':
     run = args.run_idx
     batch_size = args.batchSize
     clip = args.clip
-    batch_size = 15
     seq = mapModel(model)
     dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
     scheduler = None
@@ -217,7 +216,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss.item())
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/run{run}'
+    path = f'../trainedModels/{dataset}/{mode}/{model}/{clip}/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)

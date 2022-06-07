@@ -114,7 +114,7 @@ def mostSignificantPixel(imgs):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "testSpike"
-modelName = "lateral-clip"
+modelName = "lateral"
 model = mapModel(modelName)
 run = "1"
 horizon = 40
@@ -122,7 +122,7 @@ horizon = 40
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/1")
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
 
 # model
 
@@ -148,10 +148,9 @@ for runNbr in range(5):
 avg = numpy.mean(modelsSmoothness)
 print(f'smoothness:{avg}')
 
-
+print(os.getcwd())
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
-
 plt.plot(valLoss, label="valLoss")
 plt.plot(movingAvg, label = "avg")
 plt.legend()
@@ -176,6 +175,6 @@ plt.title(f'{(w, h)}')
 # for entire sequence
 #visualize_wave(pred[sequence, :, :, :])
 #visualize_wave(visData[sequence, 20:, :, :])
-
-f = open("configuration.txt", "r")
-print(f.read())
+#
+# f = open("configuration.txt", "r")
+# print(f.read())
