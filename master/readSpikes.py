@@ -122,7 +122,7 @@ horizon = 40
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/1.0/")
 
 # model
 
