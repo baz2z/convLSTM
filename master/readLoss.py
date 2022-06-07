@@ -37,7 +37,7 @@ run = "3"
 
 # loss
 
-for j in range(9):
+for j in range(1):
     lossTotal = []
     for i in range(5):
         i = i + 1 + (j * 5)

@@ -222,7 +222,7 @@ if __name__ == '__main__':
                 labels = images[:, context:context + horizon, :, :]
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
-            loss_plot_val.append(loss)
+            loss_plot_val.append(loss.item())
     # # save model and test and train loss and parameters in txt file and python file with class
     path = f'../trainedModels/{dataset}/{mode}/{model}/withoutBias/run{run}'
     if not os.path.exists(path):
@@ -234,7 +234,7 @@ if __name__ == '__main__':
 
     # save config
     params = count_params(seq)
-    averageLastLoss = (sum(loss_plot_val[-50:]) / 50).item()
+    averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
     configuration = {"model": model,
                      "epochs": epochs,
                      "batchSize": batch_size,
