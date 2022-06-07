@@ -87,7 +87,7 @@ horizon = 40
 dataloader = DataLoader(dataset=Wave("wave-1000-90-test"), batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/witBias/")
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/withBias/")
 
 
 # calculated train loss on new dataset and average the loss

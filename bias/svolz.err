@@ -1,0 +1,3 @@
+slurmstepd: error: *** JOB 1499510 ON slurm-bm-20 CANCELLED AT 2022-06-07T11:42:30 ***
+slurmstepd: error: *** JOB 1499509 ON slurm-bm-20 CANCELLED AT 2022-06-07T11:42:30 ***
+slurmstepd: error: *** JOB 1499508 ON slurm-bm-20 CANCELLED AT 2022-06-07T11:42:30 ***
