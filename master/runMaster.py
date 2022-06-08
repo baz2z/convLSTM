@@ -190,7 +190,7 @@ if __name__ == '__main__':
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
     #scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
-    #scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
+    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
     # begin to train
     loss_plot_train, loss_plot_val = [], []
     lrs = []
@@ -204,7 +204,7 @@ if __name__ == '__main__':
             loss.backward()
             torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
             optimizer.step()
-        #scheduler.step()
+        scheduler.step()
         loss_plot_train.append(loss.item())
 
         with torch.no_grad():
@@ -216,7 +216,7 @@ if __name__ == '__main__':
             loss_plot_val.append(loss.item())
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/{batch_size}/run{run}'
+    path = f'../trainedModels/{dataset}/{mode}/{model}/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)

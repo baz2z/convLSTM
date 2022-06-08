@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./testModels.py --model "baseline" --mode "bias"
+python ./testModels.py --model "baseline" --mode "horizon-20-40"
 

@@ -71,7 +71,7 @@ def visualize_wave(imgs):
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=str, default="baseline",
                     choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
-parser.add_argument('--mode', type=str, default="test")
+parser.add_argument('--mode', type=str, default="horizon-20-40")
 
 args = parser.parse_args()
 modelName = args.model
@@ -84,10 +84,10 @@ context = 20
 horizon = 40
 
 
-dataloader = DataLoader(dataset=Wave("wave-1000-90-test"), batch_size=32, shuffle=False, drop_last=True,
+dataloader = DataLoader(dataset=Wave("wave-1000-90-double-vel"), batch_size=25, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/withBias/")
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
 
 
 # calculated train loss on new dataset and average the loss
