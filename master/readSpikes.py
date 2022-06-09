@@ -122,7 +122,7 @@ horizon = 40
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/128/")
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/1e-07/")
 
 # model
 
@@ -137,7 +137,6 @@ os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/128/")
 # Smoothness
 modelsSmoothness = []
 for runNbr in range(4):
-    if runNbr != 2:
         runNbr = runNbr + 1
         os.chdir(f'./run{runNbr}')
         trainLoss = torch.load("trainingLoss", map_location=device)

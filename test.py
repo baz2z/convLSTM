@@ -1,38 +1,45 @@
 import torch
-from torch import nn
-"""
-batch_size = 1
-c, h, w = 1, 10, 10
-nb_classes = 2
-x = torch.randn(batch_size, c, h, w)
-target = torch.empty(batch_size, h, w, dtype=torch.long).random_(nb_classes)
-
-model = nn.Conv2d(c, nb_classes, 3, 1, 1)
-criterion = nn.CrossEntropyLoss()
-
-output = model(x)
-loss = criterion(output, target)
-loss.backward()
-
-loss = nn.CrossEntropyLoss()
-input = torch.randn(1, 2, 10, 6, 6, requires_grad=True)
-target = torch.empty(1, 10, 6, 6, dtype=torch.long).random_(2)
-output = loss(input, target)
-output.backward()
-"""
-loss = nn.CrossEntropyLoss()
-a = torch.randn(1, 10, 6, 6)
-b = 1 - a
-a, b = torch.reshape(a, (1, 1, 10, 6, 6)), torch.reshape(b, (1, 1, 10, 6, 6))
-c = torch.cat((a, b), dim=1)
-c = c.requires_grad_()
-target = torch.empty(1, 10, 6, 6, dtype=torch.long).random_(2)
-output = loss(c, target)
-output.backward()
+import os
+import h5py
+import matplotlib.pyplot as plt
+import math
+import numpy
+from torch.utils.data import Dataset, DataLoader, default_collate
 
 
-loss = nn.CrossEntropyLoss()
-input = torch.randn(3, 5, requires_grad=True)
-target = torch.empty(3, dtype=torch.long).random_(5)
-output = loss(input, target)
-output.backward()
+class Wave(Dataset):
+    def __init__(self, file, isTrain=True):
+        # data loading
+        f = h5py.File("../data/wave/" + file, 'r')
+        self.isTrain = isTrain
+        self.data = f['data']['train'] if self.isTrain else f['data']['test']
+        means, stds = [], []
+        for i in range(len(self.data)):
+            data = self.data[f'{i}'.zfill(3)][:, :, :]
+            means.append(numpy.mean(data))
+            stds.append(numpy.std(data))
+
+        self.mu = numpy.mean(means)
+        self.std = numpy.mean(stds)
+
+
+    def __getitem__(self, item):
+        data = self.data[f'{item}'.zfill(3)][:, :, :]
+        data = (data - self.mu) / self.std
+        return data
+
+    def __len__(self):
+        return len(self.data)
+
+
+
+dataloader = DataLoader(dataset=Wave("wave-10000-90"), batch_size=10, shuffle=False, drop_last=False,
+                        collate_fn=lambda x: default_collate(x).to("cpu", torch.float))
+
+data = enumerate(dataloader).__next__()
+i, data = data
+
+
+for i, data in enumerate(dataloader):
+    print(torch.mean(data))
+    print(torch.std(data))

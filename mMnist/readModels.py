@@ -29,6 +29,7 @@ class mMnist(Dataset):
     def __len__(self):
         return self.data.shape[0]
 
+
 def count_params(net):
     '''
     A utility function that counts the total number of trainable parameters in a network.
