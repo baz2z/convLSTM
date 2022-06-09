@@ -221,7 +221,7 @@ if __name__ == '__main__':
             loss_plot_val.append(numpy.mean(lossPerBatch))
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/withoutNormalize/run{run}'
+    path = f'../trainedModels/{dataset}/{mode}/{model}/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)
