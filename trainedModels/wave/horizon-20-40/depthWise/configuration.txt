@@ -1,1 +1,1 @@
-{'depthWiseloss': 4.4135737e-07}
+{'depthWiseloss': 0.0019871143}

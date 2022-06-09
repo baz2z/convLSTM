@@ -1,1 +1,1 @@
-{'twoLayerloss': 2.9417134e-07}
+{'twoLayerloss': 0.0022886503}
