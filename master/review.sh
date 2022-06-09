@@ -26,4 +26,4 @@ echo "RUN Script"
 
 python ./runNormalize.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --dataset "wave" --datasetTrain "wave-5000-90" \
                    --datasetVal "wave-5000-90" --mode "norm" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 5 --batchSize 32 --clip 1
+                   --epochs 300 --batchSize 32 --clip 1
