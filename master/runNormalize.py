@@ -230,8 +230,6 @@ if __name__ == '__main__':
         for i, images in enumerate(dataloader):
             input_images = images[:, :context, :, :]
             labels = images[:, context:context + horizon, :, :]
-            print(torch.mean(labels))
-            print(torch.std(labels))
             output = seq(input_images, horizon)
             loss = criterion(output, labels)
             lossPerBatch.append(loss.item())
