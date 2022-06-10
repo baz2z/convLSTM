@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python ./testModels.py --model "baseline" --mode "t-test"
+python ./testModels.py --model "lateral" --mode "t-test"
 
