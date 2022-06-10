@@ -121,13 +121,33 @@ def mapModel(model):
         case "baseline":
             return Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         case "lateral":
-            return Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
+            return Forecaster(14, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 14}).to(device)
         case "twoLayer":
-            return Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
+            return Forecaster(11, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 11}).to(device)
         case "skip":
-            return Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
+            return Forecaster(13, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 13}).to(device)
         case "depthWise":
             return Forecaster(8, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 6}).to(device)
+        case "baseline2":
+            return Forecaster(6, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+        case "lateral2":
+            return Forecaster(11, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 11}).to(device)
+        case "twoLayer2":
+            return Forecaster(9, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 9}).to(device)
+        case "skip2":
+            return Forecaster(10, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 10}).to(device)
+        case "depthWise2":
+            return Forecaster(7, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 5}).to(device)
+        case "baseline3":
+            return Forecaster(4, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+        case "lateral3":
+            return Forecaster(8, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 8}).to(device)
+        case "twoLayer3":
+            return Forecaster(7, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 7}).to(device)
+        case "skip3":
+            return Forecaster(7, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 7}).to(device)
+        case "depthWise3":
+            return Forecaster(5, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 5}).to(device)
 
 
 def mapDataset(datasetTrain, datasetVal, batch_size):
@@ -194,6 +214,8 @@ if __name__ == '__main__':
     run = args.run_idx
     batch_size = args.batchSize
     clip = args.clip
+
+
     seq = mapModel(model)
     dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
     scheduler = None

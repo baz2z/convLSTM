@@ -1,1 +1,1 @@
-{'baselineloss': 2.7459012e-06, 'baselinestd': 2.409014e-06}
+{'baselineloss': 3.2771134e-06, 'baselinestd': 2.9331713e-06}
