@@ -113,22 +113,22 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "testSpike"
-modelName = "lateral-batch"
+mode = "norm"
+modelName = "baseline"
 model = mapModel(modelName)
-run = "4"
+run = "2"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/64/" + "run" + run)
+os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/withoutNormalize/" + "run" + run)
 
 # model
 
-# model.load_state_dict(torch.load("model.pt", map_location=device))
-# model.eval()
-# print(count_params(model))
+model.load_state_dict(torch.load("model.pt", map_location=device))
+model.eval()
+print(count_params(model))
 
 # loss
 trainLoss = torch.load("trainingLoss", map_location=device)
@@ -162,11 +162,11 @@ plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
 plt.legend()
 plt.title(f'{(w, h)}')
-#plt.show()
+plt.show()
 
 # for entire sequence
-#visualize_wave(pred[sequence, :, :, :])
-#visualize_wave(visData[sequence, 20:, :, :])
+visualize_wave(pred[sequence, :, :, :])
+visualize_wave(visData[sequence, 20:, :, :])
 
 f = open("configuration.txt", "r")
 print(f.read())

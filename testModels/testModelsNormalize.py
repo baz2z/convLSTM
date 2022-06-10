@@ -11,15 +11,26 @@ from torch.utils.data import Dataset, DataLoader, default_collate
 from torch import nn
 
 
+
 class Wave(Dataset):
     def __init__(self, file, isTrain=True):
         # data loading
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
         self.data = f['data']['train'] if self.isTrain else f['data']['test']
+        means, stds = [], []
+        for i in range(len(self.data)):
+            data = self.data[f'{i}'.zfill(3)][:, :, :]
+            means.append(numpy.mean(data))
+            stds.append(numpy.std(data))
+        self.mu = numpy.mean(means)
+        self.std = numpy.mean(stds)
+
 
     def __getitem__(self, item):
-        return self.data[f'{item}'.zfill(3)][:, :, :]
+        data = self.data[f'{item}'.zfill(3)][:, :, :]
+        data = (data - self.mu) / self.std
+        return data
 
     def __len__(self):
         return len(self.data)
@@ -71,7 +82,7 @@ def visualize_wave(imgs):
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=str, default="baseline",
                     choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
-parser.add_argument('--mode', type=str, default="t-test")
+parser.add_argument('--mode', type=str, default="horizon-20-40")
 
 args = parser.parse_args()
 modelName = args.model
@@ -83,38 +94,41 @@ model = mapModel(modelName)
 context = 20
 horizon = 40
 
-
-dataloader = DataLoader(dataset=Wave("wave-10000-90"), batch_size=32, shuffle=False, drop_last=True,
+datasetLoader = Wave("wave-5000-90")
+dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName)
-
+#os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName )
+os.chdir("C:/Users/Sebastian/Desktop/remote/convLSTM/trainedModels/wave/norm/baseline/withNormalize")
 
 # calculated train loss on new dataset and average the loss
 
 
 modelsLoss = []
-for runNbr in range(10):
+for runNbr in range(5):
     runNbr = runNbr + 1
-    if runNbr != 5:
-        os.chdir(f'./run{runNbr}')
-        model.load_state_dict(torch.load("model.pt", map_location=device))
-        model.eval()
-        runningLoss = []
-        with torch.no_grad():
-            for i, images in enumerate(dataloader):
-                input_images = images[:, :context, :, :]
-                labels = images[:, context:context + horizon, :, :]
-                output = model(input_images, horizon)
-                loss = criterion(output, labels)
-                runningLoss.append(loss.cpu())
-            modelsLoss.append(numpy.mean(runningLoss))
-        os.chdir("../")
+    os.chdir(f'./run{runNbr}')
+    model.load_state_dict(torch.load("model.pt", map_location=device))
+    model.eval()
+    runningLoss = []
+    with torch.no_grad():
+        for i, images in enumerate(dataloader):
+            input_images = images[:, :context, :, :]
+            labels = images[:, context:context + horizon, :, :]
+            output = model(input_images, horizon)
+            output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
+            labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
+            loss = criterion(output_not_normalized, labels_not_normalized)
+            runningLoss.append(loss.cpu())
+        modelsLoss.append(numpy.mean(runningLoss))
+        print(numpy.mean(runningLoss))
+    os.chdir("../")
 
 finalLoss = numpy.mean(modelsLoss)
-finalStd = numpy.std(modelsLoss)
-configuration = {f'{modelName}loss': finalLoss,
-                 f'{modelName}std': finalStd}
+
+print(os.getcwd())
+configuration = {f'{modelName}loss': finalLoss}
+print(configuration)
 with open('configuration.txt', 'w') as f:
     print(configuration, file=f)
 
