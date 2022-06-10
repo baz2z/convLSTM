@@ -1,0 +1,1 @@
+{'lateralloss': 3.6097545e-06, 'lateralstd': 3.3912181e-06}
