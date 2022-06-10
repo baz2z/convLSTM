@@ -184,8 +184,7 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="baseline",
-                        choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
+    parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--dataset', type=str, default="wave")
     parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
     parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
