@@ -119,7 +119,7 @@ class Forecaster(nn.Module):
 def mapModel(model):
     match model:
         case "baseline":
-            return Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+            return Forecaster(14, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         case "lateral":
             return Forecaster(14, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 14}).to(device)
         case "twoLayer":
@@ -216,7 +216,9 @@ if __name__ == '__main__':
 
 
     seq = mapModel(model)
+    params = count_params(seq)
     dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
+    path = count_params(seq)
     scheduler = None
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
@@ -252,7 +254,7 @@ if __name__ == '__main__':
             loss_plot_val.append(numpy.mean(lossPerBatch))
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/run{run}'
+    path = f'../trainedModels/{dataset}/{mode}/{model}/{params}/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)
@@ -261,7 +263,7 @@ if __name__ == '__main__':
     torch.save(loss_plot_val, "validationLoss")
 
     # save config
-    params = count_params(seq)
+
     averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
     configuration = {"model": model,
                      "epochs": epochs,
