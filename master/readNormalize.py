@@ -58,7 +58,7 @@ class mMnist(Dataset):
 def mapModel(model):
     match model:
         case "baseline":
-            return Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+            return Forecaster(14, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         case "lateral":
             return Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
         case "twoLayer":
@@ -123,16 +123,18 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "norm"
+mode = "horizon-20-70"
 modelName = "baseline"
 model = mapModel(modelName)
-run = "4"
+params = count_params(model)
+run = "2"
 horizon = 40
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-os.chdir("../trainedModels/" + dataset + "/" + mode + "/" + modelName + "/withNormalize/" + "run" + run)
+path = f'../trainedModels/{dataset}/{mode}/{modelName}/{params}/run{run}'
+os.chdir(path)
 
 # model
 
@@ -162,7 +164,7 @@ plt.show()
 visData = iter(dataloader).__next__()
 pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
-sequence = 2
+sequence = 1
 # for one pixel
 
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
@@ -172,11 +174,11 @@ plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
 plt.legend()
 plt.title(f'{(w, h)}')
-#plt.show()
+plt.show()
 
 # for entire sequence
-#visualize_wave(pred[sequence, :, :, :])
-#visualize_wave(visData[sequence, 20:, :, :])
+visualize_wave(pred[sequence, :, :, :])
+visualize_wave(visData[sequence, 20:, :, :])
 
 f = open("configuration.txt", "r")
 print(f.read())

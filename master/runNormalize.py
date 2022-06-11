@@ -119,7 +119,7 @@ class Forecaster(nn.Module):
 def mapModel(model):
     match model:
         case "baseline":
-            return Forecaster(14, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+            return Forecaster(4, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         case "lateral":
             return Forecaster(14, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 14}).to(device)
         case "twoLayer":
@@ -219,7 +219,6 @@ if __name__ == '__main__':
     params = count_params(seq)
     dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
     path = count_params(seq)
-    scheduler = None
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
     #scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
