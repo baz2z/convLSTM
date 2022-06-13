@@ -4,7 +4,7 @@
 #SBATCH --nodes=1                                   # Ensure that all cores are on one machine
 #SBeTCH --cpus-per-task=1
 #SBATCH --partition=gpu-2080ti                     # Partition to submit to
-#SBATCH --time=0-12:00           					# Runtime in D-HH:MM
+#SBATCH --time=0-36:00           					# Runtime in D-HH:MM
 #SBATCH --mem=3G                                 # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH --output=svolz.out                  # File to which STDOUT will be written
 #SBATCH --error=svolz.err                   # File to which STDERR will be written
@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./runAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --dataset "wave" --datasetTrain "wave-10000-90" \
+python ./runAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "depthWise" --dataset "wave" --datasetTrain "wave-10000-90" \
                    --datasetVal "wave-10000-90" --mode "horizon-20-40" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 400 --batchSize 32 --clip 1 --multiplier 1
+                   --epochs 400 --batchSize 32 --clip 1 --multiplier 4
