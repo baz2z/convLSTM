@@ -159,25 +159,143 @@ def mapDataset(datasetTrain, datasetVal, batch_size):
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
     return train, val
 
+def mapParas(modelName, multiplier, paramsIndex):
+    modelParams = (0, 0)
+
+    if modelName == "baseline":
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (4, 1)
+                case 2:
+                    modelParams = (10, 1)
+                case 3:
+                    modelParams = (14, 1)
+    elif modelName == "lateral":
+        if multiplier == 0.5:
+            match paramsIndex:
+                case 1:
+                    modelParams = (10, 5)
+                case 2:
+                    modelParams = (24, 12)
+                case 3:
+                    modelParams = (36, 18)
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (8, 8)
+                case 2:
+                    modelParams = (18, 18)
+                case 3:
+                    modelParams = (25, 25)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (6, 12)
+                case 2:
+                    modelParams = (13, 26)
+                case 3:
+                    modelParams = (18, 36)
+    elif modelName == "twoLayer":
+        if multiplier == 0.5:
+            match paramsIndex:
+                case 1:
+                    modelParams = (10, 5)
+                case 2:
+                    modelParams = (22, 11)
+                case 3:
+                    modelParams = (32, 16)
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (6, 6)
+                case 2:
+                    modelParams = (15, 15)
+                case 3:
+                    modelParams = (21, 21)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (4, 8)
+                case 2:
+                    modelParams = (9, 18)
+                case 3:
+                    modelParams = (13, 26)
+    elif modelName == "skip":
+        if multiplier == 0.5:
+            match paramsIndex:
+                case 1:
+                    modelParams = (10, 5)
+                case 2:
+                    modelParams = (22, 11)
+                case 3:
+                    modelParams = (30, 15)
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (7, 7)
+                case 2:
+                    modelParams = (16, 16)
+                case 3:
+                    modelParams = (23, 23)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (5, 10)
+                case 2:
+                    modelParams = (12, 24)
+                case 3:
+                    modelParams = (17, 34)
+    elif modelName == "depthWise":
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (12, 1)
+                case 2:
+                    modelParams = (28, 1)
+                case 3:
+                    modelParams = (41, 1)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (8, 2)
+                case 2:
+                    modelParams = (20, 2)
+                case 3:
+                    modelParams = (29, 2)
+        if multiplier == 4:
+            match paramsIndex:
+                case 1:
+                    modelParams = (5, 4)
+                case 2:
+                    modelParams = (14, 4)
+                case 3:
+                    modelParams = (20, 4)
+
+    return modelParams
+
+
+
 
 if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="baseline")
+    parser.add_argument('--model', type=str, default="lateral")
     parser.add_argument('--dataset', type=str, default="wave")
     parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
     parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
-    parser.add_argument('--mode', type=str, default="test")
+    parser.add_argument('--mode', type=str, default="horizon-20-40")
     parser.add_argument('--context', type=int, default=20)
-    parser.add_argument('--horizon', type=int, default=70)
+    parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
-    parser.add_argument('--epochs', type=int, default=20)
+    parser.add_argument('--epochs', type=int, default=2)
     parser.add_argument('--hiddenSize', type=int, default=12)
     parser.add_argument('--lateralSize', type=int, default=12)
     parser.add_argument('--run_idx', type=int, default=1)
     parser.add_argument('--clip', type=float, default=10)
     parser.add_argument('--batchSize', type=int, default=32)
+    parser.add_argument('--multiplier', type=int, default=2)
     args = parser.parse_args()
     model = args.model
     dataset = args.dataset
@@ -188,74 +306,79 @@ if __name__ == '__main__':
     horizon = args.horizon
     learningRate = args.learningRate
     epochs = args.epochs
-    hiddenSize = args.hiddenSize
-    lateralSize = args.lateralSize
+    # hiddenSize = args.hiddenSize
+    # lateralSize = args.lateralSize
     run = args.run_idx
     batch_size = args.batchSize
     clip = args.clip
+    mp = args.multiplier
 
+    for paramLevel in range(3):
+        paramLevel += 1
+        hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
+        seq = mapModel(model, hiddenSize, lateralSize)
+        params = count_params(seq)
+        dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
+        path = count_params(seq)
+        criterion = nn.MSELoss()
+        optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
+        scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
+        # begin to train
+        loss_plot_train, loss_plot_val = [], []
 
-    seq = mapModel(model)
-    params = count_params(seq)
-    dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
-    path = count_params(seq)
-    criterion = nn.MSELoss()
-    optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
-    #scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
-    scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
-    # begin to train
-    loss_plot_train, loss_plot_val = [], []
-
-    for j in range(epochs):
-        lossPerBatch = []
-        for i, images in enumerate(dataloader):
-            input_images = images[:, :context, :, :]
-            labels = images[:, context:context + horizon, :, :]
-            output = seq(input_images, horizon)
-            loss = criterion(output, labels)
-            lossPerBatch.append(loss.item())
-            optimizer.zero_grad()
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
-            optimizer.step()
-        scheduler.step()
-
-        loss_plot_train.append(numpy.mean(lossPerBatch))
-
-        with torch.no_grad():
+        for j in range(epochs):
             lossPerBatch = []
-            for i, images in enumerate(validation):
+            for i, images in enumerate(dataloader):
                 input_images = images[:, :context, :, :]
                 labels = images[:, context:context + horizon, :, :]
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
                 lossPerBatch.append(loss.item())
-            loss_plot_val.append(numpy.mean(lossPerBatch))
+                optimizer.zero_grad()
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
+                optimizer.step()
+            scheduler.step()
+            loss_plot_train.append(numpy.mean(lossPerBatch))
+            with torch.no_grad():
+                lossPerBatch = []
+                for i, images in enumerate(validation):
+                    input_images = images[:, :context, :, :]
+                    labels = images[:, context:context + horizon, :, :]
+                    output = seq(input_images, horizon)
+                    loss = criterion(output, labels)
+                    lossPerBatch.append(loss.item())
+                loss_plot_val.append(numpy.mean(lossPerBatch))
 
-    # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/{params}/run{run}'
-    if not os.path.exists(path):
-        os.makedirs(path)
-    os.chdir(path)
-    torch.save(seq.state_dict(), "model.pt")
-    torch.save(loss_plot_train, "trainingLoss")
-    torch.save(loss_plot_val, "validationLoss")
+        # # save model and test and train loss and parameters in txt file and python file with class
+        path = f'../trainedModels/{dataset}/{mode}/{model}/{mp}/{paramLevel}/run{run}'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        os.chdir(path)
+        torch.save(seq.state_dict(), "model.pt")
+        torch.save(loss_plot_train, "trainingLoss")
+        torch.save(loss_plot_val, "validationLoss")
 
-    # save config
+        # save config
 
-    averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
-    configuration = {"model": model,
-                     "epochs": epochs,
-                     "batchSize": batch_size,
-                     "learningRate": learningRate,
-                     "parameters": params,
-                     "context": context,
-                     "horizon": horizon,
-                     "Loss": criterion,
-                     "averageLastLoss": averageLastLoss,
-                     "dataset": datasetTrain,
-                     "clip": clip,
-                     "scheduler": scheduler
-                     }
-    with open('configuration.txt', 'w') as f:
-        print(configuration, file=f)
+        averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
+        configuration = {"model": model,
+                         "epochs": epochs,
+                         "batchSize": batch_size,
+                         "learningRate": learningRate,
+                         "parameters": params,
+                         "context": context,
+                         "horizon": horizon,
+                         "Loss": criterion,
+                         "averageLastLoss": averageLastLoss,
+                         "dataset": datasetTrain,
+                         "clip": clip,
+                         "scheduler": scheduler,
+                         "hiddenSize": hiddenSize,
+                         "lateralSize": lateral
+                         }
+        with open('configuration.txt', 'w') as f:
+            print(configuration, file=f)
+        print(os.getcwd())
+        os.chdir(f'../../../../../../../master')
+

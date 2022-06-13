@@ -1,1 +1,0 @@
-{'model': 'lateral', 'epochs': 500, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 11653, 'context': 20, 'horizon': 70, 'Loss': MSELoss(), 'averageLastLoss': 4.689643446909031e-06, 'dataset': 'wave-10000-90', 'clip': 10.0}
