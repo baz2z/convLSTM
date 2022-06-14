@@ -295,7 +295,7 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     parser.add_argument('--clip', type=float, default=10)
     parser.add_argument('--batchSize', type=int, default=32)
-    parser.add_argument('--multiplier', type=int, default=2)
+    parser.add_argument('--multiplier', type=float, default=2)
     args = parser.parse_args()
     model = args.model
     dataset = args.dataset
