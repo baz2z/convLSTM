@@ -54,19 +54,135 @@ class mMnist(Dataset):
     def __len__(self):
         return self.data.shape[0]
 
-
-def mapModel(model):
+def mapModel(model, hiddenSize, lateralSize):
     match model:
         case "baseline":
-            return Forecaster(4, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+            return Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         case "lateral":
-            return Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
+            return Forecaster(hiddenSize, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
         case "twoLayer":
-            return Forecaster(12, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
+            return Forecaster(hiddenSize, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
         case "skip":
-            return Forecaster(12, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
+            return Forecaster(hiddenSize, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
         case "depthWise":
-            return Forecaster(8, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': 6}).to(device)
+            return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
+
+
+
+def mapParas(modelName, multiplier, paramsIndex):
+    modelParams = (0, 0)
+
+    if modelName == "baseline":
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (4, 1)
+                case 2:
+                    modelParams = (10, 1)
+                case 3:
+                    modelParams = (14, 1)
+    elif modelName == "lateral":
+        if multiplier == 0.5:
+            match paramsIndex:
+                case 1:
+                    modelParams = (10, 5)
+                case 2:
+                    modelParams = (24, 12)
+                case 3:
+                    modelParams = (36, 18)
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (8, 8)
+                case 2:
+                    modelParams = (18, 18)
+                case 3:
+                    modelParams = (25, 25)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (6, 12)
+                case 2:
+                    modelParams = (13, 26)
+                case 3:
+                    modelParams = (18, 36)
+    elif modelName == "twoLayer":
+        if multiplier == 0.5:
+            match paramsIndex:
+                case 1:
+                    modelParams = (10, 5)
+                case 2:
+                    modelParams = (22, 11)
+                case 3:
+                    modelParams = (32, 16)
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (6, 6)
+                case 2:
+                    modelParams = (15, 15)
+                case 3:
+                    modelParams = (21, 21)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (4, 8)
+                case 2:
+                    modelParams = (9, 18)
+                case 3:
+                    modelParams = (13, 26)
+    elif modelName == "skip":
+        if multiplier == 0.5:
+            match paramsIndex:
+                case 1:
+                    modelParams = (10, 5)
+                case 2:
+                    modelParams = (22, 11)
+                case 3:
+                    modelParams = (30, 15)
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (7, 7)
+                case 2:
+                    modelParams = (16, 16)
+                case 3:
+                    modelParams = (23, 23)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (5, 10)
+                case 2:
+                    modelParams = (12, 24)
+                case 3:
+                    modelParams = (17, 34)
+    elif modelName == "depthWise":
+        if multiplier == 1:
+            match paramsIndex:
+                case 1:
+                    modelParams = (12, 1)
+                case 2:
+                    modelParams = (28, 1)
+                case 3:
+                    modelParams = (41, 1)
+        if multiplier == 2:
+            match paramsIndex:
+                case 1:
+                    modelParams = (8, 2)
+                case 2:
+                    modelParams = (20, 2)
+                case 3:
+                    modelParams = (29, 2)
+        if multiplier == 4:
+            match paramsIndex:
+                case 1:
+                    modelParams = (5, 4)
+                case 2:
+                    modelParams = (14, 4)
+                case 3:
+                    modelParams = (20, 4)
+
+    return modelParams
 
 def smoothess(arr):
     window_size = 49
@@ -123,17 +239,21 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "horizon-20-70"
-modelName = "baseline"
-model = mapModel(modelName)
-params = count_params(model)
-run = "2"
+mode = "horizon-20-40"
 horizon = 40
+modelName = "lateral"
+multiplier = 2
+paramLevel = 2
+hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
+model = mapModel(modelName, hiddenSize, lateralSize)
+params = count_params(model)
+run = "1"
+
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-path = f'../trainedModels/{dataset}/{mode}/{modelName}/{params}/run{run}'
+path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
 os.chdir(path)
 
 # model
