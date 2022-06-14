@@ -375,7 +375,7 @@ if __name__ == '__main__':
                          "clip": clip,
                          "scheduler": scheduler,
                          "hiddenSize": hiddenSize,
-                         "lateralSize": lateral
+                         "lateralSize": lateralSize
                          }
         with open('configuration.txt', 'w') as f:
             print(configuration, file=f)
