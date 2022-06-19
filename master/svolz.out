@@ -1,16 +1,16 @@
 /mnt/qb/work/butz/svolz67/dev/models/master
 JOB DATA
-JobId=1535852 ArrayJobId=1535849 ArrayTaskId=2 JobName=review.sh
+JobId=1535891 ArrayJobId=1535891 ArrayTaskId=5 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=12759 Nice=0 Account=butz QOS=normal
+   Priority=13437 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-06-15T15:16:12 EligibleTime=2022-06-15T15:16:12
-   AccrueTime=2022-06-15T15:16:25
-   StartTime=2022-06-16T11:46:22 EndTime=2022-06-19T11:46:22 Deadline=N/A
-   PreemptEligibleTime=2022-06-16T11:47:22 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-16T11:46:22
+   RunTime=00:00:00 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-06-15T15:17:57 EligibleTime=2022-06-15T15:17:58
+   AccrueTime=2022-06-15T15:18:01
+   StartTime=2022-06-16T23:10:40 EndTime=2022-06-19T23:10:40 Deadline=N/A
+   PreemptEligibleTime=2022-06-16T23:11:40 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-16T23:10:40
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:20243
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-16
@@ -32,6 +32,156 @@ JobId=1535852 ArrayJobId=1535849 ArrayTaskId=2 JobName=review.sh
    MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
    NtasksPerTRES:0
 
+JobId=1535899 ArrayJobId=1535891 ArrayTaskId=4 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=13432 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:06:15 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-06-15T15:17:57 EligibleTime=2022-06-15T15:17:58
+   AccrueTime=2022-06-15T15:18:01
+   StartTime=2022-06-16T23:04:25 EndTime=2022-06-19T23:04:25 Deadline=N/A
+   PreemptEligibleTime=2022-06-16T23:05:25 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-16T23:04:25
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:20243
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-34
+   BatchHost=slurm-bm-34
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/master/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/master
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1535898 ArrayJobId=1535891 ArrayTaskId=3 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=13422 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:16:18 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-06-15T15:17:57 EligibleTime=2022-06-15T15:17:58
+   AccrueTime=2022-06-15T15:18:01
+   StartTime=2022-06-16T22:54:22 EndTime=2022-06-19T22:54:22 Deadline=N/A
+   PreemptEligibleTime=2022-06-16T22:55:22 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-16T22:54:22
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:20243
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-60
+   BatchHost=slurm-bm-60
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/master/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/master
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1535897 ArrayJobId=1535891 ArrayTaskId=2 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=13387 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:53:02 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-06-15T15:17:57 EligibleTime=2022-06-15T15:17:58
+   AccrueTime=2022-06-15T15:18:01
+   StartTime=2022-06-16T22:17:38 EndTime=2022-06-19T22:17:38 Deadline=N/A
+   PreemptEligibleTime=2022-06-16T22:18:38 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-16T22:17:38
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:20243
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-16
+   BatchHost=slurm-bm-16
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/master/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/master
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+JobId=1535896 ArrayJobId=1535891 ArrayTaskId=1 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=13353 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=01:27:14 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-06-15T15:17:57 EligibleTime=2022-06-15T15:17:58
+   AccrueTime=2022-06-15T15:18:01
+   StartTime=2022-06-16T21:43:26 EndTime=2022-06-19T21:43:26 Deadline=N/A
+   PreemptEligibleTime=2022-06-16T21:44:26 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-16T21:43:26
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:20243
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=bg-slurmb-bm-3
+   BatchHost=bg-slurmb-bm-3
+   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/master/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/master
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/master/svolz.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
 node:
 slurm-bm-16.novalocal
 RUN Script
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/twoLayer/1.0/3/run4
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/twoLayer/1.0/3/run1
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/0.5/3/run1
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/twoLayer/0.5/3/run2
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/0.5/3/run2
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/0.5/3/run3
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/2.0/3/run3
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/1.0/3/run1
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/1.0/3/run3
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/1.0/3/run5
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/0.5/3/run5
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/2.0/3/run2
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/0.5/3/run4
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/skip/2.0/3/run4
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/2.0/3/run3
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/2.0/3/run4
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/2.0/3/run5
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/2.0/3/run1
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/4.0/3/run1
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/4.0/3/run3
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/2.0/3/run2
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/horizon-20-70/depthWise/4.0/3/run4
