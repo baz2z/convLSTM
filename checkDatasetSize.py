@@ -34,6 +34,10 @@ class Wave(Dataset):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-dataloader = DataLoader(dataset=Wave("wave-10000-90", isTrain=True), batch_size=64, shuffle=True, collate_fn=lambda x: default_collate(x).to("cpu", torch.float), drop_last=True)
-
+dataset = Wave("wave-90-10000", isTrain=True)
+dataloader = DataLoader(dataset=dataset, batch_size=64, shuffle=True, collate_fn=lambda x: default_collate(x).to("cpu", torch.float), drop_last=True)
+print(dataset.__getitem__(9)[0, 0,0])
+print(dataset.__getitem__(99)[0, 0,0])
+print(dataset.__getitem__(999)[0, 0,0])
+print(dataset.__getitem__(9999)[0, 0,0])
 print(len(dataloader.dataset))
