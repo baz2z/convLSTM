@@ -41,6 +41,6 @@ print(dataset.__getitem__(99)[39,17,])
 print(dataset.__getitem__(999)[39,17,])
 print(dataset.__getitem__(9999)[39,17,])
 
-print(dataset["1000"])
-print(dataset["9999"])
+print(dataset["1000"][39,17,])
+print(dataset["9999"][39,17,])
 print(len(dataloader.dataset))
