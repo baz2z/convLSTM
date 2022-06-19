@@ -242,63 +242,102 @@ dataset = "wave"
 mode = "horizon-20-40"
 horizon = 40
 modelName = "skip"
-multiplier = 1
-paramLevel = 3
-hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
-model = mapModel(modelName, hiddenSize, lateralSize)
-params = count_params(model)
-run = "3"
-
-
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-os.chdir(path)
+run = "2"
+fig, axs = plt.subplots(3, 3, figsize=(10,10))
+fig.suptitle(modelName, fontsize=16)
+x, y = -1, -1
+for multiplier in range(3):
+    x += 1
+    if multiplier == 0:
+        multiplier = 0.5
+    y = -1
+    for paramLevel in range(3):
+        y += 1
+        paramLevel += 1
 
-# model
+        hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
+        model = mapModel(modelName, hiddenSize, lateralSize)
+        params = count_params(model)
+        path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
+        os.chdir(path)
+        model.load_state_dict(torch.load("model.pt", map_location=device))
+        model.eval()
+        print(count_params(model))
+        trainLoss = torch.load("trainingLoss", map_location=device)
+        valLoss = torch.load("validationLoss", map_location=device)
 
-model.load_state_dict(torch.load("model.pt", map_location=device))
-model.eval()
-print(count_params(model))
+        axs[x, y].plot(trainLoss, label="trainLoss")
+        axs[x, y].plot(valLoss, label="valLoss")
+        axs[x, y].set_title("axis")
+        axs[x, y].set_yscale("log")
+        axs[x, y].set_title(f'mult: {multiplier}, lvl: {paramLevel}')
+        axs[x, y].legend()
+        os.chdir(f'../../../../../../../master')
 
-# loss
-trainLoss = torch.load("trainingLoss", map_location=device)
-valLoss = torch.load("validationLoss", map_location=device)
 
 
-# # Smoothness
-#
-# movingAvg, smoothness = smoothess(trainLoss)
-# print(f'smoothness:{smoothness}')
-#
-#
-plt.yscale("log")
-plt.plot(trainLoss, label="trainLoss")
-plt.plot(valLoss, label="valLoss")
-#plt.plot(movingAvg, label = "avg")
-plt.legend()
+# Hide x labels and tick labels for top plots and y ticks for right plots.
+# for ax in axs.flat:
+#     ax.label_outer()
 plt.show()
 
-# example wave
-visData = iter(dataloader).__next__()
-pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
-sequence = 1
-# for one pixel
 
-w, h = mostSignificantPixel(pred[sequence, :, :, :])
-groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
-prediction = pred[sequence, :, int(w / 2), int(h / 2)]
-plt.plot(groundTruth, label="groundTruth")
-plt.plot(prediction, label="prediction")
-plt.legend()
-plt.title(f'{(w, h)}')
-plt.show()
 
-# for entire sequence
-visualize_wave(pred[sequence, :, :, :])
-visualize_wave(visData[sequence, 20:, :, :])
 
-f = open("configuration.txt", "r")
-print(f.read())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
