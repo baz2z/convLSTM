@@ -313,8 +313,8 @@ if __name__ == '__main__':
     clip = args.clip
     mp = args.multiplier
 
-    for paramLevel in range(1):
-        paramLevel += 3
+    for paramLevel in range(2):
+        paramLevel += 1
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
