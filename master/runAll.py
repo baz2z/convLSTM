@@ -254,7 +254,7 @@ def mapParas(modelName, multiplier, paramsIndex):
                 case 2:
                     modelParams = (28, 1)
                 case 3:
-                    modelParams = (39, 1)
+                    modelParams = (40, 1)
         if multiplier == 2:
             match paramsIndex:
                 case 1:
