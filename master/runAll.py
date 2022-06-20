@@ -314,7 +314,7 @@ if __name__ == '__main__':
     mp = args.multiplier
 
     for paramLevel in range(1):
-        paramLevel += 1
+        paramLevel += 3
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
