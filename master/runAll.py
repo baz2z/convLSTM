@@ -320,6 +320,7 @@ if __name__ == '__main__':
         params = count_params(seq)
         dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
         path = count_params(seq)
+        print(path)
         criterion = nn.MSELoss()
         optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
         scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
