@@ -141,6 +141,9 @@ def mapDataset(datasetTrain, datasetVal, batch_size):
         case "wave-5000-90":
             train = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "valTest":
+            train = DataLoader(dataset=Wave("validationTest-10000-2000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-5000-60":
             train = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -154,6 +157,9 @@ def mapDataset(datasetTrain, datasetVal, batch_size):
             val = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True,
                              drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        case "valTest":
+            train = DataLoader(dataset=Wave("validationTest-10000-2000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-100-60":
             val = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
@@ -195,7 +201,7 @@ if __name__ == '__main__':
     clip = args.clip
 
 
-    seq = mapModel(model)
+    seq = mapModel(model, hiddenSize, lateralSize)
     params = count_params(seq)
     dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
     path = count_params(seq)
@@ -255,7 +261,9 @@ if __name__ == '__main__':
                      "averageLastLoss": averageLastLoss,
                      "dataset": datasetTrain,
                      "clip": clip,
-                     "scheduler": scheduler
+                     "scheduler": scheduler,
+                     "hiddenSize": hiddenSize,
+                     "lateralSize": lateralSize
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
