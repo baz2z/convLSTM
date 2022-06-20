@@ -26,4 +26,4 @@ echo "RUN Script"
 
 python ./runNormalize.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --dataset "valTest" --datasetTrain "valTest" \
                    --datasetVal "valTest" --mode "valTest" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 2 --batchSize 32 --clip 1 --hiddenSize 10
+                   --epochs 400 --batchSize 32 --clip 1 --hiddenSize 10
