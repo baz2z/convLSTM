@@ -158,7 +158,7 @@ def mapDataset(datasetTrain, datasetVal, batch_size):
                              drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "valTest":
-            train = DataLoader(dataset=Wave("validationTest-10000-2000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
+            val = DataLoader(dataset=Wave("validationTest-10000-2000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-100-60":
             val = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
