@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runAll.py", line 334, in <module>
+    output = seq(input_images, horizon)
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runAll.py", line 113, in forward
+    h[i], c[i] = layer(z, h[i], c[i])
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/models.py", line 84, in forward
+    c = sigmoid(f) * c + sigmoid(i) + tanh(g)
+RuntimeError: CUDA out of memory. Tried to allocate 20.00 MiB (GPU 0; 10.76 GiB total capacity; 7.93 GiB already allocated; 18.69 MiB free; 9.85 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runAll.py", line 334, in <module>
+    output = seq(input_images, horizon)
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runAll.py", line 113, in forward
+    h[i], c[i] = layer(z, h[i], c[i])
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runAll.py", line 334, in <module>
+    output = seq(input_images, horizon)
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/models.py", line 84, in forward
+    return forward_call(*input, **kwargs)
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runAll.py", line 113, in forward
+    h[i], c[i] = layer(z, h[i], c[i])
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1110, in _call_impl
+    c = sigmoid(f) * c + sigmoid(i) + tanh(g)
+RuntimeError: CUDA out of memory. Tried to allocate 20.00 MiB (GPU 0; 10.76 GiB total capacity; 7.93 GiB already allocated; 18.69 MiB free; 9.85 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+    return forward_call(*input, **kwargs)
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/models.py", line 84, in forward
+    c = sigmoid(f) * c + sigmoid(i) + tanh(g)
+RuntimeError: CUDA out of memory. Tried to allocate 20.00 MiB (GPU 0; 10.76 GiB total capacity; 7.93 GiB already allocated; 18.69 MiB free; 9.85 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
