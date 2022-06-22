@@ -178,16 +178,13 @@ def count_params(net):
 
 
 
-
-
-
 dataset = "wave"
 mode = "horizon-20-40"
 datasetLoader = Wave("wave-10000-90")
 dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 context = 20
-horizon = 40
+horizon = 70
 
 
 def calcLoss(model):
@@ -232,16 +229,17 @@ def matchMarker(multiplier):
 
 
 
+
 fig, ax = plt.subplots()
 for mult in [0.5, 1, 2]:
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         for param in [1, 2, 3]:
+            mult_tmp = f(mult)
             if modelName == "baseline":
                 mult = 1
                 hs, ls = mapParas(modelName, mult, param)
                 model = mapModel(modelName, hs, ls)
             elif modelName == "depthWise":
-                mult_tmp = f(mult)
                 hs, ls = mapParas(modelName, mult_tmp, param)
                 model = mapModel(modelName, hs, ls)
             else:
@@ -292,7 +290,8 @@ mult4 = mlines.Line2D([], [], color='gray', marker='o',
 plt.legend(handles=[blue_line, red_line, green_line, purple_line
                     , chocolate_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
 
-fig.savefig("test", bbox_inches="tight")
+name = f'lossToParas-{mode}-{horizon}'
+fig.savefig(name, bbox_inches="tight")
 
 
 
