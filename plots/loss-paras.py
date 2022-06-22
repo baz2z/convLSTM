@@ -246,9 +246,12 @@ for mult in [0.5, 1, 2]:
                 modelParas = mapParas(modelName, mult, param)
                 hs, ls = mapParas(modelName, mult, param)
                 model = mapModel(modelName, hs, ls)
-            print(os.getcwd())
-            path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult_tmp}/{param}'
-            #path = "../trainedModels/wave/horizon-20-40/baseline/1/2"
+
+            if modelName == "depthWise":
+                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult_tmp}/{param}'
+            else:
+                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult}/{param}'
+
 
             os.chdir(path)
             # argument: horizon
