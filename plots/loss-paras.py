@@ -234,7 +234,7 @@ def matchMarker(multiplier):
 
 fig, ax = plt.subplots()
 for mult in [0.5, 1, 2]:
-    for modelName in ["depthWise"]:
+    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         for param in [1, 2, 3]:
             if modelName == "baseline":
                 mult = 1
