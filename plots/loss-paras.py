@@ -184,7 +184,7 @@ datasetLoader = Wave("wave-10000-90")
 dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 context = 20
-horizon = 70
+horizon = 40
 
 
 def calcLoss(model):
