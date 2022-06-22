@@ -1,38 +1,68 @@
-
 import matplotlib.pyplot as plt
-"""
-y = [4.4135737e-07, 4.0509394e-07, 2.7379284e-07, 2.9417134e-07, 1.7540003e-07]
-x = [14265, 16281, 11653, 16885, 13957]
-n = ["depthWise", "baseline", "lateral", "twoLayer", "skip"]
+import matplotlib.colors
+import numpy as np
+import pandas as pd
+
+
+def mapName(nbr):
+    match nbr:
+        case 1:
+            return "baseline"
+        case _:
+            return "other"
+
+plt.rcParams["figure.subplot.right"] = 0.8
+v = np.random.rand(39, 5)
+
+# model Name
+names = np.array(["baseline", "lateral", "twoLayer", "skip", "depthWise"]).repeat(9)
+names = names[6:]
+names = np.arange(1, 6).repeat(9)
+names = names[6:]
+# multiplier
+mult = np.ones(39)
+mult[:3] = [1, 1, 1]
+mult[3:-9] = np.array([[0.5, 1, 2], [0.5, 1, 2], [0.5, 1, 2]]).repeat(3)
+mult[-9:] = np.array([1, 2, 4]).repeat(3)
+
+# paras
+paras = np.tile(np.array([5, 25, 50]), 13)
+
+# loss
+loss = np.random.uniform(low=0.5, high=100, size=(39,))
+#loss = names * np.random.rand(1)
+
+# smoothness
+smoothness = np.random.rand(39)
+
+
+v[:,0] = names
+v[:, 1] = mult
+v[:, 2] = paras
+v[:, 3] = loss
+v[:, 4] = smoothness
+
+df= pd.DataFrame(v, columns=["names","mult","paras","loss", "smoothness"])
+df.names = df.names.values.astype(int)
+
+# fig, ax = plt.subplots()
+# for i in range(5):
+#     i = i+1
+#     sub_group = df.groupby("names").get_group(i)
+#     sub_group.plot(kind='scatter',x='paras',y='loss', label=mapName(i), c="blue", ax=ax, marker = "v")
+
+
 
 fig, ax = plt.subplots()
-ax.scatter(x, y)
+for i, (name, dff) in enumerate(df.groupby("names")):
+    c = matplotlib.colors.to_hex(plt.cm.jet(i/7.))
+    dff.plot(kind='scatter',x='mult',y='loss', label=mapName(name), c=c, ax=ax, marker = "v")
 
-for i, txt in enumerate(n):
-    ax.annotate(txt, (x[i], y[i]))
+
+leg = plt.legend(loc=(1.03,0), title="Year")
+ax.add_artist(leg)
+#maker = ["o", ]
+h = [plt.plot([],[], color="gray", marker=i-5, ms=i, ls="")[0] for i in range(5,13)]
+lbls = ["hi§", "succ"]
+plt.legend(handles=h, labels=lbls,loc=(1.03,0.5), title="Quality")
 plt.show()
-
-
-
-y = [ 3.043439e-06, 7.1144575e-07, 2.2342542e-06, 5.6899003e-06, 1.0639906e-06]
-x = [14265, 16281, 11653, 16885, 13957]
-n = ["depthWise", "baseline", "lateral", "twoLayer", "skip"]
-
-fig, ax = plt.subplots()
-ax.scatter(x, y)
-
-for i, txt in enumerate(n):
-    ax.annotate(txt, (x[i], y[i]))
-plt.show()
-"""
-y = [0.00038879544008523225,0.00020622547453967853,7.069394050631672e-05,8.918715678873923e-06,1.9830678979815274e-06,9.474928765484946e-06,5.3635395306628195e-05,0.00017797759646782653,0.0006908689276315272]
-x = [0.1,0.05,0.01,0.005,0.001,0.0005,0.0001,0.00005,0.00001]
-
-
-fig, ax = plt.subplots()
-ax.scatter(x, y)
-plt.yscale("log")
-plt.xscale("log")
-plt.show()
-
-

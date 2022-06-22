@@ -241,9 +241,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-40"
 horizon = 40
-modelName = "skip"
+modelName = "baseline"
 multiplier = 1
-paramLevel = 3
+paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
@@ -252,8 +252,8 @@ run = "3"
 
 dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-
-path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
+#path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
+path = "../trainedModels/valTest/valTest/baseline/25391/run"+ run
 os.chdir(path)
 
 # model
