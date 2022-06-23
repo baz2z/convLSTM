@@ -3,7 +3,7 @@ import matplotlib.colors
 import numpy as np; np.random.seed(1)
 import pandas as pd
 import matplotlib.lines as mlines
-
+import pandas as pd
 def checkColor(name):
     match name:
         case "baseline":
@@ -39,8 +39,12 @@ red_line = mlines.Line2D([], [], color='red', marker='^',
                           markersize=12, label='baseline', linestyle="none")
 plt.legend(handles=[blue_line, red_line], bbox_to_anchor=(1.05, 1), loc = 2)
 plt.ylim([0.0001, 0.005])
-plt.show()
+#plt.show()
 #fig.savefig("test", bbox_inches="tight")
 
 
 
+df = pd.DataFrame(columns=["name", "loss"])
+for i in range(5):
+    df.loc[i] = ["baseline", i]
+print(df)
