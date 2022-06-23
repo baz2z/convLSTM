@@ -225,7 +225,6 @@ def totaSmoothness():
 def calcLoss(model, context, horizon, dataloader):
     criterion = nn.MSELoss()
     modelsLoss = []
-    print(os.getcwd())
     for runNbr in range(5):
         runNbr = runNbr + 1
         os.chdir(f'./run{runNbr}')
@@ -237,11 +236,12 @@ def calcLoss(model, context, horizon, dataloader):
                 input_images = images[:, :context, :, :]
                 labels = images[:, context:context + horizon, :, :]
                 output = model(input_images, horizon)
-                #output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
-                #labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
+                output_not_normalized = (output * dataloader.dataset.std) + dataloader.dataset.mu
+                labels_not_normalized = (labels * dataloader.dataset.std) + dataloader.dataset.mu
                 loss = criterion(output, labels)
                 runningLoss.append(loss.cpu())
             modelsLoss.append(numpy.mean(runningLoss))
+        print(numpy.mean(runningLoss))
         os.chdir("../")
     finalLoss = numpy.mean(modelsLoss)
     return finalLoss
@@ -297,7 +297,7 @@ if __name__ == '__main__':
                 loss70 = calcLoss(model, 20, 70, dataloader2)
                 loss170 = calcLoss(model, 20, 170, dataloader3)
 
-                print(loss40, loss70, loss170)
+
                 smoothness = totaSmoothness()
                 if modelName == "baseline":
                     df.loc[counter] = [modelName, multBase, param, loss40, loss70, loss170, smoothness]
@@ -309,7 +309,7 @@ if __name__ == '__main__':
                 pathBack = f'../../../../../../plots'
                 os.chdir(pathBack)
 
-    print(df)
+    #print(df)
     df.to_csv("df_40")
 
 

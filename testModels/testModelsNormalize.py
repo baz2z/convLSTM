@@ -210,15 +210,15 @@ criterion = nn.MSELoss()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 context = 20
-horizon = 70
+horizon = 40
 multiplier = 1
-paramLevel = 2
+paramLevel = 1
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
 
 
-datasetLoader = Wave("wave-10000-90-test")
+datasetLoader = Wave("wave-3000-60")
 dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
@@ -246,7 +246,7 @@ for runNbr in range(5):
             output = model(input_images, horizon)
             output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
             labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
-            loss = criterion(output_not_normalized, labels_not_normalized)
+            loss = criterion(output, labels)
             runningLoss.append(loss.cpu())
         modelsLoss.append(numpy.mean(runningLoss))
         print(numpy.mean(runningLoss))
