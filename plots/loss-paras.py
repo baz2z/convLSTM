@@ -180,7 +180,7 @@ def count_params(net):
 
 dataset = "wave"
 mode = "horizon-20-40"
-datasetLoader = Wave("wave-10000-90")
+datasetLoader = Wave("wave-3000-200")
 dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 context = 20
