@@ -1,3 +1,5 @@
+import argparse
+
 import pandas as pd
 from models import baseline, lateral, skipConnection, depthWise, twoLayer, Forecaster
 import torch
@@ -12,8 +14,6 @@ import itertools
 from matplotlib import pyplot
 import matplotlib.lines as mlines
 
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def mapParas(modelName, multiplier, paramsIndex):
     modelParams = (0, 0)
 
@@ -140,6 +140,7 @@ def mapModel(model, hiddenSize, lateralSize):
             return Forecaster(hiddenSize, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
         case "depthWise":
             return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
+
 class Wave(Dataset):
     def __init__(self, file, isTrain=True):
         # data loading
@@ -218,17 +219,10 @@ def totaSmoothness():
     return numpy.mean(modelsSmoothness)
 
 
-dataset = "wave"
-mode = "horizon-20-40"
-datasetLoader = Wave("wave-3000-200")
-dataloader = DataLoader(dataset=datasetLoader, batch_size=16, shuffle=False, drop_last=True,
-                        collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 
 
-
-
-def calcLoss(model, context, horizon):
+def calcLoss(model, context, horizon, dataloader):
     criterion = nn.MSELoss()
     modelsLoss = []
     print(os.getcwd())
@@ -243,62 +237,80 @@ def calcLoss(model, context, horizon):
                 input_images = images[:, :context, :, :]
                 labels = images[:, context:context + horizon, :, :]
                 output = model(input_images, horizon)
-                output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
-                labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
+                #output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
+                #labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
                 loss = criterion(output, labels)
                 runningLoss.append(loss.cpu())
             modelsLoss.append(numpy.mean(runningLoss))
-            print(numpy.mean(runningLoss))
         os.chdir("../")
     finalLoss = numpy.mean(modelsLoss)
     return finalLoss
 
 
-df = pd.DataFrame(columns=["name", "mult", "param", "loss40", "loss70", "loss170", "smoothness"])
-
-counter = 0
-for mult in [0.5, 1, 2]:
-    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
-    #for modelName in ["lateral"]:
-        for param in [1, 2, 3]:
-            if modelName == "baseline":
-                multBase = 1
-                hs, ls = mapParas(modelName, multBase, param)
-                model = mapModel(modelName, hs, ls)
-                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multBase}/{param}'
-            elif modelName == "depthWise":
-                multDw = f(mult)
-                hs, ls = mapParas(modelName, multDw, param)
-                model = mapModel(modelName, hs, ls)
-                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multDw}/{param}'
-            else:
-                modelParas = mapParas(modelName, mult, param)
-                hs, ls = mapParas(modelName, mult, param)
-                model = mapModel(modelName, hs, ls)
-                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult}/{param}'
-
-            os.chdir(path)
-            parameters = count_params(model)
-            loss40 = calcLoss(model, 20 , 40)
-            loss70 = calcLoss(model, 20 , 70)
-            loss170 = calcLoss(model, 20 , 170)
-            smoothness = totaSmoothness()
-            if modelName == "baseline":
-                df.loc[counter] = [modelName, multBase, param, loss40, loss70, loss170, smoothness]
-            elif modelName == "depthWise":
-                df.loc[counter] = [modelName, multDw, param, loss40, loss70, loss170, smoothness]
-            else:
-                df.loc[counter] = [modelName, mult, param, loss40, loss70, loss170, smoothness]
-            counter += 1
-            pathBack = f'../../../../../../plots'
-            os.chdir(pathBack)
 
 
-print(df)
-df.to_csv("df_40")
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', type=str, default="horizon-20-40")
+    args = parser.parse_args()
+    mode = args.mode
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    dataset = "wave"
 
+    datasetLoader1 = Wave("wave-3000-60")
+    datasetLoader2 = Wave("wave-3000-90")
+    datasetLoader3 = Wave("wave-3000-190")
 
+    dataloader1 = DataLoader(dataset=datasetLoader1, batch_size=16, shuffle=False, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    dataloader2 = DataLoader(dataset=datasetLoader2, batch_size=16, shuffle=False, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    dataloader3 = DataLoader(dataset=datasetLoader3, batch_size=16, shuffle=False, drop_last=True,
+                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
+    df = pd.DataFrame(columns=["name", "mult", "param", "loss40", "loss70", "loss170", "smoothness"])
+
+    counter = 0
+    for mult in [0.5, 1, 2]:
+        for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+            # for modelName in ["lateral"]:
+            for param in [1, 2, 3]:
+                if modelName == "baseline":
+                    multBase = 1
+                    hs, ls = mapParas(modelName, multBase, param)
+                    model = mapModel(modelName, hs, ls)
+                    path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multBase}/{param}'
+                elif modelName == "depthWise":
+                    multDw = f(mult)
+                    hs, ls = mapParas(modelName, multDw, param)
+                    model = mapModel(modelName, hs, ls)
+                    path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multDw}/{param}'
+                else:
+                    modelParas = mapParas(modelName, mult, param)
+                    hs, ls = mapParas(modelName, mult, param)
+                    model = mapModel(modelName, hs, ls)
+                    path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult}/{param}'
+
+                os.chdir(path)
+                parameters = count_params(model)
+                loss40 = calcLoss(model, 20, 40, dataloader1)
+                loss70 = calcLoss(model, 20, 70, dataloader2)
+                loss170 = calcLoss(model, 20, 170, dataloader3)
+
+                print(loss40, loss70, loss170)
+                smoothness = totaSmoothness()
+                if modelName == "baseline":
+                    df.loc[counter] = [modelName, multBase, param, loss40, loss70, loss170, smoothness]
+                elif modelName == "depthWise":
+                    df.loc[counter] = [modelName, multDw, param, loss40, loss70, loss170, smoothness]
+                else:
+                    df.loc[counter] = [modelName, mult, param, loss40, loss70, loss170, smoothness]
+                counter += 1
+                pathBack = f'../../../../../../plots'
+                os.chdir(pathBack)
+
+    print(df)
+    df.to_csv("df_40")
 
 
 

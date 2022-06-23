@@ -198,7 +198,7 @@ def visualize_wave(imgs):
     plt.show()
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="skip",
+parser.add_argument('--model', type=str, default="baseline",
                     choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
 parser.add_argument('--mode', type=str, default="horizon-20-40")
 
@@ -212,13 +212,13 @@ dataset = "wave"
 context = 20
 horizon = 70
 multiplier = 1
-paramLevel = 1
+paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
 
 
-datasetLoader = Wave("wave-3000-200")
+datasetLoader = Wave("wave-10000-90-test")
 dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
@@ -246,17 +246,18 @@ for runNbr in range(5):
             output = model(input_images, horizon)
             output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
             labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
-            loss = criterion(output, labels)
+            loss = criterion(output_not_normalized, labels_not_normalized)
             runningLoss.append(loss.cpu())
         modelsLoss.append(numpy.mean(runningLoss))
         print(numpy.mean(runningLoss))
     os.chdir("../")
+
 
 finalLoss = numpy.mean(modelsLoss)
 
 print(os.getcwd())
 configuration = {f'{modelName}loss': finalLoss}
 print(configuration)
-with open('configuration.txt', 'w') as f:
-    print(configuration, file=f)
+# with open('configuration.txt', 'w') as f:
+#     print(configuration, file=f)
 
