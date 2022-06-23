@@ -267,7 +267,7 @@ for mult in [0.5, 1, 2]:
             pathBack = f'../../../../../../plots'
             os.chdir(pathBack)
 
-#ax.set_yscale('log')
+ax.set_yscale('log')
 # add legend
 # modelName
 blue_line = mlines.Line2D([], [], color='blue', marker='o',
@@ -293,8 +293,8 @@ mult4 = mlines.Line2D([], [], color='gray', marker='o',
 
 plt.legend(handles=[blue_line, red_line, green_line, purple_line
                     , chocolate_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
-plt.ylim([0.0001, 0.001])
-name = f'lossToParas-{mode}-{horizon}'
+#plt.ylim([0.0001, 0.001])
+name = f'lossToParas-{mode}-{horizon}-all'
 fig.savefig(name, bbox_inches="tight")
 
 
