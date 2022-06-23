@@ -27,7 +27,7 @@ for mp in range(3):
             col = checkColor(name)
             marker = checkShape(mp)
             loss = (mp + paras) * np.random.randint(1, 10)
-            ax.scatter(paras, loss, marker = marker, c=col)
+            ax.scatter(paras, loss, marker = marker, c=col, s=16, alpha=0.6)
             # if paras == 2 and name == "baseline":
             #     ax.scatter(paras, loss, marker=marker, c=col, label=mp)
 
@@ -38,9 +38,9 @@ blue_line = mlines.Line2D([], [], color='blue', marker='^',
 red_line = mlines.Line2D([], [], color='red', marker='^',
                           markersize=12, label='baseline', linestyle="none")
 plt.legend(handles=[blue_line, red_line], bbox_to_anchor=(1.05, 1), loc = 2)
-
-
-fig.savefig("test", bbox_inches="tight")
+plt.ylim([0.0001, 0.005])
+plt.show()
+#fig.savefig("test", bbox_inches="tight")
 
 
 

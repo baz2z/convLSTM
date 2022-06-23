@@ -233,6 +233,7 @@ def matchMarker(multiplier):
 fig, ax = plt.subplots()
 for mult in [0.5, 1, 2]:
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+    #for modelName in ["lateral"]:
         for param in [1, 2, 3]:
             mult_tmp = f(mult)
             if modelName == "baseline":
@@ -262,11 +263,11 @@ for mult in [0.5, 1, 2]:
             else:
                 marker = matchMarker(mult)
             col = matchColor(modelName)
-            ax.scatter(parameters, loss, marker=marker, color=col)
+            ax.scatter(parameters, loss, marker=marker, color=col, s=16, alpha=0.7)
             pathBack = f'../../../../../../plots'
             os.chdir(pathBack)
 
-
+#ax.set_yscale('log')
 # add legend
 # modelName
 blue_line = mlines.Line2D([], [], color='blue', marker='o',
@@ -292,7 +293,7 @@ mult4 = mlines.Line2D([], [], color='gray', marker='o',
 
 plt.legend(handles=[blue_line, red_line, green_line, purple_line
                     , chocolate_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
-
+plt.ylim([0.0001, 0.001])
 name = f'lossToParas-{mode}-{horizon}'
 fig.savefig(name, bbox_inches="tight")
 
