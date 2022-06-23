@@ -198,7 +198,7 @@ def visualize_wave(imgs):
     plt.show()
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="baseline",
+parser.add_argument('--model', type=str, default="skip",
                     choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
 parser.add_argument('--mode', type=str, default="horizon-20-40")
 
@@ -210,17 +210,16 @@ criterion = nn.MSELoss()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 context = 20
-horizon = 40
+horizon = 70
 multiplier = 1
-paramLevel = 3
+paramLevel = 1
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = "1"
 
 
-datasetLoader = Wave("wave-5000-90")
-dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
+datasetLoader = Wave("wave-3000-200")
+dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}'
@@ -233,6 +232,7 @@ os.chdir(path)
 
 
 modelsLoss = []
+print(os.getcwd())
 for runNbr in range(5):
     runNbr = runNbr + 1
     os.chdir(f'./run{runNbr}')
@@ -246,7 +246,7 @@ for runNbr in range(5):
             output = model(input_images, horizon)
             output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
             labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
-            loss = criterion(output_not_normalized, labels_not_normalized)
+            loss = criterion(output, labels)
             runningLoss.append(loss.cpu())
         modelsLoss.append(numpy.mean(runningLoss))
         print(numpy.mean(runningLoss))

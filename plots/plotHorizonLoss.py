@@ -1,3 +1,5 @@
+import argparse
+
 from models import baseline, lateral, skipConnection, depthWise, twoLayer, Forecaster
 import torch
 import os
@@ -6,18 +8,8 @@ import matplotlib.pyplot as plt
 import math
 import numpy
 from torch.utils.data import Dataset, DataLoader, default_collate
+from torch import nn
 
-
-def visualize_wave(imgs):
-    t, w, h = imgs.shape
-    for i in range(t):
-        plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
-        plt.title(i, fontsize=9)
-        plt.axis("off")
-        image = imgs[i, :, :]
-        plt.imshow(image, cmap="gray")
-    plt.subplots_adjust(hspace=0.4)
-    plt.show()
 
 
 class Wave(Dataset):
@@ -53,6 +45,8 @@ class mMnist(Dataset):
 
     def __len__(self):
         return self.data.shape[0]
+
+
 
 def mapModel(model, hiddenSize, lateralSize):
     match model:
@@ -184,31 +178,6 @@ def mapParas(modelName, multiplier, paramsIndex):
 
     return modelParams
 
-def smoothess(arr):
-    window_size = 49
-    padding = window_size // 2
-    i = 0
-    moving_averages = []
-
-    # Loop through the array to consider
-    # every window of size 3
-    while i < len(arr) - window_size + 1:
-        # Store elements from i to i+window_size
-        # in list to get the current window
-        window = arr[i: i + window_size]
-        # Calculate the average of current window
-        window_average = sum(window) / window_size
-        # Store the average of current
-        # window in moving average list
-        moving_averages.append(window_average)
-        # Shift window to right by one position
-        i += 1
-
-
-    diff = [a-b for (a, b) in zip(arr[padding:-padding], moving_averages)]
-    mse = (numpy.square(diff)).mean(axis=0)
-    moving_averages_final = numpy.pad(moving_averages, (padding, padding), "constant", constant_values=(0, 0))
-    return moving_averages_final, mse
 
 def count_params(net):
     '''
@@ -217,88 +186,77 @@ def count_params(net):
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 
-def mse(values):
-    return ((values - values.mean(axis=0)) ** 2).mean(axis=0)
+def visualize_wave(imgs):
+    t, w, h = imgs.shape
+    for i in range(t):
+        plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
+        plt.title(i, fontsize=9)
+        plt.axis("off")
+        image = imgs[i, :, :]
+        plt.imshow(image, cmap="gray")
+    plt.subplots_adjust(hspace=0.4)
+    plt.show()
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', type=str, default="baseline",
+                    choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
+parser.add_argument('--mode', type=str, default="horizon-20-40")
 
-def mostSignificantPixel(imgs):
-    # images of shape: frames, width, height
-    f, w, h = imgs.shape
-    msp = [(0, 0), -1000]
-    for i in range(w):
-        for j in range(h):
-            values = numpy.array([])
-            for k in range(f):
-                value = imgs[k, i, j]
-                values = numpy.append(values, value)
-            var = mse(values)
-            if var > msp[1]:
-                msp = [(i, j), var]
-    return msp[0]
-
+args = parser.parse_args()
+modelName = args.model
+mode = args.mode
+criterion = nn.MSELoss()
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "horizon-20-70"
+context = 20
 horizon = 40
-modelName = "baseline"
-multiplier = 1.0
+multiplier = 1
 paramLevel = 3
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = "3"
+run = "1"
 
 
-dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
+datasetLoader = Wave("wave-5000-90")
+dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-#path = "../trainedModels/valTest/valTest/baseline/25391/run"+ run
+
+path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}'
 os.chdir(path)
 
-# model
-
-model.load_state_dict(torch.load("model.pt", map_location=device))
-model.eval()
-print(count_params(model))
-
-# loss
-trainLoss = torch.load("trainingLoss", map_location=device)
-valLoss = torch.load("validationLoss", map_location=device)
 
 
-# # Smoothness
-#
-# movingAvg, smoothness = smoothess(trainLoss)
-# print(f'smoothness:{smoothness}')
-#
-#
-plt.yscale("log")
-plt.plot(trainLoss, label="trainLoss")
-plt.plot(valLoss, label="valLoss")
-#plt.plot(movingAvg, label = "avg")
-plt.legend()
-plt.show()
 
-# # example wave
-# visData = iter(dataloader).__next__()
-# pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
-#
-# sequence = 1
-# # for one pixel
-#
-# w, h = mostSignificantPixel(pred[sequence, :, :, :])
-# groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
-# prediction = pred[sequence, :, int(w / 2), int(h / 2)]
-# plt.plot(groundTruth, label="groundTruth")
-# plt.plot(prediction, label="prediction")
-# plt.legend()
-# plt.title(f'{(w, h)}')
-# plt.show()
-#
-# # for entire sequence
-# visualize_wave(pred[sequence, :, :, :])
-# visualize_wave(visData[sequence, 20:, :, :])
-#
-# f = open("configuration.txt", "r")
-# print(f.read())
+# calculated train loss on new dataset and average the loss
+
+
+modelsLoss = []
+for runNbr in range(5):
+    runNbr = runNbr + 1
+    os.chdir(f'./run{runNbr}')
+    model.load_state_dict(torch.load("model.pt", map_location=device))
+    model.eval()
+    runningLoss = []
+    with torch.no_grad():
+        for i, images in enumerate(dataloader):
+            input_images = images[:, :context, :, :]
+            labels = images[:, context:context + horizon, :, :]
+            output = model(input_images, horizon)
+            output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
+            labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
+            loss = criterion(output_not_normalized, labels_not_normalized)
+            runningLoss.append(loss.cpu())
+        modelsLoss.append(numpy.mean(runningLoss))
+        print(numpy.mean(runningLoss))
+    os.chdir("../")
+
+finalLoss = numpy.mean(modelsLoss)
+
+print(os.getcwd())
+configuration = {f'{modelName}loss': finalLoss}
+print(configuration)
+with open('configuration.txt', 'w') as f:
+    print(configuration, file=f)
+

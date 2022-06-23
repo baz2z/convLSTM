@@ -231,6 +231,7 @@ dataloader = DataLoader(dataset=datasetLoader, batch_size=16, shuffle=False, dro
 def calcLoss(model, context, horizon):
     criterion = nn.MSELoss()
     modelsLoss = []
+    print(os.getcwd())
     for runNbr in range(5):
         runNbr = runNbr + 1
         os.chdir(f'./run{runNbr}')
@@ -247,26 +248,10 @@ def calcLoss(model, context, horizon):
                 loss = criterion(output, labels)
                 runningLoss.append(loss.cpu())
             modelsLoss.append(numpy.mean(runningLoss))
+            print(numpy.mean(runningLoss))
         os.chdir("../")
-        finalLoss = numpy.mean(modelsLoss)
-        return finalLoss
-
-def matchColor(modelName):
-    return{
-        "baseline": "blue",
-        "lateral": "red",
-        "twoLayer":"green",
-        "skip": "purple",
-        "depthWise": "chocolate"
-    }[modelName]
-    pass
-def matchMarker(multiplier):
-    return{
-        0.5:"^",
-        1:"s",
-        2:"+",
-        4:"o"
-    }[multiplier]
+    finalLoss = numpy.mean(modelsLoss)
+    return finalLoss
 
 
 df = pd.DataFrame(columns=["name", "mult", "param", "loss40", "loss70", "loss170", "smoothness"])
@@ -295,9 +280,9 @@ for mult in [0.5, 1, 2]:
             os.chdir(path)
             parameters = count_params(model)
             loss40 = calcLoss(model, 20 , 40)
-            smoothness = totaSmoothness()
             loss70 = calcLoss(model, 20 , 70)
             loss170 = calcLoss(model, 20 , 170)
+            smoothness = totaSmoothness()
             if modelName == "baseline":
                 df.loc[counter] = [modelName, multBase, param, loss40, loss70, loss170, smoothness]
             elif modelName == "depthWise":
