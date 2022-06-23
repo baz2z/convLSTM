@@ -10,7 +10,7 @@ from torch import nn
 import itertools
 from matplotlib import pyplot
 import matplotlib.lines as mlines
-
+import pandas as pd
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def mapParas(modelName, multiplier, paramsIndex):
@@ -184,7 +184,7 @@ datasetLoader = Wave("wave-3000-200")
 dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 context = 20
-horizon = 40
+horizon = 170
 
 
 def calcLoss(model):
@@ -231,45 +231,19 @@ def matchMarker(multiplier):
 
 
 fig, ax = plt.subplots()
-for mult in [0.5, 1, 2]:
-    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
-    #for modelName in ["lateral"]:
-        for param in [1, 2, 3]:
-            mult_tmp = f(mult)
-            if modelName == "baseline":
-                mult = 1
-                hs, ls = mapParas(modelName, mult, param)
-                model = mapModel(modelName, hs, ls)
-            elif modelName == "depthWise":
-                hs, ls = mapParas(modelName, mult_tmp, param)
-                model = mapModel(modelName, hs, ls)
-            else:
-                modelParas = mapParas(modelName, mult, param)
-                hs, ls = mapParas(modelName, mult, param)
-                model = mapModel(modelName, hs, ls)
 
-            if modelName == "depthWise":
-                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult_tmp}/{param}'
-            else:
-                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult}/{param}'
-
-
-            os.chdir(path)
-            # argument: horizon
-            parameters = count_params(model)
-            loss = calcLoss(model)
-            if modelName == "depthWise":
-                marker = matchMarker(mult_tmp)
-            else:
-                marker = matchMarker(mult)
-            col = matchColor(modelName)
-            ax.scatter(parameters, loss, marker=marker, color=col, s=16, alpha=0.7)
-            pathBack = f'../../../../../../plots'
-            os.chdir(pathBack)
+df = pd.read_csv("df_40")
+df.reset_index()
+for index, row in df.iterrows():
+    modelName = row["name"]
+    mult = row["mult"]
+    param = row["param"]
+    loss = row["loss170"]
+    marker = matchMarker(mult)
+    col = matchColor(modelName)
+    ax.scatter(param, loss, marker=marker, color=col, s=16, alpha=0.7)
 
 ax.set_yscale('log')
-# add legend
-# modelName
 blue_line = mlines.Line2D([], [], color='blue', marker='o',
                           markersize=12, label='baseline', linestyle="none")
 red_line = mlines.Line2D([], [], color='red', marker='o',
@@ -294,10 +268,8 @@ mult4 = mlines.Line2D([], [], color='gray', marker='o',
 plt.legend(handles=[blue_line, red_line, green_line, purple_line
                     , chocolate_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
 #plt.ylim([0.0001, 0.001])
-name = f'lossToParas-{mode}-{horizon}-all'
+name = f'./createdPlots/lossToParas-{mode}-{horizon}-all'
 fig.savefig(name, bbox_inches="tight")
-
-
 
 
 

@@ -1,3 +1,4 @@
+import pandas as pd
 from models import baseline, lateral, skipConnection, depthWise, twoLayer, Forecaster
 import torch
 import os
@@ -176,18 +177,58 @@ def count_params(net):
     '''
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
+def smoothess(arr):
+    window_size = 49
+    padding = window_size // 2
+    i = 0
+    moving_averages = []
+
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(arr) - window_size + 1:
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = arr[i: i + window_size]
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        # Shift window to right by one position
+        i += 1
+
+
+    diff = [a-b for (a, b) in zip(arr[padding:-padding], moving_averages)]
+    mse = (numpy.square(diff)).mean(axis=0)
+    moving_averages_final = numpy.pad(moving_averages, (padding, padding), "constant", constant_values=(0, 0))
+    return moving_averages_final, mse
+
+
+def totaSmoothness():
+    modelsSmoothness = []
+    for runNbr in range(4):
+        runNbr = runNbr + 1
+        os.chdir(f'./run{runNbr}')
+        trainLoss = torch.load("trainingLoss", map_location=device)
+        #valLoss = torch.load("validationLoss", map_location=device)
+        movingAvg, smoothness = smoothess(trainLoss)
+        modelsSmoothness.append(smoothness)
+        os.chdir("../")
+
+    return numpy.mean(modelsSmoothness)
 
 
 dataset = "wave"
 mode = "horizon-20-40"
 datasetLoader = Wave("wave-3000-200")
-dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
+dataloader = DataLoader(dataset=datasetLoader, batch_size=16, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-context = 20
-horizon = 40
 
 
-def calcLoss(model):
+
+
+
+def calcLoss(model, context, horizon):
     criterion = nn.MSELoss()
     modelsLoss = []
     for runNbr in range(5):
@@ -228,76 +269,48 @@ def matchMarker(multiplier):
     }[multiplier]
 
 
+df = pd.DataFrame(columns=["name", "mult", "param", "loss40", "loss70", "loss170", "smoothness"])
 
-
-fig, ax = plt.subplots()
+counter = 0
 for mult in [0.5, 1, 2]:
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
     #for modelName in ["lateral"]:
         for param in [1, 2, 3]:
-            mult_tmp = f(mult)
             if modelName == "baseline":
-                mult = 1
-                hs, ls = mapParas(modelName, mult, param)
+                multBase = 1
+                hs, ls = mapParas(modelName, multBase, param)
                 model = mapModel(modelName, hs, ls)
+                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multBase}/{param}'
             elif modelName == "depthWise":
-                hs, ls = mapParas(modelName, mult_tmp, param)
+                multDw = f(mult)
+                hs, ls = mapParas(modelName, multDw, param)
                 model = mapModel(modelName, hs, ls)
+                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multDw}/{param}'
             else:
                 modelParas = mapParas(modelName, mult, param)
                 hs, ls = mapParas(modelName, mult, param)
                 model = mapModel(modelName, hs, ls)
-
-            if modelName == "depthWise":
-                path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult_tmp}/{param}'
-            else:
                 path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult}/{param}'
 
-
             os.chdir(path)
-            # argument: horizon
             parameters = count_params(model)
-            loss = calcLoss(model)
-            if modelName == "depthWise":
-                marker = matchMarker(mult_tmp)
+            loss40 = calcLoss(model, 20 , 40)
+            smoothness = totaSmoothness()
+            loss70 = calcLoss(model, 20 , 70)
+            loss170 = calcLoss(model, 20 , 170)
+            if modelName == "baseline":
+                df.loc[counter] = [modelName, multBase, param, loss40, loss70, loss170, smoothness]
+            elif modelName == "depthWise":
+                df.loc[counter] = [modelName, multDw, param, loss40, loss70, loss170, smoothness]
             else:
-                marker = matchMarker(mult)
-            col = matchColor(modelName)
-            ax.scatter(parameters, loss, marker=marker, color=col, s=16, alpha=0.7)
+                df.loc[counter] = [modelName, mult, param, loss40, loss70, loss170, smoothness]
+            counter += 1
             pathBack = f'../../../../../../plots'
             os.chdir(pathBack)
 
-ax.set_yscale('log')
-# add legend
-# modelName
-blue_line = mlines.Line2D([], [], color='blue', marker='o',
-                          markersize=12, label='baseline', linestyle="none")
-red_line = mlines.Line2D([], [], color='red', marker='o',
-                          markersize=12, label='lateral', linestyle="none")
-green_line = mlines.Line2D([], [], color='green', marker='o',
-                          markersize=12, label='twoLayer', linestyle="none")
-purple_line = mlines.Line2D([], [], color='purple', marker='o',
-                          markersize=12, label='skip', linestyle="none")
-chocolate_line = mlines.Line2D([], [], color='chocolate', marker='o',
-                          markersize=12, label='depthWise', linestyle="none")
 
-# multiplier
-mult1 = mlines.Line2D([], [], color='gray', marker='^',
-                          markersize=12, label='0.5:1', linestyle="none")
-mult2 = mlines.Line2D([], [], color='gray', marker='s',
-                          markersize=12, label='1:1', linestyle="none")
-mult3 = mlines.Line2D([], [], color='gray', marker='+',
-                          markersize=12, label='1:2', linestyle="none")
-mult4 = mlines.Line2D([], [], color='gray', marker='o',
-                          markersize=12, label='1:4 (multiplication)', linestyle="none")
-
-plt.legend(handles=[blue_line, red_line, green_line, purple_line
-                    , chocolate_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
-#plt.ylim([0.0001, 0.001])
-name = f'lossToParas-{mode}-{horizon}-all'
-fig.savefig(name, bbox_inches="tight")
-
-
+print(df)
+df.to_csv("df_40")
 
 
 

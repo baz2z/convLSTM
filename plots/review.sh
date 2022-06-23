@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./loss-paras.py
+python ./createDataframe.py
