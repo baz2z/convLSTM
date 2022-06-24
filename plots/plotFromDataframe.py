@@ -212,7 +212,8 @@ for index, row in df.iterrows():
     modelName = row["name"]
     mult = row["mult"]
     param = row["param"]
-    loss = row["loss170"]
+    pathLoss = "loss"+str(horizon)
+    loss = row[pathLoss]
     ### get params exactly
     hs, ls = mapParas(modelName, mult, param)
     model = mapModel(modelName, hs, ls)
