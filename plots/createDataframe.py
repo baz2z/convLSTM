@@ -315,7 +315,7 @@ if __name__ == '__main__':
                 os.chdir(pathBack)
 
     #print(df)
-    df.to_csv("df_40_test")
+    df.to_csv("df_70")
 
 
 
