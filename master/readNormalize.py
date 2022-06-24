@@ -241,16 +241,16 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-70"
 horizon = 40
-modelName = "baseline"
-multiplier = 1.0
-paramLevel = 3
+modelName = "lateral"
+multiplier = 0.5
+paramLevel = 1
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
 run = "3"
 
 
-dataloader = DataLoader(dataset=Wave("wave-5000-90"), batch_size=10, shuffle=False, drop_last=False,
+dataloader = DataLoader(dataset=Wave("wave-3000-60"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
 #path = "../trainedModels/valTest/valTest/baseline/25391/run"+ run

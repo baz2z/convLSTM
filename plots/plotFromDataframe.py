@@ -180,35 +180,9 @@ def count_params(net):
 
 dataset = "wave"
 mode = "horizon-20-40"
-datasetLoader = Wave("wave-3000-200")
-dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
-                        collate_fn=lambda x: default_collate(x).to(device, torch.float))
 context = 20
 horizon = 170
 
-
-def calcLoss(model):
-    criterion = nn.MSELoss()
-    modelsLoss = []
-    for runNbr in range(5):
-        runNbr = runNbr + 1
-        os.chdir(f'./run{runNbr}')
-        model.load_state_dict(torch.load("model.pt", map_location=device))
-        model.eval()
-        runningLoss = []
-        with torch.no_grad():
-            for i, images in enumerate(dataloader):
-                input_images = images[:, :context, :, :]
-                labels = images[:, context:context + horizon, :, :]
-                output = model(input_images, horizon)
-                output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
-                labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
-                loss = criterion(output, labels)
-                runningLoss.append(loss.cpu())
-            modelsLoss.append(numpy.mean(runningLoss))
-        os.chdir("../")
-        finalLoss = numpy.mean(modelsLoss)
-        return finalLoss
 
 def matchColor(modelName):
     return{
@@ -239,9 +213,13 @@ for index, row in df.iterrows():
     mult = row["mult"]
     param = row["param"]
     loss = row["loss170"]
+    ### get params exactly
+    hs, ls = mapParas(modelName, mult, param)
+    model = mapModel(modelName, hs, ls)
+    params_exact = count_params(model)
     marker = matchMarker(mult)
     col = matchColor(modelName)
-    ax.scatter(param, loss, marker=marker, color=col, s=16, alpha=0.7)
+    ax.scatter(params_exact, loss, marker=marker, color=col, s=16, alpha=0.7)
 
 ax.set_yscale('log')
 blue_line = mlines.Line2D([], [], color='blue', marker='o',
@@ -268,6 +246,7 @@ mult4 = mlines.Line2D([], [], color='gray', marker='o',
 plt.legend(handles=[blue_line, red_line, green_line, purple_line
                     , chocolate_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
 #plt.ylim([0.0001, 0.001])
+print()
 name = f'./createdPlots/lossToParas-{mode}-{horizon}-all'
 fig.savefig(name, bbox_inches="tight")
 
