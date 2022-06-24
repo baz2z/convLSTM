@@ -254,7 +254,7 @@ def calcLoss(model, context, horizon, dataloader, og = False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', type=str, default="horizon-20-40")
+    parser.add_argument('--mode', type=str, default="horizon-20-70")
     args = parser.parse_args()
     mode = args.mode
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -274,10 +274,10 @@ if __name__ == '__main__':
     df = pd.DataFrame(columns=["name", "mult", "param", "paramExact", "loss40", "loss70", "loss170", "smoothness"])# , "loss40_og", "loss70_og", "loss170_og"])
 
     counter = 0
-    for mult in [0.5, 1, 2]:
-        for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+    for mult in [1]:
+        for modelName in ["depthWise"]:
             # for modelName in ["lateral"]:
-            for param in [1, 2, 3]:
+            for param in [3]:
                 if modelName == "baseline":
                     multBase = 1
                     hs, ls = mapParas(modelName, multBase, param)
