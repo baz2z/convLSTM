@@ -241,11 +241,11 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-70"
 horizon = 40
-modelName = "lateral"
-multiplier = 0.5
-paramLevel = 1
+modelName = "depthWise"
+multiplier = 1
+paramLevel = 3
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
-model = mapModel(modelName, hiddenSize, lateralSize)
+model = mapModel(modelName, 40, lateralSize)
 params = count_params(model)
 run = "3"
 
@@ -300,5 +300,5 @@ plt.show()
 # visualize_wave(pred[sequence, :, :, :])
 # visualize_wave(visData[sequence, 20:, :, :])
 #
-# f = open("configuration.txt", "r")
-# print(f.read())
+f = open("configuration.txt", "r")
+print(f.read())

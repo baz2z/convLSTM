@@ -109,7 +109,7 @@ def mapParas(modelName, multiplier, paramsIndex):
                 case 2:
                     modelParams = (28, 1)
                 case 3:
-                    modelParams = (41, 1)
+                    modelParams = (40, 1)
         if multiplier == 2:
             match paramsIndex:
                 case 1:
@@ -244,7 +244,6 @@ def calcLoss(model, context, horizon, dataloader, og = False):
                     loss = criterion(output, labels)
                 runningLoss.append(loss.cpu())
             modelsLoss.append(numpy.mean(runningLoss))
-        print(numpy.mean(runningLoss))
         os.chdir("../")
     finalLoss = numpy.mean(modelsLoss)
     return finalLoss
@@ -274,10 +273,10 @@ if __name__ == '__main__':
     df = pd.DataFrame(columns=["name", "mult", "param", "paramExact", "loss40", "loss70", "loss170", "smoothness"])# , "loss40_og", "loss70_og", "loss170_og"])
 
     counter = 0
-    for mult in [1]:
-        for modelName in ["depthWise"]:
+    for mult in [0.5, 1, 2]:
+        for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
             # for modelName in ["lateral"]:
-            for param in [3]:
+            for param in [1, 2, 3]:
                 if modelName == "baseline":
                     multBase = 1
                     hs, ls = mapParas(modelName, multBase, param)
