@@ -239,7 +239,7 @@ def calcHorizonLoss(model, context, horizon, dataloader, og = False):
                 labels = images[:, context:context + future, :, :]
                 output = model(input_images, future)
                 # loss = numpy.sum((output - labels).detach().numpy())
-                loss = criterion(output, labels).numpy()
+                loss = criterion(output, labels).detach().numpy()
                 lossHorizon.append(loss)
         lossHorizonAllRuns = numpy.add(lossHorizonAllRuns, lossHorizon)
         os.chdir("../")
