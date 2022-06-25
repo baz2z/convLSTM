@@ -210,7 +210,7 @@ criterion = nn.MSELoss()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 context = 20
-horizon = 20
+horizon = 40
 multiplier = 1
 paramLevel = 1
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
@@ -228,12 +228,6 @@ os.chdir(path)
 os.chdir("./run1")
 model.load_state_dict(torch.load("model.pt", map_location=device))
 model.eval()
-
-
-# calculated train loss on new dataset and average the loss
-
-
-modelsLoss = []
 lossHorizon = []
 for i, images in enumerate(dataloader):
     input_images = images[:, :context, :, :]
@@ -241,11 +235,14 @@ for i, images in enumerate(dataloader):
         future += 1
         labels = images[:, context:context + future, :, :]
         output = model(input_images, future)
-        loss = numpy.sum((output - labels).detach().numpy())
+        #loss = numpy.sum((output - labels).detach().numpy())
+        loss = criterion(output, labels).detach().numpy()
         lossHorizon.append(loss)
         print(loss)
 print(lossHorizon)
-plt.plot(lossHorizon)
+loss2 = lossHorizon
+avg = numpy.add(loss2, loss2)/2
+plt.plot(avg)
 plt.show()
 
 
