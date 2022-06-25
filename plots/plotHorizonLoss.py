@@ -210,53 +210,50 @@ criterion = nn.MSELoss()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 context = 20
-horizon = 40
+horizon = 20
 multiplier = 1
-paramLevel = 3
+paramLevel = 1
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
 run = "1"
 
 
-datasetLoader = Wave("wave-5000-90")
-dataloader = DataLoader(dataset=datasetLoader, batch_size=25, shuffle=False, drop_last=True,
+datasetLoader = Wave("wave-3000-60")
+dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}'
 os.chdir(path)
-
-
+os.chdir("./run1")
+model.load_state_dict(torch.load("model.pt", map_location=device))
+model.eval()
 
 
 # calculated train loss on new dataset and average the loss
 
 
 modelsLoss = []
-for runNbr in range(5):
-    runNbr = runNbr + 1
-    os.chdir(f'./run{runNbr}')
-    model.load_state_dict(torch.load("model.pt", map_location=device))
-    model.eval()
-    runningLoss = []
-    with torch.no_grad():
-        for i, images in enumerate(dataloader):
-            input_images = images[:, :context, :, :]
-            labels = images[:, context:context + horizon, :, :]
-            output = model(input_images, horizon)
-            output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
-            labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
-            loss = criterion(output_not_normalized, labels_not_normalized)
-            runningLoss.append(loss.cpu())
-        modelsLoss.append(numpy.mean(runningLoss))
-        print(numpy.mean(runningLoss))
-    os.chdir("../")
+lossHorizon = []
+for i, images in enumerate(dataloader):
+    input_images = images[:, :context, :, :]
+    for future in range(horizon):
+        future += 1
+        labels = images[:, context:context + future, :, :]
+        output = model(input_images, future)
+        loss = numpy.sum((output - labels).detach().numpy())
+        lossHorizon.append(loss)
+        print(loss)
+print(lossHorizon)
+plt.plot(lossHorizon)
+plt.show()
 
-finalLoss = numpy.mean(modelsLoss)
 
-print(os.getcwd())
-configuration = {f'{modelName}loss': finalLoss}
-print(configuration)
-with open('configuration.txt', 'w') as f:
-    print(configuration, file=f)
+
+
+
+
+
+
+
 
