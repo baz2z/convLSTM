@@ -109,7 +109,7 @@ def mapParas(modelName, multiplier, paramsIndex):
                 case 2:
                     modelParams = (28, 1)
                 case 3:
-                    modelParams = (41, 1)
+                    modelParams = (40, 1)
         if multiplier == 2:
             match paramsIndex:
                 case 1:
@@ -250,7 +250,7 @@ def calcHorizonLoss(model, context, horizon, dataloader, og = False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', type=str, default="horizon-20-40")
+    parser.add_argument('--mode', type=str, default="horizon-20-70")
     args = parser.parse_args()
     mode = args.mode
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -289,8 +289,8 @@ if __name__ == '__main__':
                     path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult}/{param}'
 
                 os.chdir(path)
-                paramExact = 0# count_params(model)
-                horizonLoss = list(range(170)) # calcHorizonLoss(model, 20, 170, dataloader3)
+                paramExact = count_params(model)
+                horizonLoss = calcHorizonLoss(model, 20, 170, dataloader3)
                 # loss40_og = calcLoss(model, 20, 40, dataloader1, og = True)
                 # loss70_og = calcLoss(model, 20, 70, dataloader2, og = True)
                 # loss170_og = calcLoss(model, 20, 170, dataloader3, og = True)
@@ -305,7 +305,7 @@ if __name__ == '__main__':
                 os.chdir(pathBack)
 
     #print(df)
-    df.to_csv("df40_horizonLoss_correctStandard")
+    df.to_csv("df70_horizonLoss_correctStandard")
 
 
 
