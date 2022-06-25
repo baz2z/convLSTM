@@ -109,7 +109,7 @@ def mapParas(modelName, multiplier, paramsIndex):
                 case 2:
                     modelParams = (28, 1)
                 case 3:
-                    modelParams = (41, 1)
+                    modelParams = (40, 1)
         if multiplier == 2:
             match paramsIndex:
                 case 1:
@@ -250,7 +250,7 @@ def calcHorizonLoss(model, context, horizon, dataloader, og = False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', type=str, default="horizon-20-40")
+    parser.add_argument('--mode', type=str, default="horizon-20-70")
     args = parser.parse_args()
     mode = args.mode
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -305,7 +305,7 @@ if __name__ == '__main__':
                 os.chdir(pathBack)
 
     #print(df)
-    df.to_csv("df40_horizonLoss_correctStandard")
+    df.to_csv("df70_horizonLoss_correctStandard")
 
 
 
