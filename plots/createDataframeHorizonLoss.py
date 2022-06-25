@@ -258,7 +258,7 @@ if __name__ == '__main__':
 
     waveMu = 0.009491552082921368
     waveStd = 0.0429973207415241
-    datasetLoader3 = Wave("wave-100-190")
+    datasetLoader3 = Wave("wave-3000-190")
     for d in [datasetLoader3]:
         d.mu = waveMu
         d.std = waveStd
