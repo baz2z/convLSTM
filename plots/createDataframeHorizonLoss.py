@@ -289,8 +289,8 @@ if __name__ == '__main__':
                     path = f'../trainedModels/{dataset}/{mode}/{modelName}/{mult}/{param}'
 
                 os.chdir(path)
-                paramExact = count_params(model)
-                horizonLoss = calcHorizonLoss(model, 20, 170, dataloader3)
+                paramExact = 0# count_params(model)
+                horizonLoss = list(range(170)) # calcHorizonLoss(model, 20, 170, dataloader3)
                 # loss40_og = calcLoss(model, 20, 40, dataloader1, og = True)
                 # loss70_og = calcLoss(model, 20, 70, dataloader2, og = True)
                 # loss170_og = calcLoss(model, 20, 170, dataloader3, og = True)

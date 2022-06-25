@@ -192,7 +192,8 @@ def matchColor(modelName):
         "skip": "purple",
         "depthWise": "chocolate"
     }[modelName]
-    pass
+
+
 def matchMarker(multiplier):
     return{
         0.5:"^",
