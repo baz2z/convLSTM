@@ -301,8 +301,6 @@ if __name__ == '__main__':
                 # loss40_og = calcLoss(model, 20, 40, dataloader1, og = True)
                 # loss70_og = calcLoss(model, 20, 70, dataloader2, og = True)
                 # loss170_og = calcLoss(model, 20, 170, dataloader3, og = True)
-
-
                 smoothness = totaSmoothness()
                 if modelName == "baseline":
                     df.loc[counter] = [modelName, multBase, param, paramExact, loss40, loss70, loss170, smoothness]# , loss40_og, loss70_og, loss170_og]
