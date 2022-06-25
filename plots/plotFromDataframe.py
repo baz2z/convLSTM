@@ -179,7 +179,7 @@ def count_params(net):
 
 
 dataset = "wave"
-mode = "horizon-20-40"
+mode = "horizon-20-70"
 context = 20
 horizon = 170
 
@@ -206,7 +206,7 @@ def matchMarker(multiplier):
 
 fig, ax = plt.subplots()
 
-df = pd.read_csv("df_40")
+df = pd.read_csv("df_70")
 df.reset_index()
 for index, row in df.iterrows():
     modelName = row["name"]
@@ -215,9 +215,7 @@ for index, row in df.iterrows():
     pathLoss = "loss"+str(horizon)
     loss = row[pathLoss]
     ### get params exactly
-    hs, ls = mapParas(modelName, mult, param)
-    model = mapModel(modelName, hs, ls)
-    params_exact = count_params(model)
+    params_exact = row["paramExact"]
     marker = matchMarker(mult)
     col = matchColor(modelName)
     ax.scatter(params_exact, loss, marker=marker, color=col, s=16, alpha=0.7)
