@@ -174,7 +174,7 @@ def mapDataset(speed):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="depthWise",
+parser.add_argument('--model', type=str, default="basline",
                     choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
 parser.add_argument('--mode', type=str, default="horizon-20-40")
 
@@ -187,7 +187,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 context = 20
 horizon = 40
-multiplier = 2
+multiplier = 1
 paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
@@ -196,8 +196,11 @@ for speed in range(21):
     speed = speed - 10
     datasetName = "wave-3000-60_" + str(speed)
     datasetLoader = Wave(datasetName)
+    datasetLoader.mu = 0.009491552082921368
+    datasetLoader.std = 0.0429973207415241
     dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=False,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
     modelsLoss = []
     path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}'
     os.chdir(path)
