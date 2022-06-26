@@ -52,13 +52,14 @@ def load_attributes(f, name='params'):
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 for j in range(21):
-    datasetName = "wave-3000-60_" + str(j - 10)
-    dataset = Wave(datasetName, isTrain=True)
-    dataloader = DataLoader(dataset=dataset, batch_size=32, shuffle=True, collate_fn=lambda x: default_collate(x).to("cpu", torch.float), drop_last=True)
-    # print(dataloader.dataset.mu, dataloader.dataset.std)
-    print(datasetName, load_attributes(dataset.f))
-    # print(numpy.mean(iter(dataloader).__next__().numpy()))
-    # print(numpy.std(iter(dataloader).__next__().numpy()))
+    if j != 13:
+        datasetName = "wave-3000-60_" + str(j - 10)
+        dataset = Wave(datasetName, isTrain=True)
+        dataloader = DataLoader(dataset=dataset, batch_size=32, shuffle=True, collate_fn=lambda x: default_collate(x).to("cpu", torch.float), drop_last=True)
+        # print(dataloader.dataset.mu, dataloader.dataset.std)
+        print(datasetName, load_attributes(dataset.f))
+        # print(numpy.mean(iter(dataloader).__next__().numpy()))
+        # print(numpy.std(iter(dataloader).__next__().numpy()))
 
 
 
