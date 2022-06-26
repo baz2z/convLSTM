@@ -174,7 +174,7 @@ def mapDataset(speed):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="baseline",
+parser.add_argument('--model', type=str, default="lateral",
                     choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
 parser.add_argument('--mode', type=str, default="horizon-20-40")
 
