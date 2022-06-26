@@ -202,12 +202,20 @@ def matchMarker(multiplier):
         4:"o"
     }[multiplier]
 
+def matchSize(multiplier):
+    return{
+        0.5:"^",
+        1:"s",
+        2:"+",
+        4:"o"
+    }[multiplier]
+
 
 
 
 fig, ax = plt.subplots()
 
-df = pd.read_csv("df_40")
+df = pd.read_csv("df_40_correctStandard")
 df.reset_index()
 for index, row in df.iterrows():
     modelName = row["name"]
@@ -222,7 +230,8 @@ for index, row in df.iterrows():
     params_exact = count_params(model)
     marker = matchMarker(mult)
     col = matchColor(modelName)
-    ax.scatter(smoothness, loss, marker=marker, color=col, s=16, alpha=0.7)
+    print(param*20)
+    ax.scatter(smoothness, loss, marker=marker, color=col, s=param * 20, alpha=0.7)
 
 ax.set_yscale('log')
 ax.set_xscale('log')
@@ -239,7 +248,7 @@ chocolate_line = mlines.Line2D([], [], color='chocolate', marker='o',
 
 # multiplier
 mult1 = mlines.Line2D([], [], color='gray', marker='^',
-                          markersize=12, label='0.5:1', linestyle="none")
+                          markersize=12, label='2:1 (hs:ls)', linestyle="none")
 mult2 = mlines.Line2D([], [], color='gray', marker='s',
                           markersize=12, label='1:1', linestyle="none")
 mult3 = mlines.Line2D([], [], color='gray', marker='+',
@@ -247,11 +256,20 @@ mult3 = mlines.Line2D([], [], color='gray', marker='+',
 mult4 = mlines.Line2D([], [], color='gray', marker='o',
                           markersize=12, label='1:4 (multiplication)', linestyle="none")
 
+# param level
+param1 = mlines.Line2D([], [], color='gray', marker='o',
+                          markersize=3, label='5k parameters', linestyle="none")
+param2 = mlines.Line2D([], [], color='gray', marker='o',
+                          markersize=6, label='25k parameters', linestyle="none")
+param3 = mlines.Line2D([], [], color='gray', marker='o',
+                          markersize=9, label='50k parameters', linestyle="none")
+
 plt.legend(handles=[blue_line, red_line, green_line, purple_line
-                    , chocolate_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
+                    , chocolate_line, mult1, mult2, mult3, mult4, param1, param2, param3], bbox_to_anchor=(1.05, 1), loc = 2)
 #plt.ylim([0.0001, 0.001])
-print()
-name = f'./createdPlots/lossToSmoothness-{mode}-{horizon}{pathLoss}'
+plt.xlabel("smoothness")
+plt.ylabel("loss")
+name = f'./createdPlots/lossToSmoothness-{mode}-{horizon}-correctStand'
 fig.savefig(name, bbox_inches="tight")
 
 

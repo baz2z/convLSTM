@@ -239,24 +239,25 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "horizon-20-70"
+mode = "horizon-20-40"
 horizon = 40
-modelName = "depthWise"
-multiplier = 1
-paramLevel = 3
+modelName = "twoLayer"
+multiplier = 0.5
+paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
-model = mapModel(modelName, 40, lateralSize)
+model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = "3"
+run = "5"
 
 
-dataloader = DataLoader(dataset=Wave("wave-3000-60"), batch_size=10, shuffle=False, drop_last=False,
+dataloader = DataLoader(dataset=Wave("wave-3000-90"), batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
 #path = "../trainedModels/valTest/valTest/baseline/25391/run"+ run
 os.chdir(path)
 
 # model
+print(os.getcwd())
 
 model.load_state_dict(torch.load("model.pt", map_location=device))
 model.eval()

@@ -65,14 +65,14 @@ def matchMarker(multiplier):
 
 
 dataset = "wave"
-mode = "horizon-20-40"
+mode = "horizon-20-70"
 context = 20
-horizon = 70
+horizon = 170
 
 
 fig, ax = plt.subplots()
 
-df = pd.read_csv("df_40_correctStandard")
+df = pd.read_csv("df_70_correctStandard")
 df.reset_index()
 for index, row in df.iterrows():
     modelName = row["name"]
@@ -100,7 +100,7 @@ chocolate_line = mlines.Line2D([], [], color='chocolate', marker='o',
 
 # multiplier
 mult1 = mlines.Line2D([], [], color='gray', marker='^',
-                          markersize=12, label='0.5:1', linestyle="none")
+                          markersize=12, label='2:1 (hs:ls)', linestyle="none")
 mult2 = mlines.Line2D([], [], color='gray', marker='s',
                           markersize=12, label='1:1', linestyle="none")
 mult3 = mlines.Line2D([], [], color='gray', marker='+',

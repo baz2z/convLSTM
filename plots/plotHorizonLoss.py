@@ -12,12 +12,12 @@ from matplotlib import pyplot
 import matplotlib.lines as mlines
 import pandas as pd
 
-def matchMarker(multiplier):
+def matchLinestyle(multiplier):
     return{
-        0.5:"^",
-        1:"s",
-        2:"+",
-        4:"o"
+        0.5:":",
+        1:"--",
+        2:"-",
+        4:":"
     }[multiplier]
 
 def matchColor(param):
@@ -30,20 +30,24 @@ def matchColor(param):
 
 fig, ax = plt.subplots()
 
-df = pd.read_csv("df40_horizonLoss_correctStandard")
+df = pd.read_csv("df70_horizonLoss_correctStandard")
 df.reset_index()
 
-modelToPlot = "baseline"
+modelToPlot = "depthWise"
 for index, row in df.iterrows():
     modelName = row["name"]
     if modelName == modelToPlot:
         mult = row["mult"]
         param = row["param"]
-        horizonLoss = row["horizonLoss"].split(",")
+        horizonLoss = row["horizonLoss"].split(" ")
         ### get params exactly
-        marker = matchMarker(mult)
+        style = matchLinestyle(mult)
         col = matchColor(param)
-        ax.scatter(list(range(170)), horizonLoss, marker=marker, color=col, s=16, alpha=0.7)
+        horizonLoss[0] = horizonLoss[0][1:]
+        horizonLoss[len(horizonLoss)-1] = horizonLoss[len(horizonLoss)-1][:-1]
+        horizonLoss = list(filter(lambda x: x != "", horizonLoss))
+        horizonLoss = list(map(float, horizonLoss))
+        ax.plot(list(range(170)), horizonLoss, style,color=col)
 
 
 # param level
@@ -55,18 +59,18 @@ green_line = mlines.Line2D([], [], color='green', marker='o',
                           markersize=12, label='50k params', linestyle="none")
 
 # multiplier
-mult1 = mlines.Line2D([], [], color='gray', marker='^',
-                          markersize=12, label='0.5:1', linestyle="none")
-mult2 = mlines.Line2D([], [], color='gray', marker='s',
-                          markersize=12, label='1:1', linestyle="none")
-mult3 = mlines.Line2D([], [], color='gray', marker='+',
-                          markersize=12, label='1:2', linestyle="none")
-mult4 = mlines.Line2D([], [], color='gray', marker='o',
-                          markersize=12, label='1:4 (multiplication)', linestyle="none")
+mult1 = mlines.Line2D([], [], color='gray',
+                          markersize=12, label='2:1 (hs:ls)', linestyle=":")
+mult2 = mlines.Line2D([], [], color='gray',
+                          markersize=12, label='1:1', linestyle="--")
+mult3 = mlines.Line2D([], [], color='gray',
+                          markersize=12, label='1:2', linestyle="-")
+mult4 = mlines.Line2D([], [], color='gray',
+                          markersize=12, label='1:4 (multiplication)', linestyle=":")
 
 plt.legend(handles=[blue_line, red_line, green_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
 fig.suptitle(f'{modelToPlot}', fontsize=16)
-print()
-name = f'./createdPlots/horizonLoss-correctStand-{modelToPlot}'
+ax.set_ylim([0, 2])
+name = f'./createdPlots/horizonLoss-correctStand-{modelToPlot}-20-70'
 fig.savefig(name, bbox_inches="tight")
 
