@@ -174,7 +174,7 @@ def mapDataset(speed):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="skip",
+parser.add_argument('--model', type=str, default="depthWise",
                     choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
 parser.add_argument('--mode', type=str, default="horizon-20-40")
 
@@ -187,7 +187,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 context = 20
 horizon = 40
-multiplier = 0.5
+multiplier = 2
 paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
