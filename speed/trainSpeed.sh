@@ -25,5 +25,5 @@ hostname
 echo "RUN Script"
 
 python ./trainSpeed.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --dataset "wave" \
-                   --mode "speed-adapted" --context 20 --horizon 40 --learningRate 0.001 \
+                   --mode "speed" --context 20 --horizon 40 --learningRate 0.001 \
                    --epochs 400 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2
