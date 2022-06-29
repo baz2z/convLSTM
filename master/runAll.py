@@ -281,10 +281,10 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="lateral")
+    parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
-    parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
+    parser.add_argument('--datasetTrain', type=str, default="wave-10000-90")
+    parser.add_argument('--datasetVal', type=str, default="wave-10000-90")
     parser.add_argument('--mode', type=str, default="horizon-20-40")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
@@ -295,7 +295,7 @@ if __name__ == '__main__':
     parser.add_argument('--run_idx', type=int, default=1)
     parser.add_argument('--clip', type=float, default=10)
     parser.add_argument('--batchSize', type=int, default=32)
-    parser.add_argument('--multiplier', type=float, default=2)
+    parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
     args = parser.parse_args()
     model = args.model
