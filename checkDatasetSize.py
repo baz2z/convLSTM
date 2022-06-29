@@ -74,5 +74,5 @@ for speed in [10, 12, 14, 16, 44, 46, 48, 50]:
     dataloaderVal = DataLoader(dataset=datasetVal, batch_size=32, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
     print(datasetName, load_attributes(datasetTrain.f))
-    os.chdir("../../../../../../speed")
+
 
