@@ -130,40 +130,40 @@ def mapModel(model, hiddenSize, lateralSize):
             return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
 
 
-def mapDataset(datasetTrain, datasetVal, batch_size):
+def mapDataset(datasetTrain, datasetVal, batch_size, batchSize):
     train = None
     val = None
 
     match datasetTrain:
         case "wave-10000-90":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batchSize, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
             std = Wave("wave-10000-90").std
             mu = Wave("wave-10000-90").mu
         case "wave-5000-90":
-            train = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+            train = DataLoader(dataset=Wave("wave-5000-90"), batch_size=batchSize, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "valTest":
-            train = DataLoader(dataset=Wave("validationTest-10000-2000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
+            train = DataLoader(dataset=Wave("validationTest-10000-2000-90"), batch_size=batchSize, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-5000-60":
-            train = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+            train = DataLoader(dataset=mMnist("mnist-5000-60"), batch_size=batchSize, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     match datasetVal:
         case "wave-10000-90":
-            val = DataLoader(dataset=Wave("wave-10000-90", isTrain=False), batch_size=batch_size, shuffle=True,
+            val = DataLoader(dataset=Wave("wave-10000-90", isTrain=False), batch_size=batchSize, shuffle=True,
                              drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "wave-5000-90":
-            val = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batch_size, shuffle=True,
+            val = DataLoader(dataset=Wave("wave-5000-90", isTrain=False), batch_size=batchSize, shuffle=True,
                              drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "valTest":
-            val = DataLoader(dataset=Wave("validationTest-10000-2000-90", isTrain=False), batch_size=batch_size, shuffle=True, drop_last=True,
+            val = DataLoader(dataset=Wave("validationTest-10000-2000-90", isTrain=False), batch_size=batchSize, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
         case "mnist-100-60":
-            val = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batch_size, shuffle=True, drop_last=True,
+            val = DataLoader(dataset=mMnist("mnist-100-60"), batch_size=batchSize, shuffle=True, drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     return train, val, mu, std
@@ -320,7 +320,7 @@ if __name__ == '__main__':
     for c in [1, 2, 4, 8]:
         batch_size = 32 * c
         learningRate = 0.001 * c
-        hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
+        hiddenSize, lateralSize = mapParas(model, mp, paramLevel, batch_size)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
         dataloader, validation, datasetMu, datasetStd = mapDataset(datasetTrain, datasetVal, batch_size)
