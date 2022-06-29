@@ -67,7 +67,7 @@ def matchMarker(multiplier):
 dataset = "wave"
 mode = "horizon-20-70"
 context = 20
-horizon = 170
+horizon = 40
 
 
 fig, ax = plt.subplots()

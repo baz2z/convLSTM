@@ -56,12 +56,12 @@ print(count_params(model))
 
 # loss
 trainLoss = torch.load("trainingLoss", map_location=device)
-valLoss = torch.load("validationLoss", map_location=device)
+#valLoss = torch.load("validationLoss", map_location=device)
 print(trainLoss[-1])
 
 plt.yscale("log")
 plt.plot(trainLoss, label="trainLoss")
-plt.plot(valLoss, label="valLoss")
+#plt.plot(valLoss, label="valLoss")
 plt.legend()
 plt.show()
 

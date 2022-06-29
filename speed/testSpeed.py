@@ -9,7 +9,7 @@ import math
 import numpy
 from torch.utils.data import Dataset, DataLoader, default_collate
 from torch import nn
-import pandas as pd
+
 
 
 class Wave(Dataset):
@@ -17,7 +17,7 @@ class Wave(Dataset):
         # data loading
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['test']
+        self.data = f['data']['train'] if self.isTrain else f['data']['val']
         means, stds = [], []
         for i in range(len(self.data)):
             data = self.data[f'{i}'.zfill(3)][:, :, :]
@@ -34,6 +34,8 @@ class Wave(Dataset):
 
     def __len__(self):
         return len(self.data)
+
+
 
 
 def mapModel(model, hiddenSize, lateralSize):
@@ -167,65 +169,72 @@ def mapParas(modelName, multiplier, paramsIndex):
     return modelParams
 
 
+def count_params(net):
+    '''
+    A utility function that counts the total number of trainable parameters in a network.
+    '''
+    return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="skip  ",
-                    choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
-parser.add_argument('--mode', type=str, default="horizon-20-40")
 
-args = parser.parse_args()
-modelName = args.model
-mode = args.mode
-criterion = nn.MSELoss()
+def visualize_wave(imgs):
+    t, w, h = imgs.shape
+    for i in range(t):
+        plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
+        plt.title(i, fontsize=9)
+        plt.axis("off")
+        image = imgs[i, :, :]
+        plt.imshow(image, cmap="gray")
+    plt.subplots_adjust(hspace=0.4)
+    plt.show()
+
+
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+modelName = "baseline"
+mode = "speed-adapted"
 dataset = "wave"
 context = 20
 horizon = 40
 multiplier = 1
-paramLevel = 2
+paramLevel = 1
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
-speedLoss = []
-for speed in range(21):
-    speed = speed - 10
-    datasetName = "wave-3000-60_" + str(speed)
-    datasetLoader = Wave(datasetName)
-    datasetLoader.mu = 0.009491552082921368
-    datasetLoader.std = 0.0429973207415241
-    dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=False,
-                            collate_fn=lambda x: default_collate(x).to(device, torch.float))
+params = count_params(model)
+speed = 16
 
-    modelsLoss = []
-    path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}'
-    os.chdir(path)
-    for runNbr in range(5):
-        runNbr = runNbr + 1
-        os.chdir(f'./run{runNbr}')
-        model.load_state_dict(torch.load("model.pt", map_location=device))
-        model.eval()
-        runningLoss = []
-        with torch.no_grad():
-            for i, images in enumerate(dataloader):
-                input_images = images[:, :context, :, :]
-                labels = images[:, context:context + horizon, :, :]
-                output = model(input_images, horizon)
-                output_not_normalized = (output * datasetLoader.std) + datasetLoader.mu
-                labels_not_normalized = (labels * datasetLoader.std) + datasetLoader.mu
-                loss = criterion(output, labels)
-                runningLoss.append(loss.cpu())
-            modelsLoss.append(numpy.mean(runningLoss))
-        os.chdir("../")
+###speed dataset###
+datasetLoader = Wave("wave-10000-190-16", isTrain=False)
+dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
+                        collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    finalLoss = numpy.mean(modelsLoss)
-    speedLoss.append(finalLoss)
-    pathBack = f'../../../../../../speed'
-    os.chdir(pathBack)
-
+###model###
+path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
 os.chdir(path)
-configuration = {f'{modelName}loss-speed': speedLoss}
+
+# calculated train loss on new dataset and average the loss
+criterion = nn.MSELoss()
+modelsLoss = []
+for runNbr in range(5):
+    runNbr = runNbr + 1
+    os.chdir(f'./run{runNbr}')
+    model.load_state_dict(torch.load("model.pt", map_location=device))
+    model.eval()
+    runningLoss = []
+    with torch.no_grad():
+        for i, images in enumerate(dataloader):
+            input_images = images[:, 100:100+context, :, :]
+            labels = images[:, 100+context:100+context + horizon, :, :]
+            output = model(input_images, horizon)
+            loss = criterion(output, labels)
+            runningLoss.append(loss.cpu())
+        modelsLoss.append(numpy.mean(runningLoss))
+    os.chdir("../")
+
+
+finalLoss = numpy.mean(modelsLoss)
+
+configuration = {f'{modelName}loss': finalLoss}
+print(configuration)
 with open('configuration.txt', 'w') as f:
     print(configuration, file=f)
-
-
 

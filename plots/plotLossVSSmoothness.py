@@ -179,9 +179,9 @@ def count_params(net):
 
 
 dataset = "wave"
-mode = "horizon-20-40"
+mode = "horizon-20-70"
 context = 20
-horizon = 40
+horizon = 70
 
 
 def matchColor(modelName):
@@ -215,7 +215,7 @@ def matchSize(multiplier):
 
 fig, ax = plt.subplots()
 
-df = pd.read_csv("df_40_correctStandard")
+df = pd.read_csv("df_70_correctStandard")
 df.reset_index()
 for index, row in df.iterrows():
     modelName = row["name"]

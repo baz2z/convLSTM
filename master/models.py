@@ -146,3 +146,7 @@ class Forecaster(nn.Module):
             output[:, t] = self.read(h[-1]).squeeze()
             #latent = output[:, t]
         return output
+
+
+
+
