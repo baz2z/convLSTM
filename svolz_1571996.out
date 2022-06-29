@@ -1,0 +1,53 @@
+/mnt/qb/work/butz/svolz67/dev/models
+JOB DATA
+JobId=1571996 ArrayJobId=1571996 ArrayTaskId=0 JobName=review.sh
+   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
+   Priority=26629 Nice=0 Account=butz QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:01 TimeLimit=12:00:00 TimeMin=N/A
+   SubmitTime=2022-06-29T15:51:20 EligibleTime=2022-06-29T15:51:20
+   AccrueTime=Unknown
+   StartTime=2022-06-29T15:51:20 EndTime=2022-06-30T03:51:20 Deadline=N/A
+   PreemptEligibleTime=2022-06-29T15:52:20 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-06-29T15:51:20
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:5291
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=slurm-bm-70
+   BatchHost=slurm-bm-70
+   NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/qb/work/butz/svolz67/dev/models/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/models
+   StdErr=/mnt/qb/work/butz/svolz67/dev/models/svolz_1571996.err
+   StdIn=/dev/null
+   StdOut=/mnt/qb/work/butz/svolz67/dev/models/svolz_1571996.out
+   Power=
+   CpusPerTres=gpu:8
+   TresPerNode=gpu:1
+   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
+   NtasksPerTRES:0
+
+node:
+slurm-bm-70.novalocal
+RUN Script
+wave-10000-190-10 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 1.0, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
+wave-10000-190-12 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 1.2, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
+wave-10000-190-14 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 1.4, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
+wave-10000-190-16 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 1.6, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
+wave-10000-190-44 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 4.4, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
+wave-10000-190-46 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 4.6, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
+wave-10000-190-48 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 4.8, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
+wave-10000-190-50 [{'dt': 0.1, 'dx': 1, 'dy': 1, 'height': 32, 'timesteps': 189, 'width': 32}, {'amplitude': 0.34, 'amplitudes': array([0.1 , 0.34]), 'boundary_type': 'reflecting', 'damp': 1.0, 'obstacles_N': 0, 'obstacles_dim': array([], dtype=float64), 'obstacles_given': array([[[5, 8],
+        [6, 1]]]), 'p_absorption': 0.0, 'p_generation': 0.0, 'skip_rate': 1, 'skip_rates': array([1, 5]), 'std_absorption': 0.01, 'std_generation': 0.01, 'velocities': array([0.5, 5. ]), 'velocity': 5.0, 'waves': 1, 'width_x': 0.5, 'width_y': 0.5}]
