@@ -51,15 +51,28 @@ def load_attributes(f, name='params'):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-for j in range(21):
-    if j != 13:
-        datasetName = "wave-3000-60_" + str(j - 10)
-        dataset = Wave(datasetName, isTrain=True)
-        dataloader = DataLoader(dataset=dataset, batch_size=32, shuffle=True, collate_fn=lambda x: default_collate(x).to("cpu", torch.float), drop_last=True)
-        # print(dataloader.dataset.mu, dataloader.dataset.std)
-        print(datasetName, load_attributes(dataset.f))
-        # print(numpy.mean(iter(dataloader).__next__().numpy()))
-        # print(numpy.std(iter(dataloader).__next__().numpy()))
-
-
+# for j in range(21):
+#     if j != 13:
+#         datasetName = "wave-3000-60_" + str(j - 10)
+#         dataset = Wave(datasetName, isTrain=True)
+#         dataloader = DataLoader(dataset=dataset, batch_size=32, shuffle=True, collate_fn=lambda x: default_collate(x).to("cpu", torch.float), drop_last=True)
+#         # print(dataloader.dataset.mu, dataloader.dataset.std)
+#         print(datasetName, load_attributes(dataset.f))
+#         # print(numpy.mean(iter(dataloader).__next__().numpy()))
+#         # print(numpy.std(iter(dataloader).__next__().numpy()))
+#
+for speed in [10, 12, 14, 16, 44, 46, 48, 50]:
+    datasetName = "wave-10000-190-" + str(speed)
+    datasetTrain = Wave(datasetName)
+    trainMean = datasetTrain.mu
+    trainStd = datasetTrain.std
+    datasetVal = Wave(datasetName, isTrain=False)
+    datasetVal.mu = trainMean
+    datasetVal.std = trainStd
+    dataloaderTrain = DataLoader(dataset=datasetTrain, batch_size=32, shuffle=True, drop_last=True,
+                                 collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    dataloaderVal = DataLoader(dataset=datasetVal, batch_size=32, shuffle=True, drop_last=True,
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    print(datasetName, load_attributes(datasetTrain.f))
+    os.chdir("../../../../../../speed")
 
