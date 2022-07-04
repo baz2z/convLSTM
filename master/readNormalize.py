@@ -247,7 +247,7 @@ paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = "2"
+run = "1"
 
 waveMu = 0.009491552082921368
 waveStd = 0.0429973207415241
@@ -288,7 +288,7 @@ plt.show()
 
 # example wave
 visData = iter(dataloader).__next__()
-pred = model(visData[:, :20, :, :], horizon=20).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
 print(numpy.mean(visData.numpy()))
 print(numpy.std(visData.numpy()))
@@ -302,11 +302,13 @@ plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
 plt.legend()
 plt.title(f'{(w, h)}')
+plt.savefig("perPixel")
 plt.show()
 
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
-visualize_wave(visData[sequence, 20:40, :, :])
-
-f = open("configuration.txt", "r")
-print(f.read())
+plt.savefig("prediction")
+visualize_wave(visData[sequence, 20:90, :, :])
+plt.savefig("gT")
+# f = open("configuration.txt", "r")
+# print(f.read())
