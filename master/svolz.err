@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runBatch.py", line 323, in <module>
+    hiddenSize, lateralSize = mapParas(model, mp, paramLevel, batch_size)
+TypeError: mapParas() takes 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/models/master/./runBatch.py", line 323, in <module>
+    hiddenSize, lateralSize = mapParas(model, mp, paramLevel, batch_size)
+TypeError: mapParas() takes 3 positional arguments but 4 were given
