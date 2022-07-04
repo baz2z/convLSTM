@@ -130,7 +130,7 @@ def mapModel(model, hiddenSize, lateralSize):
             return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
 
 
-def mapDataset(datasetTrain, datasetVal, batch_size, batchSize):
+def mapDataset(datasetTrain, datasetVal, batchSize):
     train = None
     val = None
 
@@ -320,7 +320,7 @@ if __name__ == '__main__':
     for c in [1, 2, 4, 8]:
         batch_size = 32 * c
         learningRate = 0.001 * c
-        hiddenSize, lateralSize = mapParas(model, mp, paramLevel, batch_size)
+        hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
         dataloader, validation, datasetMu, datasetStd = mapDataset(datasetTrain, datasetVal, batch_size)
