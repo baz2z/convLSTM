@@ -247,17 +247,17 @@ paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = "1"
+run = "2"
 
 waveMu = 0.009491552082921368
 waveStd = 0.0429973207415241
-dataset1 = Wave("wave-3000-190")
+dataset1 = Wave("wave-10000-190-44")
 dataset1.mu = waveMu
 dataset1.std = waveStd
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 #path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-path = "../trainedModels/valTest/valTest/baseline/25391/run"+ run
+path = "../trainedModels/wave/speed/baseline/44/run"+ run
 os.chdir(path)
 
 # model
@@ -285,9 +285,11 @@ plt.plot(valLoss, label="valLoss")
 plt.legend()
 plt.show()
 
+
 # example wave
 visData = iter(dataloader).__next__()
-pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=20).detach().cpu().numpy()
+
 print(numpy.mean(visData.numpy()))
 print(numpy.std(visData.numpy()))
 sequence = 1
@@ -304,7 +306,7 @@ plt.show()
 
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
-visualize_wave(visData[sequence, 20:, :, :])
+visualize_wave(visData[sequence, 20:40, :, :])
 
 f = open("configuration.txt", "r")
 print(f.read())

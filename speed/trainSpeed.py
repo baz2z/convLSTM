@@ -256,8 +256,9 @@ if __name__ == '__main__':
     mp = args.multiplier
     paramLevel = args.paramLevel
     # begin to train
-    loss_plot_train, loss_plot_val = [], []
+
     for speed in [16, 44]:# [10, 12, 14, 16, 44, 46, 48, 50]:
+        loss_plot_train, loss_plot_val = [], []
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
