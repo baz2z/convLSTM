@@ -289,7 +289,7 @@ os.chdir("../../../../../../master")
 
 # example wave
 visData = iter(dataloader).__next__()
-pred = model(visData[:, 100:120, :, :], horizon=70).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=170).detach().cpu().numpy()
 
 # print(numpy.mean(visData.numpy()))
 # print(numpy.std(visData.numpy()))
@@ -297,7 +297,7 @@ sequence = 1
 # for one pixel
 
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
-groundTruth = visData[sequence, 120:190, int(w / 2), int(h / 2)].detach().cpu().numpy()
+groundTruth = visData[sequence, 20:190, int(w / 2), int(h / 2)].detach().cpu().numpy()
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
 plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
@@ -309,7 +309,7 @@ plt.show()
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
 plt.savefig("prediction")
-visualize_wave(visData[sequence, 120:190, :, :].detach().cpu().numpy())
+visualize_wave(visData[sequence, 20:190, :, :].detach().cpu().numpy())
 plt.savefig("gT")
 # f = open("configuration.txt", "r")
 # print(f.read())
