@@ -257,7 +257,7 @@ dataset1.std = waveStd
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 #path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-path = "../trainedModels/wave/speed-adapted/baseline/44/run"+ run
+path = "../trainedModels/wave/speed/baseline/44/run"+ run
 os.chdir(path)
 
 # model
