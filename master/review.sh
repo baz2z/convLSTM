@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./runBatch.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "skip" --dataset "wave" --datasetTrain "wave-10000-90" \
+python ./runBatch.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "depthWise" --dataset "wave" --datasetTrain "wave-10000-90" \
                    --datasetVal "wave-10000-90" --mode "spikes-batch" --context 20 --horizon 40 --learningRate 0.001 \
                    --epochs 400 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1
