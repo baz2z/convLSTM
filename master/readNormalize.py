@@ -297,7 +297,7 @@ sequence = 1
 # for one pixel
 
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
-groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)]
+groundTruth = visData[sequence, 20:, int(w / 2), int(h / 2)].detach().cpu().numpy()
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
 plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
