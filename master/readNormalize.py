@@ -309,7 +309,7 @@ plt.show()
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
 plt.savefig("prediction")
-visualize_wave(visData[sequence, 20:90, :, :])
+visualize_wave(visData[sequence, 20:90, :, :].detach().cpu().numpy())
 plt.savefig("gT")
 # f = open("configuration.txt", "r")
 # print(f.read())
