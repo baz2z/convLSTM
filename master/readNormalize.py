@@ -278,18 +278,18 @@ valLoss = torch.load("validationLoss", map_location=device)
 # print(f'smoothness:{smoothness}')
 #
 #
-plt.yscale("log")
-plt.plot(trainLoss, label="trainLoss")
-plt.plot(valLoss, label="valLoss")
-#plt.plot(movingAvg, label = "avg")
-plt.legend()
-plt.show()
+# plt.yscale("log")
+# plt.plot(trainLoss, label="trainLoss")
+# plt.plot(valLoss, label="valLoss")
+# #plt.plot(movingAvg, label = "avg")
+# plt.legend()
+# plt.show()
 
 os.chdir("../../../../../../master")
 
 # example wave
 visData = iter(dataloader).__next__()
-pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
+pred = model(visData[:, 100:120, :, :], horizon=70).detach().cpu().numpy()
 
 # print(numpy.mean(visData.numpy()))
 # print(numpy.std(visData.numpy()))
@@ -309,7 +309,7 @@ plt.show()
 # for entire sequence
 visualize_wave(pred[sequence, :, :, :])
 plt.savefig("prediction")
-visualize_wave(visData[sequence, 20:90, :, :].detach().cpu().numpy())
+visualize_wave(visData[sequence, 120:190, :, :].detach().cpu().numpy())
 plt.savefig("gT")
 # f = open("configuration.txt", "r")
 # print(f.read())
