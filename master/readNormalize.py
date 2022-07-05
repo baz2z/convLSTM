@@ -288,7 +288,7 @@ plt.show()
 os.chdir("../../../../../../master")
 
 # example wave
-visData = iter(dataloader).__next__().detach().cpu().numpy()
+visData = iter(dataloader).__next__().cpu().numpy()
 pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
 # print(numpy.mean(visData.numpy()))
