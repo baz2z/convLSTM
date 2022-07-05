@@ -291,8 +291,8 @@ os.chdir("../../../../../../master")
 visData = iter(dataloader).__next__()
 pred = model(visData[:, :20, :, :], horizon=70).detach().cpu().numpy()
 
-print(numpy.mean(visData.numpy()))
-print(numpy.std(visData.numpy()))
+# print(numpy.mean(visData.numpy()))
+# print(numpy.std(visData.numpy()))
 sequence = 1
 # for one pixel
 
