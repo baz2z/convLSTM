@@ -282,19 +282,19 @@ if __name__ == '__main__':
     mult = 1
     counter = 0
 
-    # for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
-    #     for speed in ["16", "44"]:
-    #         dataLoader = mapDataloader(speed)
-    #         hs, ls = mapParas(modelName, mult, param)
-    #         model = mapModel(modelName, hs, ls)
-    #         path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
-    #         os.chdir(path)
-    #         print(os.getcwd())
-    #         loss40 = calcLoss(model, 20, 40, dataLoader)
-    #         df.loc[counter] = [modelName, 0, speed, loss40]# , loss40_og, loss70_og, loss170_og]
-    #         counter += 1
-    #         pathBack = f'../../../../../speed'
-    #         os.chdir(pathBack)
+    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+        for speed in ["16", "44"]:
+            dataLoader = mapDataloader(speed)
+            hs, ls = mapParas(modelName, mult, param)
+            model = mapModel(modelName, hs, ls)
+            path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
+            os.chdir(path)
+            print(os.getcwd())
+            loss40 = calcLoss(model, 20, 170, dataLoader)
+            df.loc[counter] = [modelName, 0, speed, loss40]# , loss40_og, loss70_og, loss170_og]
+            counter += 1
+            pathBack = f'../../../../../speed'
+            os.chdir(pathBack)
 
     mode = "speed-adapted"
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
@@ -304,7 +304,7 @@ if __name__ == '__main__':
             model = mapModel(modelName, hs, ls)
             path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
             os.chdir(path)
-            loss40 = calcLoss(model, 20, 40, dataLoader)
+            loss40 = calcLoss(model, 20, 170, dataLoader)
             df.loc[counter] = [modelName, 1, speed, loss40]# , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../../speed'
