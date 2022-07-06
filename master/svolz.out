@@ -1,20 +1,20 @@
 /mnt/qb/work/butz/svolz67/dev/models/master
 JOB DATA
-JobId=1582769 ArrayJobId=1582769 ArrayTaskId=1 JobName=readNormalize.sh
+JobId=1582785 ArrayJobId=1582785 ArrayTaskId=1 JobName=readNormalize.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=26353 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:00 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-07-06T11:02:39 EligibleTime=2022-07-06T11:02:41
+   RunTime=00:00:06 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-07-06T11:29:01 EligibleTime=2022-07-06T11:29:02
    AccrueTime=Unknown
-   StartTime=2022-07-06T11:02:41 EndTime=2022-07-09T11:02:41 Deadline=N/A
-   PreemptEligibleTime=2022-07-06T11:03:41 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-06T11:02:41
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22769
+   StartTime=2022-07-06T11:29:02 EndTime=2022-07-09T11:29:02 Deadline=N/A
+   PreemptEligibleTime=2022-07-06T11:30:02 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-06T11:29:02
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:31637
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-63
-   BatchHost=slurm-bm-63
+   NodeList=slurm-bm-42
+   BatchHost=slurm-bm-42
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
@@ -33,7 +33,7 @@ JobId=1582769 ArrayJobId=1582769 ArrayTaskId=1 JobName=readNormalize.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-63.novalocal
+slurm-bm-42.novalocal
 RUN Script
-/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/16/run1
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/lateral/44/run1
 26011
