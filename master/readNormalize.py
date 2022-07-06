@@ -249,8 +249,8 @@ model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
 run = "1"
 
-waveMu = 0.0007966926089673783
-waveStd = 0.030603650217962627
+waveMu = 0.013662814265907722
+waveStd = 0.08079216219452046
 dataset1 = Wave("wave-10000-190-16")
 dataset1.mu = waveMu
 dataset1.std = waveStd
