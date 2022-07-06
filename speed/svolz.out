@@ -35,3 +35,13 @@ JobId=1582822 ArrayJobId=1582822 ArrayTaskId=1 JobName=review.sh
 node:
 slurm-bm-51.novalocal
 RUN Script
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/baseline/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/baseline/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/twoLayer/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/twoLayer/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/skip/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/skip/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/depthWise/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/depthWise/44
