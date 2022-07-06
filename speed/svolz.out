@@ -1,155 +1,27 @@
 /mnt/qb/work/butz/svolz67/dev/models/speed
 JOB DATA
-JobId=1572355 ArrayJobId=1572355 ArrayTaskId=5 JobName=trainSpeed.sh
+JobId=1582736 ArrayJobId=1582736 ArrayTaskId=1 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=29542 Nice=0 Account=butz QOS=normal
+   Priority=26353 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-06-29T16:34:35 EligibleTime=2022-06-29T16:34:36
-   AccrueTime=2022-06-29T16:34:49
-   StartTime=2022-07-01T22:08:20 EndTime=2022-07-04T22:08:20 Deadline=N/A
-   PreemptEligibleTime=2022-07-01T22:09:20 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-01T22:08:20
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16764
+   RunTime=00:00:30 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-07-06T10:08:23 EligibleTime=2022-07-06T10:08:24
+   AccrueTime=Unknown
+   StartTime=2022-07-06T10:08:24 EndTime=2022-07-09T10:08:24 Deadline=N/A
+   PreemptEligibleTime=2022-07-06T10:09:24 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-06T10:08:24
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:12573
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-37
-   BatchHost=slurm-bm-37
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   NodeList=slurm-bm-45
+   BatchHost=slurm-bm-45
+   NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
    MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
    Features=(null) DelayBoot=00:00:00
    OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/speed/trainSpeed.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/speed
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1572360 ArrayJobId=1572355 ArrayTaskId=4 JobName=trainSpeed.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=29542 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-06-29T16:34:35 EligibleTime=2022-06-29T16:34:36
-   AccrueTime=2022-06-29T16:34:49
-   StartTime=2022-07-01T22:08:20 EndTime=2022-07-04T22:08:20 Deadline=N/A
-   PreemptEligibleTime=2022-07-01T22:09:20 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-01T22:08:20
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16764
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-37
-   BatchHost=slurm-bm-37
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/speed/trainSpeed.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/speed
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1572359 ArrayJobId=1572355 ArrayTaskId=3 JobName=trainSpeed.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=29537 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:06:02 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-06-29T16:34:35 EligibleTime=2022-06-29T16:34:36
-   AccrueTime=2022-06-29T16:34:49
-   StartTime=2022-07-01T22:02:19 EndTime=2022-07-04T22:02:19 Deadline=N/A
-   PreemptEligibleTime=2022-07-01T22:03:19 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-01T22:02:19
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16764
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-51
-   BatchHost=slurm-bm-51
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/speed/trainSpeed.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/speed
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1572358 ArrayJobId=1572355 ArrayTaskId=2 JobName=trainSpeed.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=29522 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:21:06 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-06-29T16:34:35 EligibleTime=2022-06-29T16:34:36
-   AccrueTime=2022-06-29T16:34:49
-   StartTime=2022-07-01T21:47:15 EndTime=2022-07-04T21:47:15 Deadline=N/A
-   PreemptEligibleTime=2022-07-01T21:48:15 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-01T21:47:15
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16764
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-83
-   BatchHost=slurm-bm-83
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/speed/trainSpeed.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/models/speed
-   StdErr=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.err
-   StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.out
-   Power=
-   CpusPerTres=gpu:8
-   TresPerNode=gpu:1
-   MailUser=sebastien.volz@student.uni-tuebingen.de MailType=FAIL
-   NtasksPerTRES:0
-
-JobId=1572357 ArrayJobId=1572355 ArrayTaskId=1 JobName=trainSpeed.sh
-   UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
-   Priority=29433 Nice=0 Account=butz QOS=normal
-   JobState=RUNNING Reason=None Dependency=(null)
-   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=01:49:26 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-06-29T16:34:35 EligibleTime=2022-06-29T16:34:36
-   AccrueTime=2022-06-29T16:34:49
-   StartTime=2022-07-01T20:18:55 EndTime=2022-07-04T20:18:55 Deadline=N/A
-   PreemptEligibleTime=2022-07-01T20:19:55 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-01T20:18:55
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16764
-   ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=slurm-bm-05
-   BatchHost=slurm-bm-05
-   NumNodes=1 NumCPUs=8 NumTasks=5 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
-   TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
-   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-   MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
-   Features=(null) DelayBoot=00:00:00
-   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/models/speed/trainSpeed.sh
+   Command=/mnt/qb/work/butz/svolz67/dev/models/speed/review.sh
    WorkDir=/mnt/qb/work/butz/svolz67/dev/models/speed
    StdErr=/mnt/qb/work/butz/svolz67/dev/models/speed/svolz.err
    StdIn=/dev/null
@@ -161,5 +33,45 @@ JobId=1572357 ArrayJobId=1572355 ArrayTaskId=1 JobName=trainSpeed.sh
    NtasksPerTRES:0
 
 node:
-slurm-bm-37.novalocal
+slurm-bm-45.novalocal
 RUN Script
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/baseline/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/baseline/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/twoLayer/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/twoLayer/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/skip/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/skip/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/depthWise/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/depthWise/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/baseline/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/baseline/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/lateral/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/lateral/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/twoLayer/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/twoLayer/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/skip/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/skip/44
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/depthWise/16
+1000
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed-adapted/depthWise/44
