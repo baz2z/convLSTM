@@ -1,20 +1,20 @@
 /mnt/qb/work/butz/svolz67/dev/models/speed
 JOB DATA
-JobId=1582763 ArrayJobId=1582763 ArrayTaskId=1 JobName=review.sh
+JobId=1582776 ArrayJobId=1582776 ArrayTaskId=1 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=26353 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-07-06T10:57:31 EligibleTime=2022-07-06T10:57:32
+   RunTime=00:00:07 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-07-06T11:09:37 EligibleTime=2022-07-06T11:09:37
    AccrueTime=Unknown
-   StartTime=2022-07-06T10:57:32 EndTime=2022-07-09T10:57:32 Deadline=N/A
-   PreemptEligibleTime=2022-07-06T10:58:32 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-06T10:57:32
+   StartTime=2022-07-06T11:09:37 EndTime=2022-07-09T11:09:37 Deadline=N/A
+   PreemptEligibleTime=2022-07-06T11:10:37 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-06T11:09:37
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22769
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=bg-slurmb-bm-3
-   BatchHost=bg-slurmb-bm-3
+   NodeList=slurm-bm-42
+   BatchHost=slurm-bm-42
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
@@ -33,5 +33,15 @@ JobId=1582763 ArrayJobId=1582763 ArrayTaskId=1 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-bg-slurmb-bm-3.novalocal
+slurm-bm-42.novalocal
 RUN Script
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/baseline/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/baseline/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/twoLayer/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/twoLayer/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/skip/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/skip/44
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/depthWise/16
+/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/depthWise/44
