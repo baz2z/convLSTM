@@ -1,16 +1,16 @@
 /mnt/qb/work/butz/svolz67/dev/models/master
 JOB DATA
-JobId=1582806 ArrayJobId=1582806 ArrayTaskId=1 JobName=readNormalize.sh
+JobId=1582814 ArrayJobId=1582814 ArrayTaskId=1 JobName=readNormalize.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=26353 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:06 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-07-06T11:35:55 EligibleTime=2022-07-06T11:35:55
+   RunTime=00:00:01 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-07-06T11:37:56 EligibleTime=2022-07-06T11:37:57
    AccrueTime=Unknown
-   StartTime=2022-07-06T11:35:55 EndTime=2022-07-09T11:35:55 Deadline=N/A
-   PreemptEligibleTime=2022-07-06T11:36:55 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-06T11:35:55
+   StartTime=2022-07-06T11:37:57 EndTime=2022-07-09T11:37:57 Deadline=N/A
+   PreemptEligibleTime=2022-07-06T11:38:57 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-06T11:37:57
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:31637
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-42
@@ -35,5 +35,3 @@ JobId=1582806 ArrayJobId=1582806 ArrayTaskId=1 JobName=readNormalize.sh
 node:
 slurm-bm-42.novalocal
 RUN Script
-/mnt/qb/work/butz/svolz67/dev/models/trainedModels/wave/speed/lateral/16/run1
-26011
