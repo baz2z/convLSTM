@@ -223,7 +223,6 @@ def totaSmoothness():
 
 
 def calcLoss(model, context, horizon, dataloader, og = False):
-    print(os.getcwd())
     criterion = nn.MSELoss()
     modelsLoss = []
     for runNbr in range(5):
@@ -262,7 +261,6 @@ def mapDataloader(speed):
     datasetLoader = Wave(name, isTrain=False)
     datasetLoader.mu = waveMu
     datasetLoader.std = waveStd
-    print(len(datasetLoader))
     dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
                              collate_fn=lambda x: default_collate(x).to(device, torch.float))
     return dataloader
@@ -284,18 +282,19 @@ if __name__ == '__main__':
     mult = 1
     counter = 0
 
-    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
-        for speed in ["16", "44"]:
-            dataLoader = mapDataloader(speed)
-            hs, ls = mapParas(modelName, mult, param)
-            model = mapModel(modelName, hs, ls)
-            path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
-            os.chdir(path)
-            loss40 = calcLoss(model, 20, 40, dataLoader)
-            df.loc[counter] = [modelName, 0, speed, loss40]# , loss40_og, loss70_og, loss170_og]
-            counter += 1
-            pathBack = f'../../../../../speed'
-            os.chdir(pathBack)
+    # for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+    #     for speed in ["16", "44"]:
+    #         dataLoader = mapDataloader(speed)
+    #         hs, ls = mapParas(modelName, mult, param)
+    #         model = mapModel(modelName, hs, ls)
+    #         path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
+    #         os.chdir(path)
+    #         print(os.getcwd())
+    #         loss40 = calcLoss(model, 20, 40, dataLoader)
+    #         df.loc[counter] = [modelName, 0, speed, loss40]# , loss40_og, loss70_og, loss170_og]
+    #         counter += 1
+    #         pathBack = f'../../../../../speed'
+    #         os.chdir(pathBack)
 
     mode = "speed-adapted"
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
@@ -310,8 +309,6 @@ if __name__ == '__main__':
             counter += 1
             pathBack = f'../../../../../speed'
             os.chdir(pathBack)
-
-    #print(df)
 
     df.to_csv("speed")
 
