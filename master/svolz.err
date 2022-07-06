@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/mnt/qb/work/butz/svolz67/dev/models/master/./readNormalize.py", line 261, in <module>
-    os.chdir(path)
-FileNotFoundError: [Errno 2] No such file or directory: '../trainedModels/wave/speed/lateral-adapted/16/run1'
