@@ -1,5 +1,6 @@
 import argparse
 
+import pandas as pd
 from models import baseline, lateral, skipConnection, depthWise, twoLayer, Forecaster
 import torch
 import os
@@ -9,49 +10,9 @@ import math
 import numpy
 from torch.utils.data import Dataset, DataLoader, default_collate
 from torch import nn
-
-
-
-class Wave(Dataset):
-    def __init__(self, file, isTrain=True):
-        # data loading
-        f = h5py.File("../../data/wave/" + file, 'r')
-        self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['val']
-        means, stds = [], []
-        for i in range(len(self.data)):
-            data = self.data[f'{i}'.zfill(3)][:, :, :]
-            means.append(numpy.mean(data))
-            stds.append(numpy.std(data))
-        self.mu = numpy.mean(means)
-        self.std = numpy.mean(stds)
-
-
-    def __getitem__(self, item):
-        data = self.data[f'{item}'.zfill(3)][:, :, :]
-        data = (data - self.mu) / self.std
-        return data
-
-    def __len__(self):
-        return len(self.data)
-
-
-
-
-def mapModel(model, hiddenSize, lateralSize):
-    match model:
-        case "baseline":
-            return Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
-        case "lateral":
-            return Forecaster(hiddenSize, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
-        case "twoLayer":
-            return Forecaster(hiddenSize, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
-        case "skip":
-            return Forecaster(hiddenSize, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
-        case "depthWise":
-            return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
-
-
+import itertools
+from matplotlib import pyplot
+import matplotlib.lines as mlines
 
 def mapParas(modelName, multiplier, paramsIndex):
     modelParams = (0, 0)
@@ -148,7 +109,7 @@ def mapParas(modelName, multiplier, paramsIndex):
                 case 2:
                     modelParams = (28, 1)
                 case 3:
-                    modelParams = (41, 1)
+                    modelParams = (40, 1)
         if multiplier == 2:
             match paramsIndex:
                 case 1:
@@ -166,8 +127,50 @@ def mapParas(modelName, multiplier, paramsIndex):
                 case 3:
                     modelParams = (20, 4)
 
-    return modelParams
+    return modelParams #(hs, ls)
+def mapModel(model, hiddenSize, lateralSize):
+    match model:
+        case "baseline":
+            return Forecaster(hiddenSize, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+        case "lateral":
+            return Forecaster(hiddenSize, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "twoLayer":
+            return Forecaster(hiddenSize, twoLayer, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "skip":
+            return Forecaster(hiddenSize, skipConnection, num_blocks=2, lstm_kwargs={'lateral_channels': lateralSize}).to(device)
+        case "depthWise":
+            return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
 
+class Wave(Dataset):
+    def __init__(self, file, isTrain=True):
+        # data loading
+        f = h5py.File("../../data/wave/" + file, 'r')
+        self.isTrain = isTrain
+        self.data = f['data']['train'] if self.isTrain else f['data']['val']
+        means, stds = [], []
+        for i in range(len(self.data)):
+            data = self.data[f'{i}'.zfill(3)][:, :, :]
+            means.append(numpy.mean(data))
+            stds.append(numpy.std(data))
+        self.mu = numpy.mean(means)
+        self.std = numpy.mean(stds)
+
+
+    def __getitem__(self, item):
+        data = self.data[f'{item}'.zfill(3)][:, :, :]
+        data = (data - self.mu) / self.std
+        return data
+
+    def __len__(self):
+        return len(self.data)
+
+
+def f(x):
+    return {
+        0.5: 1,
+        1: 2,
+        2: 4
+    }[x]
 
 def count_params(net):
     '''
@@ -175,66 +178,142 @@ def count_params(net):
     '''
     return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
+def smoothess(arr):
+    window_size = 49
+    padding = window_size // 2
+    i = 0
+    moving_averages = []
 
-def visualize_wave(imgs):
-    t, w, h = imgs.shape
-    for i in range(t):
-        plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
-        plt.title(i, fontsize=9)
-        plt.axis("off")
-        image = imgs[i, :, :]
-        plt.imshow(image, cmap="gray")
-    plt.subplots_adjust(hspace=0.4)
-    plt.show()
-
-
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-modelName = "baseline"
-mode = "speed-adapted"
-dataset = "wave"
-context = 20
-horizon = 40
-multiplier = 1
-paramLevel = 1
-hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
-model = mapModel(modelName, hiddenSize, lateralSize)
-params = count_params(model)
-speed = 16
-
-###speed dataset###
-datasetLoader = Wave("wave-10000-190-16", isTrain=False)
-dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
-                        collate_fn=lambda x: default_collate(x).to(device, torch.float))
-
-###model###
-path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
-os.chdir(path)
-
-# calculated train loss on new dataset and average the loss
-criterion = nn.MSELoss()
-modelsLoss = []
-for runNbr in range(5):
-    runNbr = runNbr + 1
-    os.chdir(f'./run{runNbr}')
-    model.load_state_dict(torch.load("model.pt", map_location=device))
-    model.eval()
-    runningLoss = []
-    with torch.no_grad():
-        for i, images in enumerate(dataloader):
-            input_images = images[:, 100:100+context, :, :]
-            labels = images[:, 100+context:100+context + horizon, :, :]
-            output = model(input_images, horizon)
-            loss = criterion(output, labels)
-            runningLoss.append(loss.cpu())
-        modelsLoss.append(numpy.mean(runningLoss))
-    os.chdir("../")
+    # Loop through the array to consider
+    # every window of size 3
+    while i < len(arr) - window_size + 1:
+        # Store elements from i to i+window_size
+        # in list to get the current window
+        window = arr[i: i + window_size]
+        # Calculate the average of current window
+        window_average = sum(window) / window_size
+        # Store the average of current
+        # window in moving average list
+        moving_averages.append(window_average)
+        # Shift window to right by one position
+        i += 1
 
 
-finalLoss = numpy.mean(modelsLoss)
+    diff = [a-b for (a, b) in zip(arr[padding:-padding], moving_averages)]
+    mse = (numpy.square(diff)).mean(axis=0)
+    moving_averages_final = numpy.pad(moving_averages, (padding, padding), "constant", constant_values=(0, 0))
+    return moving_averages_final, mse
 
-configuration = {f'{modelName}loss': finalLoss}
-print(configuration)
-with open('configuration.txt', 'w') as f:
-    print(configuration, file=f)
+
+def totaSmoothness():
+    modelsSmoothness = []
+    for runNbr in range(4):
+        runNbr = runNbr + 1
+        os.chdir(f'./run{runNbr}')
+        trainLoss = torch.load("trainingLoss", map_location=device)
+        #valLoss = torch.load("validationLoss", map_location=device)
+        movingAvg, smoothness = smoothess(trainLoss)
+        modelsSmoothness.append(smoothness)
+        os.chdir("../")
+
+    return numpy.mean(modelsSmoothness)
+
+
+
+
+
+def calcLoss(model, context, horizon, dataloader, og = False):
+    print(os.getcwd())
+    criterion = nn.MSELoss()
+    modelsLoss = []
+    for runNbr in range(5):
+        runNbr = runNbr + 1
+        os.chdir(f'./run{runNbr}')
+        model.load_state_dict(torch.load("model.pt", map_location=device))
+        model.eval()
+        runningLoss = []
+        with torch.no_grad():
+            for i, images in enumerate(dataloader):
+                input_images = images[:, :context, :, :]
+                labels = images[:, context:context + horizon, :, :]
+                output = model(input_images, horizon)
+                if og:
+                    output_not_normalized = (output * dataloader.dataset.std) + dataloader.dataset.mu
+                    labels_not_normalized = (labels * dataloader.dataset.std) + dataloader.dataset.mu
+                    loss = criterion(output_not_normalized, labels_not_normalized)
+                else:
+                    loss = criterion(output, labels)
+                runningLoss.append(loss.cpu())
+            modelsLoss.append(numpy.mean(runningLoss))
+        os.chdir("../")
+    finalLoss = numpy.mean(modelsLoss)
+    return finalLoss
+
+
+def mapDataloader(speed):
+    if speed == "16":
+        waveMu = 0.013662814265907722
+        waveStd = 0.08079216219452046
+    else:
+        waveMu = 0.0007966926089673783
+        waveStd = 0.030603650217962627
+
+    name = "wave-10000-190-" + speed
+    datasetLoader = Wave(name, isTrain=False)
+    datasetLoader.mu = waveMu
+    datasetLoader.std = waveStd
+    print(len(datasetLoader))
+    dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
+                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    return dataloader
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', type=str, default="horizon-20-70")
+    args = parser.parse_args()
+    #mode = args.mode
+
+    mode = "speed"
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    dataset = "wave"
+
+
+    df = pd.DataFrame(columns=["name", "basic", "speed", "loss40"])# , "loss40_og", "loss70_og", "loss170_og"])
+    param = 2
+    mult = 1
+    counter = 0
+
+    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+        for speed in ["16", "44"]:
+            dataLoader = mapDataloader(speed)
+            hs, ls = mapParas(modelName, mult, param)
+            model = mapModel(modelName, hs, ls)
+            path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
+            os.chdir(path)
+            loss40 = calcLoss(model, 20, 40, dataLoader)
+            df.loc[counter] = [modelName, 0, speed, loss40]# , loss40_og, loss70_og, loss170_og]
+            counter += 1
+            pathBack = f'../../../../../speed'
+            os.chdir(pathBack)
+
+    mode = "speed-adapted"
+    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+        for speed in ["16", "44"]:
+            dataLoader = mapDataloader(speed)
+            hs, ls = mapParas(modelName, mult, param)
+            model = mapModel(modelName, hs, ls)
+            path = f'../trainedModels/{dataset}/{mode}/{modelName}/{speed}'
+            os.chdir(path)
+            loss40 = calcLoss(model, 20, 40, dataLoader)
+            df.loc[counter] = [modelName, 1, speed, loss40]# , loss40_og, loss70_og, loss170_og]
+            counter += 1
+            pathBack = f'../../../../../speed'
+            os.chdir(pathBack)
+
+    #print(df)
+
+    df.to_csv("speed")
+
+
 

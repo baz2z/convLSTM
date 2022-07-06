@@ -25,4 +25,4 @@ hostname
 echo "RUN Script"
 
 
-python ./testNormalizeRangeSpeed.py
+python ./testSpeed.py
