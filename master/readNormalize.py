@@ -251,13 +251,13 @@ run = "1"
 
 waveMu = 0.013662814265907722
 waveStd = 0.08079216219452046
-dataset1 = Wave("wave-10000-190-44", isTrain=False)
+dataset1 = Wave("wave-10000-190-16", isTrain=False)
 dataset1.mu = waveMu
 dataset1.std = waveStd
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 #path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-path = "../trainedModels/wave/speed/lateral/44/run"+ run
+path = "../trainedModels/wave/speed/lateral/16/run"+ run
 os.chdir(path)
 
 # model
