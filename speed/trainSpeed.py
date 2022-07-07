@@ -37,7 +37,7 @@ class Wave(Dataset):
 
     def __getitem__(self, item):
         data = self.data[f'{item}'.zfill(3)][:, :, :]
-        data = (data - self.mu) / self.std
+        #data = (data - self.mu) / self.std
         return data
 
     def __len__(self):
@@ -280,8 +280,8 @@ if __name__ == '__main__':
         for j in range(epochs):
             lossPerBatch = []
             for i, images in enumerate(dataloaderTrain):
-                input_images = images[:, :+context, :, :]
-                labels = images[:, +context:+context + horizon, :, :]
+                input_images = images[:, :context, :, :]
+                labels = images[:, context:context + horizon, :, :]
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
                 lossPerBatch.append(loss.item())
@@ -296,8 +296,8 @@ if __name__ == '__main__':
             with torch.no_grad():
                 lossPerBatch = []
                 for i, images in enumerate(dataloaderVal):
-                    input_images = images[:, : + context, :, :]
-                    labels = images[:,  + context: + context + horizon, :, :]
+                    input_images = images[:, :context, :, :]
+                    labels = images[:,  context: context + horizon, :, :]
                     output = seq(input_images, horizon)
                     loss = criterion(output, labels)
                     lossPerBatch.append(loss.item())

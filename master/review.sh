@@ -3,7 +3,7 @@
 #SBATCH --array=1-5                             # Number of tasks (see below)
 #SBATCH --nodes=1                                   # Ensure that all cores are on one machine
 #SBeTCH --cpus-per-task=1
-#SBATCH --partition=gpu-v100                    # Partition to submit to
+#SBATCH --partition=gpu-2080ti                     # Partition to submit to
 #SBATCH --time=0-72:00           					# Runtime in D-HH:MM
 #SBATCH --mem=3G                                 # Memory pool for all cores (see also --mem-per-cpu)
 #SBATCH --output=svolz.out                  # File to which STDOUT will be written
