@@ -269,11 +269,11 @@ if __name__ == '__main__':
         datasetVal = Wave(datasetName, isTrain=False)
         datasetVal.mu = trainMean
         datasetVal.std = trainStd
-        dataloaderTrain = DataLoader(dataset=datasetTrain, batch_size=batch_size, shuffle=True, drop_last=True,
+        dataloaderTrain = DataLoader(dataset=datasetTrain, batch_size=batch_size, shuffle=True, drop_last=False,
                                      collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        dataloaderVal = DataLoader(dataset=datasetVal, batch_size=batch_size, shuffle=True, drop_last=True,
+        dataloaderVal = DataLoader(dataset=datasetVal, batch_size=batch_size, shuffle=True, drop_last=False,
                                    collate_fn=lambda x: default_collate(x).to(device, torch.float))
-
+        mode = "speed/notNormalized/basic/20-40"
         criterion = nn.MSELoss()
         optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
         scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
@@ -334,4 +334,4 @@ if __name__ == '__main__':
                          }
         with open('configuration.txt', 'w') as f:
             print(configuration, file=f)
-        os.chdir("../../../../../../speed")
+        os.chdir("../../../../../../../../../speed")
