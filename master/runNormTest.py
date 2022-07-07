@@ -37,7 +37,7 @@ class Wave(Dataset):
 
     def __getitem__(self, item):
         data = self.data[f'{item}'.zfill(3)][:, :, :]
-        data = (data - self.mu) / self.std
+        # data = (data - self.mu) / self.std
         return data
 
     def __len__(self):
@@ -357,7 +357,7 @@ if __name__ == '__main__':
             loss_plot_val.append(numpy.mean(lossPerBatch))
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{dataset}/{mode}/{model}/withNormalize/run{run}'
+    path = f'../trainedModels/{dataset}/{mode}/{model}/withoutNormalize/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)
