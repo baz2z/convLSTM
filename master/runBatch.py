@@ -317,7 +317,7 @@ if __name__ == '__main__':
     mp = args.multiplier
     paramLevel = args.paramLevel
     clip = args.clip
-    for c in [1, 2, 4, 8, 12]:
+    for c in [1, 2, 4]:# , 8, 12]:
         batch_size = 32 * c
         learningRate = 0.001 * c
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
