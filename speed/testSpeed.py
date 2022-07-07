@@ -272,12 +272,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
     #mode = args.mode
 
-    mode = "speed"
+    mode = "speed-basic"
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     dataset = "wave"
 
 
-    df = pd.DataFrame(columns=["name", "basic", "speed", "loss40"])# , "loss40_og", "loss70_og", "loss170_og"])
+    df = pd.DataFrame(columns=["name", "basic", "speed-basic", "loss40"])# , "loss40_og", "loss70_og", "loss170_og"])
     param = 2
     mult = 1
     counter = 0
@@ -293,10 +293,10 @@ if __name__ == '__main__':
             loss40 = calcLoss(model, 20, 40, dataLoader)
             df.loc[counter] = [modelName, 0, speed, loss40]# , loss40_og, loss70_og, loss170_og]
             counter += 1
-            pathBack = f'../../../../../speed'
+            pathBack = f'../../../../../speed-basic'
             os.chdir(pathBack)
 
-    mode = "speed-adapted"
+    mode = "speed-basic-adapted"
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         for speed in ["16", "44"]:
             dataLoader = mapDataloader(speed)
@@ -307,10 +307,10 @@ if __name__ == '__main__':
             loss40 = calcLoss(model, 20, 40, dataLoader)
             df.loc[counter] = [modelName, 1, speed, loss40]# , loss40_og, loss70_og, loss170_og]
             counter += 1
-            pathBack = f'../../../../../speed'
+            pathBack = f'../../../../../speed-basic'
             os.chdir(pathBack)
 
-    df.to_csv("speed")
+    df.to_csv("speed-basic")
 
 
 

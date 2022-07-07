@@ -232,7 +232,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--mode', type=str, default="speed-adapted")
+    parser.add_argument('--mode', type=str, default="speed-basic-adapted")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -327,11 +327,11 @@ if __name__ == '__main__':
                          "scheduler": scheduler,
                          "hiddenSize": hiddenSize,
                          "lateralSize": lateralSize,
-                         "speed": speed,
+                         "speed-basic": speed,
                          "datasetMean": trainMean,
                          "datasetStd": trainStd,
                          "trainedDataset": datasetName
                          }
         with open('configuration.txt', 'w') as f:
             print(configuration, file=f)
-        os.chdir("../../../../../../speed")
+        os.chdir("../../../../../../speed-basic")

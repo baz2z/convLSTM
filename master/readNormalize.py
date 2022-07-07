@@ -254,10 +254,10 @@ waveStd = 0.08079216219452046
 dataset1 = Wave("wave-10000-190-16", isTrain=False)
 dataset1.mu = waveMu
 dataset1.std = waveStd
-dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=False, drop_last=False,
+dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=True, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 #path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-path = "../trainedModels/wave/speed-adapted/lateral/16/run"+ run
+path = "../trainedModels/wave/speed-basic-adapted/lateral/16/run"+ run
 os.chdir(path)
 
 # model
@@ -289,27 +289,29 @@ os.chdir("../../../../../../master")
 
 # example wave
 visData = iter(dataloader).__next__()
+
+
 pred = model(visData[:, :20, :, :], horizon=170).detach().cpu().numpy()
 
-# print(numpy.mean(visData.numpy()))
-# print(numpy.std(visData.numpy()))
+print(numpy.mean(visData.numpy()))
+print(numpy.std(visData.numpy()))
 sequence = 1
 # for one pixel
-
-w, h = mostSignificantPixel(pred[sequence, :, :, :])
-groundTruth = visData[sequence, 20:190, int(w / 2), int(h / 2)].detach().cpu().numpy()
-prediction = pred[sequence, :, int(w / 2), int(h / 2)]
-plt.plot(groundTruth, label="groundTruth")
-plt.plot(prediction, label="prediction")
-plt.legend()
-plt.title(f'{(w, h)}')
-plt.savefig("perPixel")
-plt.show()
-
-# for entire sequence
-visualize_wave(pred[sequence, :, :, :])
-plt.savefig("prediction")
-visualize_wave(visData[sequence, 20:190, :, :].detach().cpu().numpy())
-plt.savefig("gT")
-# f = open("configuration.txt", "r")
-# print(f.read())
+#
+# w, h = mostSignificantPixel(pred[sequence, :, :, :])
+# groundTruth = visData[sequence, 20:190, int(w / 2), int(h / 2)].detach().cpu().numpy()
+# prediction = pred[sequence, :, int(w / 2), int(h / 2)]
+# plt.plot(groundTruth, label="groundTruth")
+# plt.plot(prediction, label="prediction")
+# plt.legend()
+# plt.title(f'{(w, h)}')
+# plt.savefig("perPixel")
+# plt.show()
+#
+# # for entire sequence
+# visualize_wave(pred[sequence, :, :, :])
+# plt.savefig("prediction")
+# visualize_wave(visData[sequence, 20:190, :, :].detach().cpu().numpy())
+# plt.savefig("gT")
+# # f = open("configuration.txt", "r")
+# # print(f.read())

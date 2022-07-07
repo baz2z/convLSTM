@@ -232,7 +232,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--mode', type=str, default="speed-adapted")
+    parser.add_argument('--mode', type=str, default="speed-basic-adapted")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -265,6 +265,10 @@ if __name__ == '__main__':
     datasetNameUpper = "wave-10000-190-upper"
     datasetTrainLower = Wave(datasetNameLower)
     datasetTrainUpper = Wave(datasetNameUpper)
+    lowerStd = datasetTrainLower.std
+    lowerMean = datasetTrainLower.mu
+    upperStd = datasetTrainUpper.std
+    upperMean = datasetTrainUpper.mu
     datasetTrainConcat = ConcatDataset([datasetTrainLower, datasetTrainUpper])
 
     datasetTrainLowerVal = Wave(datasetNameLower, isTrain=False)
@@ -323,15 +327,16 @@ if __name__ == '__main__':
                      "context": context,
                      "horizon": horizon,
                      "Loss": criterion,
-                     "dataset": datasetTrain,
+                     "dataset": datasetTrainConcat,
                      "clip": clip,
                      "scheduler": scheduler,
                      "hiddenSize": hiddenSize,
                      "lateralSize": lateralSize,
-                     "datasetMean": trainMean,
-                     "datasetStd": trainStd,
-                     "trainedDataset": datasetName
+                     "lowerStd": lowerStd,
+                     "lowerMean": lowerMean,
+                     "upperStd": upperStd,
+                     "upperMean": upperMean
                      }
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
-    os.chdir("../../../../../../speed")
+    os.chdir("../../../../../../speed-basic")

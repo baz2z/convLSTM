@@ -75,7 +75,7 @@ df.reset_index()
 for index, row in df.iterrows():
     modelName = row["name"]
     basic = row["basic"]
-    speed = row["speed"]
+    speed = row["speed-basic"]
     loss = row["loss40"]
     col = matchColor(speed)
     marker = matchMarker(modelName)
