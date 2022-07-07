@@ -334,4 +334,4 @@ if __name__ == '__main__':
                          }
         with open('configuration.txt', 'w') as f:
             print(configuration, file=f)
-        os.chdir("../../../../../../speed-basic")
+        os.chdir("../../../../../../speed")
