@@ -11,7 +11,7 @@ class baseline(nn.Module):
         z = torch.cat((x, h), dim=1) if x is not None else h
         i, f, o, g = self.conv(z).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) * tanh(g)
-        h = sigmoid(o) + tanh(c)
+        h = sigmoid(o) * tanh(c)
         return h, c
 
 
@@ -28,7 +28,7 @@ class lateral(nn.Module):
         l = self.transition(z)
         i, f, o, g = self.conv(l).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) * tanh(g)
-        h = sigmoid(o) + tanh(c)
+        h = sigmoid(o) * tanh(c)
         return h, c
 
 
@@ -47,7 +47,7 @@ class twoLayer(nn.Module):
         l_deep = self.transition_deep(l)
         i, f, o, g = self.conv(l_deep).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) * tanh(g)
-        h = sigmoid(o) + tanh(c)
+        h = sigmoid(o) * tanh(c)
         return h, c
 
 
@@ -65,7 +65,7 @@ class skipConnection(nn.Module):
         lWithSkip = torch.cat((l, h), dim = 1)
         i, f, o, g = self.conv(lWithSkip).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) * tanh(g)
-        h = sigmoid(o) + tanh(c)
+        h = sigmoid(o) * tanh(c)
         return h, c
 
 
@@ -82,7 +82,7 @@ class depthWise(nn.Module):
         l = self.transition(z)
         i, f, o, g = self.conv(l).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) * tanh(g)
-        h = sigmoid(o) + tanh(c)
+        h = sigmoid(o) * tanh(c)
         return h, c
 
 
