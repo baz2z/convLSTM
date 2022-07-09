@@ -163,3 +163,18 @@ JobId=1586526 ArrayJobId=1586525 ArrayTaskId=1 JobName=review.sh
 node:
 slurm-v100-4.novalocal
 RUN Script
+10
+1
+0.1
+0.01
+0.001
+10
+1
+0.1
+0.01
+0.001
+10
+1
+0.1
+0.01
+0.001
