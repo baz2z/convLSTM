@@ -12,6 +12,7 @@ class baseline(nn.Module):
         i, f, o, g = self.conv(z).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) * tanh(g)
         h = sigmoid(o) * tanh(c)
+        # where is calcualtion done with cell state just as in paper?
         return h, c
 
 

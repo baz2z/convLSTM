@@ -186,7 +186,6 @@ if __name__ == '__main__':
     clip = args.clip
     seq = mapModel(model)
     dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
-    scheduler = None
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
     #scheduler = MultiStepLR(optimizer, milestones=[150, 200, 250, 300, 350, 400, 450, 500], gamma=0.8)
