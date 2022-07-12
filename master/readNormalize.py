@@ -241,22 +241,23 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "horizon-20-40"
 horizon = 40
-modelName = "lateral"
+modelName = "baseline"
 multiplier = 1
-paramLevel = 2
+paramLevel = 1
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = "1"
+run = "2"
 
 waveMu = 0.013662814265907722
 waveStd = 0.08079216219452046
-dataset1 = Wave("wave-10000-190-16", isTrain=False)
+dataset1 = Wave("wave-10000-90", isTrain=True)
 dataset1.mu = waveMu
 dataset1.std = waveStd
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=True, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
+#path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
+path = f'../trainedModels/wave/bigProblem/baseline/1.0/1/run3'
 #path = "../trainedModels/wave/speed-basic-adapted/lateral/16/run"+ run
 os.chdir(path)
 
