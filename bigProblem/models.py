@@ -43,7 +43,7 @@ class twoLayer(nn.Module):
 
     def forward(self, x, h, c):
         z = torch.cat((x, h), dim=1) if x is not None else h
-        l = self.transition(z)
+        l = sigmoid(self.transition(z))
         l_deep = self.transition_deep(l)
         i, f, o, g = self.conv(l_deep).chunk(chunks = 4, axis = 1)
         c = sigmoid(f) * c + sigmoid(i) * tanh(g)

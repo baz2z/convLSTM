@@ -109,7 +109,7 @@ class Forecaster(nn.Module):
 def mapModel(model):
     match model:
         case "baseline":
-            return Forecaster(8, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
+            return Forecaster(4, baseline, num_blocks=2, lstm_kwargs={'k': 3}).to(device)
         case "lateral":
             return Forecaster(12, lateral, num_blocks=2, lstm_kwargs={'lateral_channels': 12}).to(device)
         case "twoLayer":
@@ -157,11 +157,11 @@ if __name__ == '__main__':
     parser.add_argument('--model', type=str, default="baseline",
                         choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--datasetTrain', type=str, default="wave-5000-90")
-    parser.add_argument('--datasetVal', type=str, default="wave-5000-90")
+    parser.add_argument('--datasetTrain', type=str, default="wave-10000-90")
+    parser.add_argument('--datasetVal', type=str, default="wave-10000-90")
     parser.add_argument('--mode', type=str, default="test")
     parser.add_argument('--context', type=int, default=20)
-    parser.add_argument('--horizon', type=int, default=70)
+    parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
     parser.add_argument('--epochs', type=int, default=20)
     parser.add_argument('--hiddenSize', type=int, default=12)

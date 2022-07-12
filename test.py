@@ -32,14 +32,9 @@ class Wave(Dataset):
         return len(self.data)
 
 
+dataset = Wave("wave-10000-90")
+# dataloader = DataLoader(dataset=Wave("wave-10000-90"), batch_size=32, shuffle=False, drop_last=False,
+#                         collate_fn=lambda x: default_collate(x).to("cpu", torch.float))
 
-dataloader = DataLoader(dataset=Wave("wave-10000-90"), batch_size=10, shuffle=False, drop_last=False,
-                        collate_fn=lambda x: default_collate(x).to("cpu", torch.float))
-
-data = enumerate(dataloader).__next__()
-i, data = data
-
-
-for i, data in enumerate(dataloader):
-    print(torch.mean(data))
-    print(torch.std(data))
+print(dataset.mu)
+print(dataset.std)

@@ -24,5 +24,5 @@ hostname
 
 echo "RUN Script"
 
-python checkDatasetSize.py
+python test.py
 

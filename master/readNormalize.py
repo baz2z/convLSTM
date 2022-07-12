@@ -256,8 +256,8 @@ dataset1.mu = waveMu
 dataset1.std = waveStd
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=True, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-#path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-path = "../trainedModels/wave/speed-basic-adapted/lateral/16/run"+ run
+path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
+#path = "../trainedModels/wave/speed-basic-adapted/lateral/16/run"+ run
 os.chdir(path)
 
 # model
@@ -278,12 +278,12 @@ valLoss = torch.load("validationLoss", map_location=device)
 # print(f'smoothness:{smoothness}')
 #
 #
-# plt.yscale("log")
-# plt.plot(trainLoss, label="trainLoss")
-# plt.plot(valLoss, label="valLoss")
-# #plt.plot(movingAvg, label = "avg")
-# plt.legend()
-# plt.show()
+plt.yscale("log")
+plt.plot(trainLoss, label="trainLoss")
+plt.plot(valLoss, label="valLoss")
+#plt.plot(movingAvg, label = "avg")
+plt.legend()
+plt.show()
 
 os.chdir("../../../../../../master")
 
