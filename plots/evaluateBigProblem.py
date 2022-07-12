@@ -253,7 +253,7 @@ def calcLoss(model, context, horizon, dataloader, og = False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', type=str, default="bigProblem")
+    parser.add_argument('--mode', type=str, default="horizon-20-40")
     args = parser.parse_args()
     mode = args.mode
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -267,7 +267,7 @@ if __name__ == '__main__':
     for d in [datasetLoader1, datasetLoader2, datasetLoader3]:
         d.mu = waveMu
         d.std = waveStd
-    print(datasetLoader3.std, datasetLoader3.mu)
+    #print(datasetLoader3.std, datasetLoader3.mu)
     dataloader1 = DataLoader(dataset=datasetLoader1, batch_size=32, shuffle=False, drop_last=True,
                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
     dataloader2 = DataLoader(dataset=datasetLoader2, batch_size=32, shuffle=False, drop_last=True,
@@ -283,7 +283,7 @@ if __name__ == '__main__':
             # for modelName in ["lateral"]:
             for param in [1, 2, 3]:
                 if modelName == "baseline":
-                    multBase = 1.0
+                    multBase = 1
                     hs, ls = mapParas(modelName, multBase, param)
                     model = mapModel(modelName, hs, ls)
                     path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multBase}/{param}'
