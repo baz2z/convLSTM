@@ -283,7 +283,7 @@ if __name__ == '__main__':
             # for modelName in ["lateral"]:
             for param in [1, 2, 3]:
                 if modelName == "baseline":
-                    multBase = 1
+                    multBase = 1.0
                     hs, ls = mapParas(modelName, multBase, param)
                     model = mapModel(modelName, hs, ls)
                     path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multBase}/{param}'
