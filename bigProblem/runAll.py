@@ -37,7 +37,7 @@ class Wave(Dataset):
 
     def __getitem__(self, item):
         data = self.data[f'{item}'.zfill(3)][:, :, :]
-        data = (data - self.mu) / self.std
+        #data = (data - self.mu) / self.std
         return data
 
     def __len__(self):

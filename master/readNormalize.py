@@ -249,15 +249,16 @@ model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
 run = "2"
 
-waveMu = 0.013662814265907722
-waveStd = 0.08079216219452046
+
+waveMu = 0.009491552082921368
+waveStd = 0.0429973207415241
 dataset1 = Wave("wave-10000-90", isTrain=True)
 dataset1.mu = waveMu
 dataset1.std = waveStd
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=True, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 #path = f'../trainedModels/{dataset}/{mode}/{modelName}/{multiplier}/{paramLevel}/run{run}'
-path = f'../trainedModels/wave/bigProblem/baseline/1.0/1/run3'
+path = f'../trainedModels/wave/bigProblem/baseline/1.0/1/run2'
 #path = "../trainedModels/wave/speed-basic-adapted/lateral/16/run"+ run
 os.chdir(path)
 
@@ -286,13 +287,13 @@ plt.plot(valLoss, label="valLoss")
 plt.legend()
 plt.show()
 
-os.chdir("../../../../../../master")
+os.chdir("../../../../../../../master")
 
 # example wave
 visData = iter(dataloader).__next__()
 
 
-pred = model(visData[:, :20, :, :], horizon=170).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=40).detach().cpu().numpy()
 
 print(numpy.mean(visData.numpy()))
 print(numpy.std(visData.numpy()))
@@ -309,10 +310,10 @@ sequence = 1
 # plt.savefig("perPixel")
 # plt.show()
 #
-# # for entire sequence
-# visualize_wave(pred[sequence, :, :, :])
-# plt.savefig("prediction")
-# visualize_wave(visData[sequence, 20:190, :, :].detach().cpu().numpy())
-# plt.savefig("gT")
-# # f = open("configuration.txt", "r")
-# # print(f.read())
+# for entire sequence
+visualize_wave(pred[sequence, :, :, :])
+plt.savefig("prediction")
+visualize_wave(visData[sequence, 20:60, :, :].detach().cpu().numpy())
+plt.savefig("gT")
+# f = open("configuration.txt", "r")
+# print(f.read())
