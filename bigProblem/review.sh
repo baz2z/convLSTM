@@ -25,5 +25,5 @@ hostname
 echo "RUN Script"
 
 python ./runAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral" --dataset "wave" --datasetTrain "wave-10000-90" \
-                   --datasetVal "wave-10000-90" --mode "bigProblemNotNorm" --context 20 --horizon 40 --learningRate 0.001 \
+                   --datasetVal "wave-10000-90" --mode "bigProblemNotNormOne" --context 20 --horizon 40 --learningRate 0.001 \
                    --epochs 400 --batchSize 32 --multiplier 1 --paramLevel 1 --clip 1
