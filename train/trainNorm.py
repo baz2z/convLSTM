@@ -250,7 +250,7 @@ if __name__ == '__main__':
     parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
-    parser.add_argument('--norm', type=bool, default=False)
+    parser.add_argument('--norm', type=bool, default=True)
     args = parser.parse_args()
     #model = args.model
     datasetTrain = args.datasetTrain

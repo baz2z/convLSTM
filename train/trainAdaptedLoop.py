@@ -213,7 +213,7 @@ if __name__ == '__main__':
     parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
-    parser.add_argument('--start', type=int, default=0)
+    parser.add_argument('--start', type=int, default=100)
     args = parser.parse_args()
     model = args.model
     datasetTrain = args.datasetTrain
@@ -230,9 +230,7 @@ if __name__ == '__main__':
     paramLevel = args.paramLevel
     start = args.start
 
-
-    for clip in range(4):
-        clip = mapClip(clip)
+    for model in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)

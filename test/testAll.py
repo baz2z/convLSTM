@@ -1,20 +1,17 @@
 import argparse
+
+import pandas as pd
+
+from models import baseline, lateral, skipConnection, depthWise, twoLayer, Forecaster
 import torch
-from torch import nn
-from torch.utils.data import Dataset, DataLoader, default_collate
-import torch.optim as optim
-from models import baseline, lateral, twoLayer, depthWise, skipConnection, Forecaster
-import h5py
 import os
+import h5py
+import matplotlib.pyplot as plt
+import math
 import numpy
-from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
+from torch.utils.data import Dataset, DataLoader, default_collate
+from torch import nn
 
-
-def count_params(net):
-    '''
-    A utility function that counts the total number of trainable parameters in a network.
-    '''
-    return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 
 class Wave(Dataset):
@@ -41,6 +38,17 @@ class Wave(Dataset):
         return len(self.data)
 
 
+class mMnist(Dataset):
+    def __init__(self, data):
+        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
+
+    def __getitem__(self, item):
+        return self.data[item, :, :, :]
+
+    def __len__(self):
+        return self.data.shape[0]
+
+
 
 def mapModel(model, hiddenSize, lateralSize):
     match model:
@@ -56,21 +64,6 @@ def mapModel(model, hiddenSize, lateralSize):
             return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
 
 
-def mapDataset(datasetTrain, datasetVal, batch_size):
-    train = None
-    val = None
-
-    match datasetTrain:
-        case "wave-10-1-3-290":
-            train = DataLoader(dataset=Wave("wave-10-1-3-290"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-
-    match datasetVal:
-        case "wave-10-1-3-290":
-            val = DataLoader(dataset=Wave("wave-10-1-3-290", isTrain=False), batch_size=batch_size, shuffle=True,
-                             drop_last=True,
-                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
-    return train, val
 
 def mapParas(modelName, multiplier, paramsIndex):
     modelParams = (0, 0)
@@ -187,112 +180,100 @@ def mapParas(modelName, multiplier, paramsIndex):
 
     return modelParams
 
-def mapClip(i):
-    return {
-        0: 10,
-        1: 5,
-        2: 1,
-        3: 0.1,
-    }[i]
+
+def count_params(net):
+    '''
+    A utility function that counts the total number of trainable parameters in a network.
+    '''
+    return sum(p.numel() for p in net.parameters() if p.requires_grad)
 
 
-if __name__ == '__main__':
-
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="depthWise")
-    parser.add_argument('--datasetTrain', type=str, default="wave-10-1-3-290")
-    parser.add_argument('--datasetVal', type=str, default="wave-10-1-3-290")
-    parser.add_argument('--mode', type=str, default="clip")
-    parser.add_argument('--context', type=int, default=20)
-    parser.add_argument('--horizon', type=int, default=40)
-    parser.add_argument('--learningRate', type=float, default=0.001)
-    parser.add_argument('--epochs', type=int, default=2)
-    parser.add_argument('--run_idx', type=int, default=1)
-    parser.add_argument('--clip', type=float, default=1)
-    parser.add_argument('--batchSize', type=int, default=10)
-    parser.add_argument('--multiplier', type=float, default=1)
-    parser.add_argument('--paramLevel', type=int, default=1)
-    args = parser.parse_args()
-    model = args.model
-    datasetTrain = args.datasetTrain
-    datasetVal = args.datasetVal
-    mode = args.mode
-    context = args.context
-    horizon = args.horizon
-    learningRate = args.learningRate
-    epochs = args.epochs
-    run = args.run_idx
-    batch_size = args.batchSize
-    clip = args.clip
-    mp = args.multiplier
-    paramLevel = args.paramLevel
+def visualize_wave(imgs):
+    t, w, h = imgs.shape
+    for i in range(t):
+        plt.subplot(math.ceil(t ** 0.5), math.ceil(t ** 0.5), i + 1)
+        plt.title(i, fontsize=9)
+        plt.axis("off")
+        image = imgs[i, :, :]
+        plt.imshow(image, cmap="gray")
+    plt.subplots_adjust(hspace=0.4)
+    plt.show()
 
 
-    for clip in range(4):
-        clip = mapClip(clip)
-        hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
-        seq = mapModel(model, hiddenSize, lateralSize)
-        params = count_params(seq)
-        dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
-        criterion = nn.MSELoss()
-        optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
-        scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
-        # begin to train
-        loss_plot_train, loss_plot_val = [], []
 
-        for j in range(epochs):
-            lossPerBatch = []
+def calcLoss(model, context, horizon, dataloader):
+    criterion = nn.MSELoss()
+    modelsLoss = []
+    for runNbr in range(1):
+        runNbr = runNbr + 1
+        os.chdir(f'./run{runNbr}')
+        model.load_state_dict(torch.load("model.pt", map_location=device))
+        model.eval()
+        runningLoss = []
+        with torch.no_grad():
             for i, images in enumerate(dataloader):
                 input_images = images[:, :context, :, :]
                 labels = images[:, context:context + horizon, :, :]
-                output = seq(input_images, horizon)
+                output = model(input_images, horizon)
                 loss = criterion(output, labels)
-                lossPerBatch.append(loss.item())
-                optimizer.zero_grad()
-                loss.backward()
-                torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
-                optimizer.step()
-            scheduler.step()
-            loss_plot_train.append(numpy.mean(lossPerBatch))
-            with torch.no_grad():
-                lossPerBatch = []
-                for i, images in enumerate(validation):
-                    input_images = images[:, :context, :, :]
-                    labels = images[:, context:context + horizon, :, :]
-                    output = seq(input_images, horizon)
-                    loss = criterion(output, labels)
-                    lossPerBatch.append(loss.item())
-                loss_plot_val.append(numpy.mean(lossPerBatch))
+                runningLoss.append(loss.cpu())
+            modelsLoss.append(numpy.mean(runningLoss))
+        os.chdir("../")
+    finalLoss = numpy.mean(modelsLoss)
+    return finalLoss
+# calculated train loss on new dataset and average the loss
 
-        # # save model and test and train loss and parameters in txt file and python file with class
-        path = f'../trainedModels/{mode}/{model}/{mp}/{paramLevel}/{clip}/run{run}'
-        if not os.path.exists(path):
-            os.makedirs(path)
-        os.chdir(path)
-        torch.save(seq.state_dict(), "model.pt")
-        torch.save(loss_plot_train, "trainingLoss")
-        torch.save(loss_plot_val, "validationLoss")
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', type=str, default="baseline",
+                    choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
 
-        # save config
+args = parser.parse_args()
+modelName = args.model
 
-        averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
-        configuration = {"model": model,
-                         "epochs": epochs,
-                         "batchSize": batch_size,
-                         "learningRate": learningRate,
-                         "parameters": params,
-                         "context": context,
-                         "horizon": horizon,
-                         "Loss": criterion,
-                         "averageLastLoss": averageLastLoss,
-                         "dataset": datasetTrain,
-                         "clip": clip,
-                         "scheduler": scheduler,
-                         "hiddenSize": hiddenSize,
-                         "lateralSize": lateralSize
-                         }
-        with open('configuration.txt', 'w') as f:
-            print(configuration, file=f)
-        os.chdir(f'../../../../../../../train')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+mode = "all"
+context = 20
+horizon = 40
 
+#params = count_params(model)
+criterion = nn.MSELoss()
+
+
+datasetLoader = Wave("wave-10-1-3-290", isTrain=False)
+dataloader = DataLoader(dataset=datasetLoader, batch_size=1, shuffle=False, drop_last=True,
+                        collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
+
+
+
+
+df = pd.DataFrame(columns=["modelName", "mp", "paramLevel", "parasExact", "loss40", "loss70", "loss170"])
+counter = 0
+
+for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+    if modelName == "baseline":
+        mps = [1]
+    elif modelName == "depthWise":
+        mps = [1, 2, 4]
+    else:
+        mps = [0.5, 1, 2]
+    for mp in mps:
+        for paramLevel in [1, 2, 3]:
+            hiddenSize, lateralSize = mapParas(modelName, mp, paramLevel)
+            model = mapModel(modelName, hiddenSize, lateralSize)
+            parasExact = count_params(model)
+            path = f'../trainedModels/{mode}/{modelName}/{mp}/{paramLevel}'
+            os.chdir(path)
+            print(modelName, mp, paramLevel)
+            loss40 = calcLoss(model, context, horizon, dataloader)
+            loss70 = calcLoss(model, context, 70, dataloader)
+            loss170 = calcLoss(model, context, 170, dataloader)
+            df.loc[counter] = [modelName, mp, paramLevel, parasExact, loss40, loss70, loss170]
+            counter += 1
+            os.chdir("../../../../../test")
+
+df.to_csv("allLoss")
+
+"""
+run for each model
+"""
