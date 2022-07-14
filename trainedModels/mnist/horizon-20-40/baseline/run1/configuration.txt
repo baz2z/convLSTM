@@ -1,1 +1,0 @@
-{'model': 'baseline', 'epochs': 200, 'batchSize': 36, 'learningRate': 0.001, 'parameters': 36517, 'hiddenSize': 12, 'Loss': BCELoss(), 'dataset': 'mnist-5000-60-const'}

@@ -1,1 +1,0 @@
-{'model': 'depthWise', 'epochs': 400, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 50781, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'averageLastLoss': 0.0004736555905158941, 'dataset': 'wave-10000-90', 'clip': 1.0, 'scheduler': <torch.optim.lr_scheduler.CosineAnnealingLR object at 0x7fc9b9f1d0c0>, 'hiddenSize': 20, 'lateralSize': <class 'models.lateral'>}

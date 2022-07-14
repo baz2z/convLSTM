@@ -1,1 +1,0 @@
-{'model': 'baseline', 'epochs': 200, 'batchSize': 32, 'learningRate': 0.0001, 'parameters': 36517, 'hiddenSize': 12, 'Loss': CrossEntropyLoss(), 'dataset': 'mnist-5000-60'}
