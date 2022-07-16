@@ -232,14 +232,14 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "learningRate"
 horizon = 40
-modelName = "skip"
+modelName = "depthWise"
 multiplier = 1.0
 paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
 run = 2
-learningRate = 0.1
+learningRate = 0.001
 
 dataset1 = Wave("wave-10-1-3-290", isTrain=False)
 
