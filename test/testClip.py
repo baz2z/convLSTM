@@ -19,7 +19,7 @@ class Wave(Dataset):
         # data loading
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['val']
+        self.data = f['data']['train'] if self.isTrain else f['data']['test']
         means, stds = [], []
         for i in range(len(self.data)):
             data = self.data[f'{i}'.zfill(3)][:, :, :]
@@ -37,16 +37,6 @@ class Wave(Dataset):
     def __len__(self):
         return len(self.data)
 
-
-class mMnist(Dataset):
-    def __init__(self, data):
-        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
-
-    def __getitem__(self, item):
-        return self.data[item, :, :, :]
-
-    def __len__(self):
-        return self.data.shape[0]
 
 
 
@@ -204,7 +194,7 @@ def visualize_wave(imgs):
 def calcLoss(model, context, horizon, dataloader):
     criterion = nn.MSELoss()
     modelsLoss = []
-    for runNbr in range(1):
+    for runNbr in range(3):
         runNbr = runNbr + 1
         os.chdir(f'./run{runNbr}')
         model.load_state_dict(torch.load("model.pt", map_location=device))
@@ -223,27 +213,22 @@ def calcLoss(model, context, horizon, dataloader):
     return finalLoss
 # calculated train loss on new dataset and average the loss
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="baseline",
-                    choices=["baseline", "lateral", "twoLayer", "skip", "depthWise"])
 
-args = parser.parse_args()
-modelName = args.model
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 mode = "clip"
 dataset = "wave"
 context = 20
 horizon = 40
-multiplier = 1
-paramLevel = 1
+multiplier = 1.0
+paramLevel = 2
 
 #params = count_params(model)
 criterion = nn.MSELoss()
 
 
 datasetLoader = Wave("wave-10-1-3-290", isTrain=False)
-dataloader = DataLoader(dataset=datasetLoader, batch_size=1, shuffle=False, drop_last=True,
+dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 
