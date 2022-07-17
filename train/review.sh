@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --array=1                             # Number of tasks (see below)
+#SBATCH --array=3                             # Number of tasks (see below)
 #SBATCH --nodes=1                                   # Ensure that all cores are on one machine
 #SBeTCH --cpus-per-task=1
 #SBATCH --partition=gpu-2080ti                     # Partition to submit to
