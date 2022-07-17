@@ -240,7 +240,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--datasetTrain', type=str, default="wave-10-1-3-290")
     parser.add_argument('--datasetVal', type=str, default="wave-10-1-3-290")
-    parser.add_argument('--mode', type=str, default="norm")
+    parser.add_argument('--mode', type=str, default="normTest")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -250,7 +250,7 @@ if __name__ == '__main__':
     parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
-    parser.add_argument('--norm', type=bool, default=True)
+    parser.add_argument('--norm', type=int, default=0)
     args = parser.parse_args()
     #model = args.model
     datasetTrain = args.datasetTrain
@@ -302,8 +302,9 @@ if __name__ == '__main__':
                     lossPerBatch.append(loss.item())
                 loss_plot_val.append(numpy.mean(lossPerBatch))
 
+        normPath = "True" if norm else "False"
         # # save model and test and train loss and parameters in txt file and python file with class
-        path = f'../trainedModels/{mode}/{norm}/{model}/{mp}/{paramLevel}/run{run}'
+        path = f'../trainedModels/{mode}/{normPath}/{model}/{mp}/{paramLevel}/run{run}'
         if not os.path.exists(path):
             os.makedirs(path)
         os.chdir(path)
@@ -312,7 +313,6 @@ if __name__ == '__main__':
         torch.save(loss_plot_val, "validationLoss")
 
         # save config
-
         averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
         configuration = {"model": model,
                          "epochs": epochs,
@@ -346,6 +346,6 @@ if __name__ == '__main__':
 """
 python ./trainNorm.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
                    --datasetVal "wave-10-1-3-290" --mode "norm" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1 --norm False
+                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1 --norm 0
 
 """
