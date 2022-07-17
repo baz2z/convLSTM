@@ -234,7 +234,8 @@ if __name__ == '__main__':
     paramLevel = args.paramLevel
 
 
-    for learningRate in range(9):
+    for learningRate in range(1):
+        lr = 0.00005
         learningRate = mapLearninRate(learningRate)
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
@@ -301,3 +302,8 @@ if __name__ == '__main__':
             print(configuration, file=f)
         os.chdir(f'../../../../../../../train')
 
+"""
+python ./trainLR.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
+                   --datasetVal "wave-10-1-3-290" --mode "learningRate" --context 20 --horizon 40 --learningRate 0.001 \
+                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1 
+"""

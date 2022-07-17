@@ -25,7 +25,7 @@ class Wave(Dataset):
         # data loading
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['val']
+        self.data = f['data']['train'] if self.isTrain else f['data']['test']
         means, stds = [], []
         for i in range(len(self.data)):
             data = self.data[f'{i}'.zfill(3)][:, :, :]
@@ -230,22 +230,23 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "learningRate"
+mode = "adaptedLoop"
 horizon = 40
-modelName = "depthWise"
+modelName = "lateral"
 multiplier = 1.0
 paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = 2
+run = 3
 learningRate = 0.001
+start = 100
 
 dataset1 = Wave("wave-10-1-3-290", isTrain=False)
 
-dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=True, drop_last=False,
+dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-path = f'../trainedModels/{mode}/{modelName}/{multiplier}/{paramLevel}/{learningRate}/run{run}'
+path = f'../trainedModels/{mode}/{start}/{modelName}/{multiplier}/{paramLevel}/run{run}'
 
 os.chdir(path)
 
@@ -277,15 +278,16 @@ os.chdir("../../../../../../../train")
 visData = iter(dataloader).__next__()
 
 
-pred = model(visData[:, :20, :, :], horizon=40).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=270).detach().cpu().numpy()
 
 # print(numpy.mean(visData.numpy()))
 # print(numpy.std(visData.numpy()))
-sequence = 0
+sequence = 1
 # for one pixel
 #
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
-groundTruth = visData[sequence, 20:190, int(w / 2), int(h / 2)].detach().cpu().numpy()
+w, h = 29, 12
+groundTruth = visData[sequence, 20:290, int(w / 2), int(h / 2)].detach().cpu().numpy()
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
 plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
@@ -295,9 +297,9 @@ plt.title(f'{(w, h)}')
 plt.show()
 #
 # for entire sequence
-visualize_wave(pred[sequence, :, :, :])
+#visualize_wave(pred[sequence, :, :, :])
 #plt.savefig("prediction")
-visualize_wave(visData[sequence, 20:60, :, :].detach().cpu().numpy())
+#visualize_wave(visData[sequence, 20:60, :, :].detach().cpu().numpy())
 #plt.savefig("gT")
 # f = open("configuration.txt", "r")
 # print(f.read())
