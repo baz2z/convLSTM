@@ -283,7 +283,7 @@ if __name__ == '__main__':
     parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
-    parser.add_argument('--bias', type=bool, default=True)
+    parser.add_argument('--bias', type=int, default=0)
     args = parser.parse_args()
     #model = args.model
     datasetTrain = args.datasetTrain
@@ -336,8 +336,9 @@ if __name__ == '__main__':
                     lossPerBatch.append(loss.item())
                 loss_plot_val.append(numpy.mean(lossPerBatch))
 
+        biasPath = "True" if bias else "False"
         # # save model and test and train loss and parameters in txt file and python file with class
-        path = f'../trainedModels/{mode}/{bias}/{model}/{mp}/{paramLevel}/run{run}'
+        path = f'../trainedModels/{mode}/{biasPath}/{model}/{mp}/{paramLevel}/run{run}'
         if not os.path.exists(path):
             os.makedirs(path)
         os.chdir(path)
@@ -370,5 +371,5 @@ if __name__ == '__main__':
 """
 python ./trainBias.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
                    --datasetVal "wave-10-1-3-290" --mode "bias" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1 --bias True
+                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1 --bias 0
 """
