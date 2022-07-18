@@ -235,7 +235,7 @@ if __name__ == '__main__':
 
 
     for learningRate in range(1):
-        lr = 0.00005
+        learningRate = 0.0005
         learningRate = mapLearninRate(learningRate)
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
