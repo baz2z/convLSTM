@@ -239,10 +239,15 @@ paramLevel = 2
 #params = count_params(model)
 criterion = nn.MSELoss()
 
+
 datasetLoader = Wave("wave-10-1-3-290", isTrain=False)
 dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-df = pd.DataFrame(columns=["modelName", "adapted", "loss0_40", "loss0_170", "loss0_270", "loss100_40", "loss100_170"])
+datasetLoader2 = Wave("wave-0-0-3-390", isTrain=False)
+dataloader2 = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
+                        collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
+df = pd.DataFrame(columns=["modelName", "adapted", "loss0_40", "loss0_170", "loss0_270", "loss100_40", "loss100_170" ,"loss100_270"])
 counter = 0
 
 for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
@@ -256,7 +261,9 @@ for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         loss0_270 = calcLoss(model, 0, 20, 270, dataloader)
         loss100_40 = calcLoss(model, 100, 20, 40, dataloader)
         loss100_170 = calcLoss(model, 100, 20, 170, dataloader)
-        df.loc[counter] = [modelName, adapted, loss0_40, loss0_170, loss0_270, loss100_40, loss100_170]
+        loss100_270 = calcLoss(model, 100, 20, 270, dataloader2)
+
+        df.loc[counter] = [modelName, adapted, loss0_40, loss0_170, loss0_270, loss100_40, loss100_170, loss100_270]
         counter += 1
         os.chdir("../../../../../../test")
 
