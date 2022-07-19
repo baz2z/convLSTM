@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testBias.py", line 253, in <module>
+    loss = calcLoss(model, context, horizon, dataloader)
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testBias.py", line 201, in calcLoss
+    os.chdir(f'./run{runNbr}')
+FileNotFoundError: [Errno 2] No such file or directory: './run1'

@@ -1,16 +1,16 @@
 /mnt/qb/work/butz/svolz67/dev/convLSTM/test
 JOB DATA
-JobId=1638389 ArrayJobId=1638389 ArrayTaskId=1 JobName=review.sh
+JobId=1638435 ArrayJobId=1638435 ArrayTaskId=1 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=13276 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-   RunTime=00:00:01 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-07-19T14:42:34 EligibleTime=2022-07-19T14:42:34
-   AccrueTime=2022-07-19T14:42:47
-   StartTime=2022-07-19T14:42:47 EndTime=2022-07-22T14:42:47 Deadline=N/A
-   PreemptEligibleTime=2022-07-19T14:43:47 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-19T14:42:47
+   RunTime=00:00:02 TimeLimit=3-00:00:00 TimeMin=N/A
+   SubmitTime=2022-07-19T15:20:52 EligibleTime=2022-07-19T15:20:53
+   AccrueTime=2022-07-19T15:20:54
+   StartTime=2022-07-19T15:21:27 EndTime=2022-07-22T15:21:27 Deadline=N/A
+   PreemptEligibleTime=2022-07-19T15:22:27 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-07-19T15:21:27
    Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:22458
    ReqNodeList=(null) ExcNodeList=(null)
    NodeList=slurm-bm-82
