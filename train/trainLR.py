@@ -236,7 +236,7 @@ if __name__ == '__main__':
 
     for learningRate in range(1):
         learningRate = mapLearninRate(learningRate)
-        learningRate = 0.00005
+        learningRate = 0.00001
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
