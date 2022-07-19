@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testLR.py
+python ./testNorm.py
