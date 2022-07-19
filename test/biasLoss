@@ -1,0 +1,11 @@
+,modelName,bias,loss
+0,baseline,True,2.3856987e-06
+1,baseline,False,8.2858446e-07
+2,lateral,True,1.8914416e-06
+3,lateral,False,2.4859435e-07
+4,twoLayer,True,1.3432505e-06
+5,twoLayer,False,1.5694994e-06
+6,skip,True,6.186107e-07
+7,skip,False,1.8503574e-07
+8,depthWise,True,3.7974794e-06
+9,depthWise,False,9.877311e-07
