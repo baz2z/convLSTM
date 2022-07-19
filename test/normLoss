@@ -1,0 +1,11 @@
+,modelName,norm,loss
+0,baseline,True,7.9372006e-07
+1,baseline,False,7.8012954e-07
+2,lateral,True,3.496341e-07
+3,lateral,False,2.0317357e-07
+4,twoLayer,True,1.4137421e-06
+5,twoLayer,False,4.719624e-06
+6,skip,True,2.3470928e-07
+7,skip,False,1.559378e-07
+8,depthWise,True,1.2963659e-06
+9,depthWise,False,1.1056871e-06
