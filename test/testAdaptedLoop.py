@@ -241,10 +241,10 @@ criterion = nn.MSELoss()
 
 
 datasetLoader = Wave("wave-10-1-3-290", isTrain=False)
-dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
+dataloader = DataLoader(dataset=datasetLoader, batch_size=2, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 datasetLoader2 = Wave("wave-0-0-3-390", isTrain=False)
-dataloader2 = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, drop_last=True,
+dataloader2 = DataLoader(dataset=datasetLoader2, batch_size=2, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
 df = pd.DataFrame(columns=["modelName", "adapted", "loss0_40", "loss0_170", "loss0_270", "loss100_40", "loss100_170" ,"loss100_270"])
