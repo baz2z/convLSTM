@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testAdaptedLoop.py
+python ./testNorm.py
