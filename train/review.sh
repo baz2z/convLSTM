@@ -26,4 +26,4 @@ echo "RUN Script"
 
 python ./trainLR.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "skip" --datasetTrain "wave-10-1-3-290" \
                    --datasetVal "wave-10-1-3-290" --mode "learningRate" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1
+                   --epochs 1 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1
