@@ -258,7 +258,7 @@ for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
     model = mapModel(modelName, hiddenSize, lateralSize)
     path = f'../trainedModels/{mode}/{modelName}/{multiplier}/{paramLevel}'
     os.chdir(path)
-    for lr in [0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 5e-05]:
+    for lr in [0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 1e-05, 5e-05]:
         os.chdir(f'./{lr}')
         loss = calcLoss(model, context, horizon, dataloader)
         df.loc[counter] = [modelName, lr, loss]
