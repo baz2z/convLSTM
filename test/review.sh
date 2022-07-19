@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testNorm.py
+python ./testBias.py
