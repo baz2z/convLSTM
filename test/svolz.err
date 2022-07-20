@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testLR.py", line 262, in <module>
-    os.chdir(f'./{lr}')
-FileNotFoundError: [Errno 2] No such file or directory: './1e-05'
