@@ -1,0 +1,1 @@
+{'model': 'twoLayer', 'epochs': 200, 'batchSize': 32, 'learningRate': 1e-05, 'parameters': 26281, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'averageLastLoss': 0.0005196179485984988, 'dataset': 'wave-10-1-3-290', 'clip': 1.0, 'scheduler': <torch.optim.lr_scheduler.CosineAnnealingLR object at 0x7f7e498c5570>, 'hiddenSize': 15, 'lateralSize': 15}
