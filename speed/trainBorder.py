@@ -41,7 +41,7 @@ class Wave(Dataset):
         return data
 
     def __len__(self):
-        return len(self.data)/2
+        return len(self.data)//2
 
 
 
