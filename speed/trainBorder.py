@@ -26,13 +26,13 @@ class Wave(Dataset):
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
         self.data = f['data']['train'] if self.isTrain else f['data']['test']
-        means, stds = [], []
-        for i in range(len(self.data)):
-            data = self.data[f'{i}'.zfill(3)][:, :, :]
-            means.append(numpy.mean(data))
-            stds.append(numpy.std(data))
-        self.mu = numpy.mean(means)
-        self.std = numpy.mean(stds)
+        # means, stds = [], []
+        # for i in range(len(self.data)):
+        #     data = self.data[f'{i}'.zfill(3)][:, :, :]
+        #     means.append(numpy.mean(data))
+        #     stds.append(numpy.std(data))
+        # self.mu = numpy.mean(means)
+        # self.std = numpy.mean(stds)
 
 
     def __getitem__(self, item):
@@ -41,18 +41,7 @@ class Wave(Dataset):
         return data
 
     def __len__(self):
-        return len(self.data)
-
-
-class mMnist(Dataset):
-    def __init__(self, data):
-        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
-
-    def __getitem__(self, item):
-        return self.data[item, :, :, :]
-
-    def __len__(self):
-        return self.data.shape[0]
+        return len(self.data)/2
 
 
 

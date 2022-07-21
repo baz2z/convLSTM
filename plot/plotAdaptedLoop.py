@@ -2,6 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import pandas as pd
+import numpy
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -36,6 +37,7 @@ fig, ax = plt.subplots()
 
 df = pd.read_csv("../test/adaptedLoopLoss")
 df.reset_index()
+
 for index, row in df.iterrows():
     modelName = row["modelName"]
     adapted = row["adapted"]
