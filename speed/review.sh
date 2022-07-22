@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./trainBorder.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "skip" --dataset "wave" \
+python ./trainBorder.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "depthWise" --dataset "wave" \
                    --mode "border" --context 20 --horizon 40 --learningRate 0.001 \
                    --epochs 400 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2 --start 100
