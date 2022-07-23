@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --ntasks=5
-#SBATCH --array=1-5                         # Number of tasks (see below)
+#SBATCH --ntasks=2
+#SBATCH --array=4-5                         # Number of tasks (see below)
 #SBATCH --nodes=1                                   # Ensure that all cores are on one machine
 #SBeTCH --cpus-per-task=1
 #SBATCH --partition=gpu-2080ti                     # Partition to submit to
@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./trainAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "skip" --datasetTrain "wave-10-1-3-290" \
+python ./trainAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "twoLayer" --datasetTrain "wave-10-1-3-290" \
                    --datasetVal "wave-10-1-3-290" --mode "all-40" --context 20 --horizon 40 --learningRate 0.001 \
                    --epochs 400 --batchSize 32 --clip 1
