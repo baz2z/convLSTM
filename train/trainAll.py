@@ -239,7 +239,7 @@ if __name__ == '__main__':
         mps = [1]
 
     for mp in mps:
-        for paramLevel in [3]:
+        for paramLevel in [1]:
             hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
             seq = mapModel(model, hiddenSize, lateralSize)
             params = count_params(seq)
