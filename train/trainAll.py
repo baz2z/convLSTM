@@ -234,12 +234,12 @@ if __name__ == '__main__':
     if model == "baseline":
         mps = [1]
     elif model == "depthWise":
-        mps = [1, 2, 4]
+        mps = [2]
     else:
         mps = [0.5, 1, 2]
 
     for mp in mps:
-        for paramLevel in [1, 2, 3]:
+        for paramLevel in [2]:
             hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
             seq = mapModel(model, hiddenSize, lateralSize)
             params = count_params(seq)
