@@ -236,7 +236,7 @@ if __name__ == '__main__':
     elif model == "depthWise":
         mps = [4]
     else:
-        mps = [0.5, 1, 2]
+        mps = [0.5]
 
     for mp in mps:
         for paramLevel in [1,2,3]:
