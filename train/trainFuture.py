@@ -1,13 +1,10 @@
 import argparse
 import torch
-import torch as th
 from torch import nn
 from torch.utils.data import Dataset, DataLoader, default_collate
 import torch.optim as optim
 from models import baseline, lateral, twoLayer, depthWise, skipConnection, Forecaster
 import h5py
-import matplotlib.pyplot as plt
-import math
 import os
 import numpy
 from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
@@ -25,7 +22,7 @@ class Wave(Dataset):
         # data loading
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['test']
+        self.data = f['data']['train'] if self.isTrain else f['data']['val']
         # means, stds = [], []
         # for i in range(len(self.data)):
         #     data = self.data[f'{i}'.zfill(3)][:, :, :]
@@ -41,7 +38,7 @@ class Wave(Dataset):
         return data
 
     def __len__(self):
-        return len(self.data)//2
+        return len(self.data)
 
 
 
@@ -59,7 +56,21 @@ def mapModel(model, hiddenSize, lateralSize):
             return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
 
 
+def mapDataset(datasetTrain, datasetVal, batch_size):
+    train = None
+    val = None
 
+    match datasetTrain:
+        case "wave-10-1-3-290":
+            train = DataLoader(dataset=Wave("wave-10-1-3-290"), batch_size=batch_size, shuffle=True, drop_last=True,
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
+    match datasetVal:
+        case "wave-10-1-3-290":
+            val = DataLoader(dataset=Wave("wave-10-1-3-290", isTrain=False), batch_size=batch_size, shuffle=True,
+                             drop_last=True,
+                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    return train, val
 
 def mapParas(modelName, multiplier, paramsIndex):
     modelParams = (0, 0)
@@ -176,27 +187,37 @@ def mapParas(modelName, multiplier, paramsIndex):
 
     return modelParams
 
+def mapClip(i):
+    return {
+        0: 10,
+        1: 5,
+        2: 1,
+        3: 0.1,
+    }[i]
+
+
 if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default="baseline")
-    parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--mode', type=str, default="border")
+    parser.add_argument('--datasetTrain', type=str, default="wave-10-1-3-290")
+    parser.add_argument('--datasetVal', type=str, default="wave-10-1-3-290")
+    parser.add_argument('--mode', type=str, default="adaptedLoop")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
     parser.add_argument('--epochs', type=int, default=2)
     parser.add_argument('--run_idx', type=int, default=1)
     parser.add_argument('--clip', type=float, default=1)
-    parser.add_argument('--batchSize', type=int, default=5)
+    parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
-    parser.add_argument('--start', type=int, default=0)
+    parser.add_argument('--start', type=int, default=100)
     args = parser.parse_args()
     model = args.model
-    dataset = args.dataset
+    datasetTrain = args.datasetTrain
+    datasetVal = args.datasetVal
     mode = args.mode
     context = args.context
     horizon = args.horizon
@@ -208,26 +229,21 @@ if __name__ == '__main__':
     mp = args.multiplier
     paramLevel = args.paramLevel
     start = args.start
-    # begin to train
 
-    for speed in [16, 44]:# [10, 12, 14, 16, 44, 46, 48, 50]:
-        loss_plot_train, loss_plot_val = [], []
+    for model in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
-        datasetName = "wave-10000-190-" + str(speed)
-        datasetTrain = Wave(datasetName)
-        datasetVal = Wave(datasetName, isTrain=False)
-        dataloaderTrain = DataLoader(dataset=datasetTrain, batch_size=batch_size, shuffle=True, drop_last=True,
-                                     collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        dataloaderVal = DataLoader(dataset=datasetVal, batch_size=batch_size, shuffle=True, drop_last=True,
-                                   collate_fn=lambda x: default_collate(x).to(device, torch.float))
+        dataloader, validation = mapDataset(datasetTrain, datasetVal, batch_size)
         criterion = nn.MSELoss()
         optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
         scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
+        # begin to train
+        loss_plot_train, loss_plot_val = [], []
+
         for j in range(epochs):
             lossPerBatch = []
-            for i, images in enumerate(dataloaderTrain):
+            for i, images in enumerate(dataloader):
                 input_images = images[:, start:start+context, :, :]
                 labels = images[:, start+context:start+context + horizon, :, :]
                 output = seq(input_images, horizon)
@@ -238,21 +254,19 @@ if __name__ == '__main__':
                 torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
                 optimizer.step()
             scheduler.step()
-
             loss_plot_train.append(numpy.mean(lossPerBatch))
-
             with torch.no_grad():
                 lossPerBatch = []
-                for i, images in enumerate(dataloaderVal):
+                for i, images in enumerate(validation):
                     input_images = images[:, start:start+context, :, :]
-                    labels = images[:,  start+context: start+context + horizon, :, :]
+                    labels = images[:, start+context:start+context + horizon, :, :]
                     output = seq(input_images, horizon)
                     loss = criterion(output, labels)
                     lossPerBatch.append(loss.item())
                 loss_plot_val.append(numpy.mean(lossPerBatch))
 
         # # save model and test and train loss and parameters in txt file and python file with class
-        path = f'../trainedModels/speed/{mode}/{model}/{speed}/run{run}'
+        path = f'../trainedModels/{mode}/{start}/{model}/{mp}/{paramLevel}/run{run}'
         if not os.path.exists(path):
             os.makedirs(path)
         os.chdir(path)
@@ -262,6 +276,7 @@ if __name__ == '__main__':
 
         # save config
 
+        averageLastLoss = (sum(loss_plot_val[-50:]) / 50)
         configuration = {"model": model,
                          "epochs": epochs,
                          "batchSize": batch_size,
@@ -270,25 +285,20 @@ if __name__ == '__main__':
                          "context": context,
                          "horizon": horizon,
                          "Loss": criterion,
+                         "averageLastLoss": averageLastLoss,
                          "dataset": datasetTrain,
                          "clip": clip,
                          "scheduler": scheduler,
                          "hiddenSize": hiddenSize,
-                         "lateralSize": lateralSize,
-                         "speed-basic": speed,
-                         # "datasetMean": trainMean,
-                         # "datasetStd": trainStd,
-                         "trainedDataset": datasetName
+                         "lateralSize": lateralSize
                          }
         with open('configuration.txt', 'w') as f:
             print(configuration, file=f)
-        os.chdir("../../../../../../speed")
-
+        os.chdir(f'../../../../../../../train')
 
 """
-for each model
+python ./trainFuture.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
+                   --datasetVal "wave-10-1-3-290" --mode "future-adapted/20" --context 20 --horizon 20 --learningRate 0.001 \
+                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1 --start 100
 
-python ./trainBorder.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --dataset "wave" \
-                   --mode "border" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 400 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2 --start 100
 """
