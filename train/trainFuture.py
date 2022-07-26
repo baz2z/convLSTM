@@ -203,7 +203,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--datasetTrain', type=str, default="wave-10-1-3-290")
     parser.add_argument('--datasetVal', type=str, default="wave-10-1-3-290")
-    parser.add_argument('--mode', type=str, default="adaptedLoop")
+    parser.add_argument('--mode', type=str, default="future-adapted/20")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -295,7 +295,7 @@ if __name__ == '__main__':
         print(os.getcwd())
         with open('configuration.txt', 'w') as f:
             print(configuration, file=f)
-        os.chdir(f'../../../../../../../train')
+        os.chdir(f'../../../../../../../../train')
 
 """
 python ./trainFuture.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
