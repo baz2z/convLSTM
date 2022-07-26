@@ -254,7 +254,7 @@ for modelName in ["baseline"]:
     hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
     model = mapModel(modelName, hiddenSize, lateralSize)
     for future in [20, 40, 70]:
-        path = f'../trainedModels/{mode}/{future}/{modelName}/{multiplier}/{paramLevel}'
+        path = f'../trainedModels/{mode}/{future}/100/{modelName}/{multiplier}/{paramLevel}'
         os.chdir(path)
         loss0_40 = calcLoss(model, 0, 20, 40, dataloader)
         loss0_170 = calcLoss(model, 0, 20, 170, dataloader)
