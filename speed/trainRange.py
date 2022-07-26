@@ -61,45 +61,7 @@ def mapModel(model, hiddenSize, lateralSize):
             return Forecaster(hiddenSize, depthWise, num_blocks=2, lstm_kwargs={'lateral_channels_multipl': lateralSize}).to(device)
 
 
-def mapDataset(datasetTrain, datasetVal, batch_size):
-    train = None
-    val = None
 
-    match datasetTrain:
-        case "wave-5000-90-1.0":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-90-1.2":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-90-1.4":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-90-1.6":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-90-4.4":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-90-4.6":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-90-4.8":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-        case "wave-5000-90-4.0":
-            train = DataLoader(dataset=Wave("wave-10000-90"), batch_size=batch_size, shuffle=True, drop_last=True,
-                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
-
-
-
-    match datasetVal:
-        case "wave-5000-90":
-            val = DataLoader(dataset=Wave("wave-10000-90", isTrain=False), batch_size=batch_size, shuffle=True,
-                             drop_last=True,
-                             collate_fn=lambda x: default_collate(x).to(device, torch.float))
-
-    return train, val
 
 def mapParas(modelName, multiplier, paramsIndex):
     modelParams = (0, 0)
@@ -223,7 +185,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--mode', type=str, default="speed/range")
+    parser.add_argument('--mode', type=str, default="range")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -273,8 +235,8 @@ if __name__ == '__main__':
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
-    for range in ["lower", "upper"]:
-        if range == "lower":
+    for rangeTrain in ["lower", "upper"]:
+        if rangeTrain == "lower":
             dataloaderTrain = dataloaderTrainLower
             dataloaderVal = dataloaderValLower
         else:
@@ -307,7 +269,7 @@ if __name__ == '__main__':
                 loss_plot_val.append(numpy.mean(lossPerBatch))
 
         # # save model and test and train loss and parameters in txt file and python file with class
-        path = f'../trainedModels/{mode}/{model}/{range}/run{run}'
+        path = f'../trainedModels/speed/{mode}/{model}/{rangeTrain}/run{run}'
         if not os.path.exists(path):
             os.makedirs(path)
         os.chdir(path)
@@ -337,7 +299,7 @@ if __name__ == '__main__':
 
 
 """
-python ./trainGap.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral"  \
+python ./trainRange.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline"  \
                    --mode "range" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 400 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2
+                   --epochs 1 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2
 """

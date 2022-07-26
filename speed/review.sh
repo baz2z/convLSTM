@@ -24,4 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./testBorder.py
+python ./trainRange.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline"  \
+                   --mode "range" --context 20 --horizon 40 --learningRate 0.001 \
+                   --epochs 1 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2

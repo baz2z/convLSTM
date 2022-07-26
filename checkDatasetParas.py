@@ -14,7 +14,7 @@ class Wave(Dataset):
         # data loading
         self.f = h5py.File("../data/wave/" + file, 'r')
         self.isTrain = isTrain
-        self.data = self.f['data']['train'] if self.isTrain else self.f['data']['test']
+        self.data = self.f['data']['train'] if self.isTrain else self.f['data']['val']
 
 
     def __getitem__(self, item):
@@ -55,7 +55,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #
 
 speed = 16
-datasetName = "wave-10000-190-" + str(speed)
+datasetName = "wave-5000-190-[16-28]"
 datasetTrain = Wave(datasetName)
 datasetVal = Wave(datasetName, isTrain=False)
 dataloaderTrain = DataLoader(dataset=datasetTrain, batch_size=32, shuffle=True, drop_last=True,
