@@ -230,7 +230,7 @@ if __name__ == '__main__':
     paramLevel = args.paramLevel
     start = args.start
 
-    for model in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+    for model in ["lateral", "twoLayer", "skip", "depthWise"]:
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize)
         params = count_params(seq)
@@ -292,6 +292,7 @@ if __name__ == '__main__':
                          "hiddenSize": hiddenSize,
                          "lateralSize": lateralSize
                          }
+        print(os.getcwd())
         with open('configuration.txt', 'w') as f:
             print(configuration, file=f)
         os.chdir(f'../../../../../../../train')
