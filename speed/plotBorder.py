@@ -2,7 +2,6 @@ import torch
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import pandas as pd
-import numpy
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -25,28 +24,22 @@ def matchColor(modelName):
     pass
 def matchMarker(multiplier):
     return{
-        "100_40":"+",
-        "100_170":"o",
-        "100_270": "s"
+        0.5:"^",
+        1:"s",
+        2:"+",
+        4:"o"
     }[multiplier]
 
 fig, ax = plt.subplots()
 
-df = pd.read_csv("../test/futureLoss")
+df = pd.read_csv("./df/speed-border-adapted")
 df.reset_index()
-
 for index, row in df.iterrows():
-    modelName = row["modelName"]
-    future = row["future"]
-    loss100_40 = row["loss100_40"]
-    loss100_170 = row["loss100_170"]
-    loss100_270 = row["loss100_270"]
+    modelName = row["name"]
+    speed = row["speed"]
+    loss40 = row["loss40"]
     col = matchColor(modelName)
-
-    ax.scatter(future, loss100_40, color=col, s=16, alpha=0.7, marker=matchMarker("100_40"))
-    ax.scatter(future, loss100_170, color=col, s=16, alpha=0.7, marker=matchMarker("100_170"))
-    ax.scatter(future, loss100_270, color=col, s=16, alpha=0.7, marker=matchMarker("100_270"))
-
+    ax.scatter(speed, loss40, color=col, s=16, alpha=0.7)
 
 ax.set_yscale('log')
 blue_line = mlines.Line2D([], [], color='blue', marker='o',
@@ -60,18 +53,12 @@ purple_line = mlines.Line2D([], [], color='purple', marker='o',
 chocolate_line = mlines.Line2D([], [], color='chocolate', marker='o',
                           markersize=12, label='depthWise', linestyle="none")
 
-marker3 = mlines.Line2D([], [], color='gray', marker='+',
-                          markersize=12, label='start: 100, horizon: 40', linestyle="none")
-marker4 = mlines.Line2D([], [], color='gray', marker='o',
-                          markersize=12, label='start: 100, horizon: 170', linestyle="none")
-marker6 = mlines.Line2D([], [], color='gray', marker='s',
-                          markersize=12, label='start: 100, horizon: 270', linestyle="none")
 
-#plt.xticks([20, 40, 70], ["True", "False"])
-plt.legend(handles=[blue_line, red_line, green_line, purple_line, chocolate_line, marker3, marker4, marker6], bbox_to_anchor=(1.05, 1), loc = 2)
-#plt.ylim([0.00001, 0.01])
-name = f'./createdPlots/futureLoss'
-plt.xlabel("trained on x future frames")
+plt.legend(handles=[blue_line, red_line, green_line, purple_line, chocolate_line], bbox_to_anchor=(1.05, 1), loc = 2)
+#plt.ylim([0.0001, 0.001])
+print()
+name = f'./createdPlots/speed-border-adapted'
+plt.xlabel("wave speed trained on")
 plt.ylabel("loss")
 fig.savefig(name, bbox_inches="tight")
 

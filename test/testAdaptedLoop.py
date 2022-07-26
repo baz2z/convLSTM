@@ -267,7 +267,7 @@ for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         counter += 1
         os.chdir("../../../../../../test")
 
-df.to_csv("adaptedLoopLoss")
+df.to_csv("adaptedLoss")
 
 """
 run for each model

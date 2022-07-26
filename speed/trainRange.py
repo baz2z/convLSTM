@@ -25,7 +25,7 @@ class Wave(Dataset):
         # data loading
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['test']
+        self.data = f['data']['train'] if self.isTrain else f['data']['val']
         # means, stds = [], []
         # for i in range(len(self.data)):
         #     data = self.data[f'{i}'.zfill(3)][:, :, :]
@@ -44,15 +44,6 @@ class Wave(Dataset):
         return len(self.data)
 
 
-class mMnist(Dataset):
-    def __init__(self, data):
-        self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
-
-    def __getitem__(self, item):
-        return self.data[item, :, :, :]
-
-    def __len__(self):
-        return self.data.shape[0]
 
 
 
@@ -232,7 +223,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--mode', type=str, default="speed-basic-adapted")
+    parser.add_argument('--mode', type=str, default="speed/range")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -257,86 +248,96 @@ if __name__ == '__main__':
     paramLevel = args.paramLevel
     # begin to train
     loss_plot_train, loss_plot_val = [], []
-    speedRange = "RANGE"
     hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
     seq = mapModel(model, hiddenSize, lateralSize)
     params = count_params(seq)
-    datasetNameLower = "wave-10000-190-lower"
-    datasetNameUpper = "wave-10000-190-upper"
+
+    datasetNameLower = "wave-5000-190-[16-28]"
+    datasetNameUpper = "wave-5000-190-[32-44]"
     datasetTrainLower = Wave(datasetNameLower)
     datasetTrainUpper = Wave(datasetNameUpper)
+    datasetValLower = Wave(datasetNameLower, isTrain=False)
+    datasetValUpper = Wave(datasetNameUpper, isTrain=False)
 
-    datasetTrainConcat = ConcatDataset([datasetTrainLower, datasetTrainUpper])
 
-    datasetTrainLowerVal = Wave(datasetNameLower, isTrain=False)
-    datasetTrainUpperVal = Wave(datasetNameUpper, isTrain=False)
-    datasetTrainConcatVal = ConcatDataset([datasetTrainLower, datasetTrainUpper])
-    dataloaderTrain = DataLoader(dataset=datasetTrainConcat, batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloaderTrainLower = DataLoader(dataset=datasetTrainLower, batch_size=batch_size, shuffle=True, drop_last=True,
                                  collate_fn=lambda x: default_collate(x).to(device, torch.float))
-    dataloaderVal = DataLoader(dataset=datasetTrainConcatVal, batch_size=batch_size, shuffle=True, drop_last=True,
+    dataloaderValLower = DataLoader(dataset=datasetValLower, batch_size=batch_size, shuffle=True, drop_last=True,
+                               collate_fn=lambda x: default_collate(x).to(device, torch.float))
+
+    dataloaderTrainUpper = DataLoader(dataset=datasetTrainUpper, batch_size=batch_size, shuffle=True, drop_last=True,
+                                 collate_fn=lambda x: default_collate(x).to(device, torch.float))
+    dataloaderValUpper = DataLoader(dataset=datasetValUpper, batch_size=batch_size, shuffle=True, drop_last=True,
                                collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(seq.parameters(), lr=learningRate)
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs)
-    for j in range(epochs):
-        lossPerBatch = []
-        for i, images in enumerate(dataloaderTrain):
-            input_images = images[:, 100:100+context, :, :]
-            labels = images[:, 100+context:100+context + horizon, :, :]
-            output = seq(input_images, horizon)
-            loss = criterion(output, labels)
-            lossPerBatch.append(loss.item())
-            optimizer.zero_grad()
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
-            optimizer.step()
-        scheduler.step()
-
-        loss_plot_train.append(numpy.mean(lossPerBatch))
-
-        with torch.no_grad():
+    for range in ["lower", "upper"]:
+        if range == "lower":
+            dataloaderTrain = dataloaderTrainLower
+            dataloaderVal = dataloaderValLower
+        else:
+            dataloaderTrain = dataloaderTrainUpper
+            dataloaderVal = dataloaderValUpper
+        for j in range(epochs):
             lossPerBatch = []
-            for i, images in enumerate(dataloaderVal):
-                input_images = images[:, 100:100 + context, :, :]
-                labels = images[:, 100 + context:100 + context + horizon, :, :]
+            for i, images in enumerate(dataloaderTrain):
+                input_images = images[:, 100:100+context, :, :]
+                labels = images[:, 100+context:100+context + horizon, :, :]
                 output = seq(input_images, horizon)
                 loss = criterion(output, labels)
                 lossPerBatch.append(loss.item())
-            loss_plot_val.append(numpy.mean(lossPerBatch))
+                optimizer.zero_grad()
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(seq.parameters(), clip)
+                optimizer.step()
+            scheduler.step()
 
-    # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{mode}/{model}/{speedRange}/run{run}'
-    if not os.path.exists(path):
-        os.makedirs(path)
-    os.chdir(path)
-    torch.save(seq.state_dict(), "model.pt")
-    torch.save(loss_plot_train, "trainingLoss")
-    torch.save(loss_plot_val, "validationLoss")
+            loss_plot_train.append(numpy.mean(lossPerBatch))
 
-    # save config
+            with torch.no_grad():
+                lossPerBatch = []
+                for i, images in enumerate(dataloaderVal):
+                    input_images = images[:, 100:100 + context, :, :]
+                    labels = images[:, 100 + context:100 + context + horizon, :, :]
+                    output = seq(input_images, horizon)
+                    loss = criterion(output, labels)
+                    lossPerBatch.append(loss.item())
+                loss_plot_val.append(numpy.mean(lossPerBatch))
 
-    configuration = {"model": model,
-                     "epochs": epochs,
-                     "batchSize": batch_size,
-                     "learningRate": learningRate,
-                     "parameters": params,
-                     "context": context,
-                     "horizon": horizon,
-                     "Loss": criterion,
-                     "dataset": datasetTrainConcat,
-                     "clip": clip,
-                     "scheduler": scheduler,
-                     "hiddenSize": hiddenSize,
-                     "lateralSize": lateralSize
-                     }
-    with open('configuration.txt', 'w') as f:
-        print(configuration, file=f)
-    os.chdir("../../../../../../speed-basic")
+        # # save model and test and train loss and parameters in txt file and python file with class
+        path = f'../trainedModels/{mode}/{model}/{range}/run{run}'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        os.chdir(path)
+        torch.save(seq.state_dict(), "model.pt")
+        torch.save(loss_plot_train, "trainingLoss")
+        torch.save(loss_plot_val, "validationLoss")
+
+        # save config
+
+        configuration = {"model": model,
+                         "epochs": epochs,
+                         "batchSize": batch_size,
+                         "learningRate": learningRate,
+                         "parameters": params,
+                         "context": context,
+                         "horizon": horizon,
+                         "Loss": criterion,
+                         "dataset": dataloaderTrainLower,
+                         "clip": clip,
+                         "scheduler": scheduler,
+                         "hiddenSize": hiddenSize,
+                         "lateralSize": lateralSize
+                         }
+        with open('configuration.txt', 'w') as f:
+            print(configuration, file=f)
+        os.chdir("../../../../../../speed")
 
 
 """
-python ./trainRange.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral"  \
+python ./trainGap.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral"  \
                    --mode "range" --context 20 --horizon 40 --learningRate 0.001 \
                    --epochs 400 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2
 """

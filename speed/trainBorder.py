@@ -25,7 +25,7 @@ class Wave(Dataset):
         # data loading
         f = h5py.File("../../data/wave/" + file, 'r')
         self.isTrain = isTrain
-        self.data = f['data']['train'] if self.isTrain else f['data']['test']
+        self.data = f['data']['train'] if self.isTrain else f['data']['val']
         # means, stds = [], []
         # for i in range(len(self.data)):
         #     data = self.data[f'{i}'.zfill(3)][:, :, :]

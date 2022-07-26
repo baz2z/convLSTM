@@ -35,7 +35,7 @@ def matchMarker(multiplier):
 
 fig, ax = plt.subplots()
 
-df = pd.read_csv("../test/adaptedLoopLoss")
+df = pd.read_csv("../test/adaptedLoss")
 df.reset_index()
 
 for index, row in df.iterrows():

@@ -250,7 +250,7 @@ dataloader2 = DataLoader(dataset=datasetLoader2, batch_size=32, shuffle=False, d
 df = pd.DataFrame(columns=["modelName", "future", "loss100_40", "loss100_170" ,"loss100_270"])
 counter = 0
 
-for modelName in ["baseline"]:
+for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
     hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
     model = mapModel(modelName, hiddenSize, lateralSize)
     for future in [20, 40, 70]:
@@ -264,7 +264,7 @@ for modelName in ["baseline"]:
         counter += 1
         os.chdir("../../../../../../../test")
 
-df.to_csv("adaptedLoopLoss")
+df.to_csv("futureLoss")
 
 """
 run for each model

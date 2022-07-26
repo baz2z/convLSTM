@@ -230,7 +230,7 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "adaptedLoop"
+mode = "speed/border"
 horizon = 170
 modelName = "twoLayer"
 multiplier = 1.0
@@ -246,7 +246,7 @@ dataset1 = Wave("wave-10-1-3-290", isTrain=False)
 
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-path = f'../trainedModels/{mode}/{start}/{modelName}/{multiplier}/{paramLevel}/run{run}'
+path = f'../trainedModels/{mode}/{modelName}/{16}/run{run}'
 
 os.chdir(path)
 
