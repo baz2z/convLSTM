@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --ntasks=1
-#SBATCH --array=1                             # Number of tasks (see below)
+#SBATCH --ntasks=3
+#SBATCH --array=1-3                             # Number of tasks (see below)
 #SBATCH --nodes=1                                   # Ensure that all cores are on one machine
 #SBeTCH --cpus-per-task=1
 #SBATCH --partition=gpu-2080ti                     # Partition to submit to
@@ -26,4 +26,4 @@ echo "RUN Script"
 
 python ./trainRange.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline"  \
                    --mode "range" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 1 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2
+                   --epochs 400 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2
