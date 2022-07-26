@@ -333,3 +333,10 @@ if __name__ == '__main__':
     with open('configuration.txt', 'w') as f:
         print(configuration, file=f)
     os.chdir("../../../../../../speed-basic")
+
+
+"""
+python ./trainRange.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral"  \
+                   --mode "range" --context 20 --horizon 40 --learningRate 0.001 \
+                   --epochs 400 --batchSize 32 --clip 1 --multiplier 1 --paramLevel 2
+"""
