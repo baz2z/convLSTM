@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testFuture.py", line 258, in <module>
+    os.chdir(path)
+FileNotFoundError: [Errno 2] No such file or directory: '../trainedModels/future-adapted/20/baseline/1.0/2'
