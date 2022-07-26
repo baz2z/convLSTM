@@ -257,7 +257,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-    df = pd.DataFrame(columns=["name", "basic", "speed-basic", "loss40"])# , "loss40_og", "loss70_og", "loss170_og"])
+    df = pd.DataFrame(columns=["name", "speed", "loss40"])# , "loss40_og", "loss70_og", "loss170_og"])
     param = 2
     mult = 1
     counter = 0
@@ -270,7 +270,7 @@ if __name__ == '__main__':
             path = f'../trainedModels/{mode}/{modelName}/{speed}'
             os.chdir(path)
             loss40 = calcLoss(model, 100, 20, 40, dataLoader)
-            df.loc[counter] = [modelName, 0, speed, loss40]# , loss40_og, loss70_og, loss170_og]
+            df.loc[counter] = [modelName, speed, loss40]# , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../../speed'
             os.chdir(pathBack)

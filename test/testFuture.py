@@ -247,7 +247,7 @@ datasetLoader2 = Wave("wave-0-0-3-390", isTrain=False)
 dataloader2 = DataLoader(dataset=datasetLoader2, batch_size=32, shuffle=False, drop_last=True,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-df = pd.DataFrame(columns=["modelName", "adapted", "loss0_40", "loss0_170", "loss0_270", "loss100_40", "loss100_170" ,"loss100_270"])
+df = pd.DataFrame(columns=["modelName", "future", "loss100_40", "loss100_170" ,"loss100_270"])
 counter = 0
 
 for modelName in ["baseline"]:
@@ -256,14 +256,11 @@ for modelName in ["baseline"]:
     for future in [20, 40, 70]:
         path = f'../trainedModels/{mode}/{future}/100/{modelName}/{multiplier}/{paramLevel}'
         os.chdir(path)
-        loss0_40 = calcLoss(model, 0, 20, 40, dataloader)
-        loss0_170 = calcLoss(model, 0, 20, 170, dataloader)
-        loss0_270 = calcLoss(model, 0, 20, 270, dataloader)
         loss100_40 = calcLoss(model, 100, 20, 40, dataloader)
         loss100_170 = calcLoss(model, 100, 20, 170, dataloader)
         loss100_270 = calcLoss(model, 100, 20, 270, dataloader2)
 
-        df.loc[counter] = [modelName, future, loss0_40, loss0_170, loss0_270, loss100_40, loss100_170, loss100_270]
+        df.loc[counter] = [modelName, future, loss100_40, loss100_170, loss100_270]
         counter += 1
         os.chdir("../../../../../../../test")
 
