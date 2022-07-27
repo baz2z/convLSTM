@@ -189,15 +189,11 @@ def mapParas(modelName, multiplier, paramsIndex):
 
 def mapLearninRate(i):
     return {
-        0: 0.1,
-        1: 0.05,
-        2: 0.01,
-        3: 0.005,
-        4: 0.001,
-        5: 0.0005,
-        6: 0.0001,
-        7: 0.00005,
-        8: 0.00001
+        "baseline": 0.005,
+        "lateral": 0.001,
+        "twoLayer": 0.001,
+        "skip": 0.001,
+        "depthWise": 0.01
     }[i]
 
 
@@ -205,19 +201,20 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="depthWise")
+    parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--datasetTrain', type=str, default="wave-10-1-3-290")
     parser.add_argument('--datasetVal', type=str, default="wave-10-1-3-290")
-    parser.add_argument('--mode', type=str, default="all")
+    parser.add_argument('--mode', type=str, default="all-40-adapted")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
-    parser.add_argument('--epochs', type=int, default=2)
+    parser.add_argument('--epochs', type=int, default=1)
     parser.add_argument('--run_idx', type=int, default=1)
     parser.add_argument('--clip', type=float, default=1)
     parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
+    parser.add_argument('--start', type=int, default=100)
     args = parser.parse_args()
     model = args.model
     datasetTrain = args.datasetTrain
@@ -225,18 +222,21 @@ if __name__ == '__main__':
     mode = args.mode
     context = args.context
     horizon = args.horizon
-    learningRate = args.learningRate
+    #learningRate = args.learningRate
     epochs = args.epochs
     run = args.run_idx
     batch_size = args.batchSize
     clip = args.clip
+    start = args.start
 
     if model == "baseline":
         mps = [1]
     elif model == "depthWise":
-        mps = [4]
+        mps = [1,2,4]
     else:
-        mps = [2]
+        mps = [0.5,1,2]
+
+    learningRate = mapLearninRate(model)
 
     for mp in mps:
         for paramLevel in [1,2,3]:
@@ -253,8 +253,8 @@ if __name__ == '__main__':
             for j in range(epochs):
                 lossPerBatch = []
                 for i, images in enumerate(dataloader):
-                    input_images = images[:, :context, :, :]
-                    labels = images[:, context:context + horizon, :, :]
+                    input_images = images[:, start:start+context, :, :]
+                    labels = images[:, start+context:start+context + horizon, :, :]
                     output = seq(input_images, horizon)
                     loss = criterion(output, labels)
                     lossPerBatch.append(loss.item())
@@ -267,8 +267,8 @@ if __name__ == '__main__':
                 with torch.no_grad():
                     lossPerBatch = []
                     for i, images in enumerate(validation):
-                        input_images = images[:, :context, :, :]
-                        labels = images[:, context:context + horizon, :, :]
+                        input_images = images[:, start:start+context, :, :]
+                        labels = images[:, start+context:start+context + horizon, :, :]
                         output = seq(input_images, horizon)
                         loss = criterion(output, labels)
                         lossPerBatch.append(loss.item())
@@ -299,7 +299,8 @@ if __name__ == '__main__':
                              "clip": clip,
                              "scheduler": scheduler,
                              "hiddenSize": hiddenSize,
-                             "lateralSize": lateralSize
+                             "lateralSize": lateralSize,
+                             "start": start
                              }
             with open('configuration.txt', 'w') as f:
                 print(configuration, file=f)
@@ -307,6 +308,6 @@ if __name__ == '__main__':
 
 """
 python ./trainAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
-                   --datasetVal "wave-10-1-3-290" --mode "all" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 400 --batchSize 32 --clip 1 
+                   --datasetVal "wave-10-1-3-290" --mode "all-40-adapted" --context 20 --horizon 40 --learningRate 0.001 \
+                   --epochs 400 --batchSize 32 --clip 1 --start 100
 """

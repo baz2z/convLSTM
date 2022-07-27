@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./trainFuture.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
-                   --datasetVal "wave-10-1-3-290" --mode "future-adapted/70" --context 20 --horizon 70 --learningRate 0.001 \
-                   --epochs 200 --batchSize 32 --multiplier 1 --paramLevel 2 --clip 1 --start 100
+python ./trainAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "baseline" --datasetTrain "wave-10-1-3-290" \
+                   --datasetVal "wave-10-1-3-290" --mode "all-40-adapted" --context 20 --horizon 40 --learningRate 0.001 \
+                   --epochs 400 --batchSize 32 --clip 1 --start 100
