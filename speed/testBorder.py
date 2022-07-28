@@ -253,7 +253,7 @@ def mapDataloader(speed):
 
 
 if __name__ == '__main__':
-    mode = "speed/range"
+    mode = "speed/border"
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
@@ -263,34 +263,32 @@ if __name__ == '__main__':
     counter = 0
 
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
-        for range in ["lower","upper"]:
-            if range == "lower":
+        for speed in ["16","44"]:
+            if speed == "16":
                 for speedTest in ["12", "14", "16", "18", "20"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mult, param)
                     model = mapModel(modelName, hs, ls)
-                    path = f'../trainedModels/{mode}/{modelName}/{range}'
+                    path = f'../trainedModels/{mode}/{modelName}/{speed}'
                     os.chdir(path)
                     loss170 = calcLoss(model, 100, 20, 170, dataLoader)
-                    df.loc[counter] = [modelName, range, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
+                    df.loc[counter] = [modelName, speed, speedTest,loss170]  # , loss40_og, loss70_og, loss170_og]
                     counter += 1
                     pathBack = f'../../../../../speed'
                     os.chdir(pathBack)
-            elif range == "upper":
+            elif speed == "18":
                 for speedTest in ["40", "42", "44", "46", "48"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mult, param)
                     model = mapModel(modelName, hs, ls)
-                    path = f'../trainedModels/{mode}/{modelName}/{range}'
+                    path = f'../trainedModels/{mode}/{modelName}/{speed}'
                     os.chdir(path)
                     loss170 = calcLoss(model, 100, 20, 170, dataLoader)
-                    df.loc[counter] = [modelName, range, speedTest, loss170]# , loss40_og, loss70_og, loss170_og]
+                    df.loc[counter] = [modelName, speed, speedTest, loss170]# , loss40_og, loss70_og, loss170_og]
                     counter += 1
                     pathBack = f'../../../../../speed'
                     os.chdir(pathBack)
 
 
-    df.to_csv("./df/speed-range-adapted")
-
-
+    df.to_csv("./df/speed-border-adapted")
 
