@@ -280,7 +280,7 @@ if __name__ == '__main__':
                 path = f'../trainedModels/{mode}/{modelName}/{rangeTained}'
                 os.chdir(path)
                 loss70 = calcLoss(model, 100, 20, 70, dataLoader)
-                df.loc[counter] = [modelName, rangeTained, loss170]  # , loss40_og, loss70_og, loss170_og]
+                df.loc[counter] = [modelName, rangeTained, loss70]  # , loss40_og, loss70_og, loss170_og]
                 counter += 1
                 pathBack = f'../../../../../speed'
                 os.chdir(pathBack)
