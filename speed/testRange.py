@@ -253,6 +253,7 @@ def mapDataloader(speed):
 
 
 
+"""
 if __name__ == '__main__':
     mode = "speed/range"
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -320,7 +321,7 @@ if __name__ == '__main__':
                     model = mapModel(modelName, hs, ls)
                     path = f'../trainedModels/{mode}/{modelName}/{rangeTrained}'
                     os.chdir(path)
-                    loss170 = calcLoss(model, 100, 20, 170, dataLoader)
+                    loss170 = calcLoss(model, 100, 20, 70, dataLoader)
                     df.loc[counter] = [modelName, rangeTrained, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
                     counter += 1
                     pathBack = f'../../../../../speed'
@@ -332,14 +333,12 @@ if __name__ == '__main__':
                     model = mapModel(modelName, hs, ls)
                     path = f'../trainedModels/{mode}/{modelName}/{rangeTrained}'
                     os.chdir(path)
-                    loss170 = calcLoss(model, 100, 20, 170, dataLoader)
+                    loss170 = calcLoss(model, 100, 20, 70, dataLoader)
                     df.loc[counter] = [modelName, rangeTrained, speedTest, loss170]# , loss40_og, loss70_og, loss170_og]
                     counter += 1
                     pathBack = f'../../../../../speed'
                     os.chdir(pathBack)
 
 
-    df.to_csv("./df/speed-range-adapted-multipleTest")
+    df.to_csv("./df/speed-range-adapted-multipleTest-70")
 
-
-"""

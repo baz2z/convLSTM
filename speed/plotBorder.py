@@ -30,18 +30,26 @@ def matchMarker(multiplier):
         4:"o"
     }[multiplier]
 
-fig, ax = plt.subplots()
+fig, (ax1, ax2) = plt.subplots(1, 2)
 
 df = pd.read_csv("./df/speed-border-adapted")
 df.reset_index()
 for index, row in df.iterrows():
     modelName = row["name"]
-    speed = row["speed"]
-    loss40 = row["loss40"]
+    speed = row["speedTrained"]
+    testSpeed = row["speedTest"]
+    loss170 = row["loss100_170"]
     col = matchColor(modelName)
-    ax.scatter(speed, loss40, color=col, s=16, alpha=0.7)
+    if speed == 16:
+        ax1.scatter(testSpeed, loss170, color=col, s=16, alpha=0.7)
+    else:
+        ax2.scatter(testSpeed, loss170, color=col, s=16, alpha=0.7)
 
-ax.set_yscale('log')
+
+
+ax1.set_yscale('log')
+ax2.set_yscale('log')
+
 blue_line = mlines.Line2D([], [], color='blue', marker='o',
                           markersize=12, label='baseline', linestyle="none")
 red_line = mlines.Line2D([], [], color='red', marker='o',
@@ -56,10 +64,11 @@ chocolate_line = mlines.Line2D([], [], color='chocolate', marker='o',
 
 plt.legend(handles=[blue_line, red_line, green_line, purple_line, chocolate_line], bbox_to_anchor=(1.05, 1), loc = 2)
 #plt.ylim([0.0001, 0.001])
-print()
+ax1.title.set_text("model trained on speed 1.6")
+ax2.title.set_text("model trained on speed 4.4")
+ax1.set_xlabel("wave speed tested on")
+ax1.set_ylabel("loss")
 name = f'./createdPlots/speed-border-adapted'
-plt.xlabel("wave speed trained on")
-plt.ylabel("loss")
 fig.savefig(name, bbox_inches="tight")
 
 
