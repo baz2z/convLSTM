@@ -1,0 +1,11 @@
+,name,speed,loss100_70
+0,baseline,lower,0.00010849778
+1,baseline,upper,4.0548224e-05
+2,lateral,lower,6.346647e-05
+3,lateral,upper,2.0875314e-05
+4,twoLayer,lower,5.910305e-05
+5,twoLayer,upper,1.7372355e-05
+6,skip,lower,3.3731514e-05
+7,skip,upper,2.1852029e-05
+8,depthWise,lower,9.652433e-05
+9,depthWise,upper,2.9088724e-05
