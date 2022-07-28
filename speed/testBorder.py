@@ -257,7 +257,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-    df = pd.DataFrame(columns=["name", "speed", "loss100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
+    df = pd.DataFrame(columns=["name", "speedTrained", "speedTest", "loss100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
     param = 2
     mult = 1
     counter = 0
@@ -276,7 +276,7 @@ if __name__ == '__main__':
                     counter += 1
                     pathBack = f'../../../../../speed'
                     os.chdir(pathBack)
-            elif speed == "18":
+            elif speed == "44":
                 for speedTest in ["40", "42", "44", "46", "48"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mult, param)

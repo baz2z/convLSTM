@@ -225,7 +225,7 @@ def totaSmoothness():
 def calcLoss(model, start, context, horizon, dataloader, og = False):
     criterion = nn.MSELoss()
     modelsLoss = []
-    for runNbr in range(5):
+    for runNbr in range(3):
         runNbr = runNbr + 1
         os.chdir(f'./run{runNbr}')
         model.load_state_dict(torch.load("model.pt", map_location=device))
@@ -252,6 +252,7 @@ def mapDataloader(speed):
     return dataloader
 
 
+
 if __name__ == '__main__':
     mode = "speed/range"
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -271,26 +272,26 @@ if __name__ == '__main__':
     counter = 0
 
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
-        for range in ["lower","upper"]:
-            if range == "lower":
+        for rangeTained in ["lower","upper"]:
+            if rangeTained == "lower":
                 dataLoader = dataloaderTestLower
                 hs, ls = mapParas(modelName, mult, param)
                 model = mapModel(modelName, hs, ls)
-                path = f'../trainedModels/{mode}/{modelName}/{range}'
+                path = f'../trainedModels/{mode}/{modelName}/{rangeTained}'
                 os.chdir(path)
                 loss170 = calcLoss(model, 100, 20, 170, dataLoader)
-                df.loc[counter] = [modelName, range, loss170]  # , loss40_og, loss70_og, loss170_og]
+                df.loc[counter] = [modelName, rangeTained, loss170]  # , loss40_og, loss70_og, loss170_og]
                 counter += 1
                 pathBack = f'../../../../../speed'
                 os.chdir(pathBack)
-            elif range == "upper":
+            elif rangeTained == "upper":
                 dataLoader = dataloaderTestUpper
                 hs, ls = mapParas(modelName, mult, param)
                 model = mapModel(modelName, hs, ls)
-                path = f'../trainedModels/{mode}/{modelName}/{range}'
+                path = f'../trainedModels/{mode}/{modelName}/{rangeTained}'
                 os.chdir(path)
                 loss170 = calcLoss(model, 100, 20, 170, dataLoader)
-                df.loc[counter] = [modelName, range, loss170]# , loss40_og, loss70_og, loss170_og]
+                df.loc[counter] = [modelName, rangeTained, loss170]# , loss40_og, loss70_og, loss170_og]
                 counter += 1
                 pathBack = f'../../../../../speed'
                 os.chdir(pathBack)
@@ -305,40 +306,39 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-    df = pd.DataFrame(columns=["name", "speed", "loss100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
+    df = pd.DataFrame(columns=["name", "speedTrained", "speedTest", "loss100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
     param = 2
     mult = 1
     counter = 0
 
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
-        for range in ["lower","upper"]:
-            if range == "lower":
+        for rangeTrained in ["lower","upper"]:
+            if rangeTrained == "lower":
                 for speedTest in ["12", "14", "16", "18", "20"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mult, param)
                     model = mapModel(modelName, hs, ls)
-                    path = f'../trainedModels/{mode}/{modelName}/{range}'
+                    path = f'../trainedModels/{mode}/{modelName}/{rangeTrained}'
                     os.chdir(path)
                     loss170 = calcLoss(model, 100, 20, 170, dataLoader)
-                    df.loc[counter] = [modelName, range, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
+                    df.loc[counter] = [modelName, rangeTrained, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
                     counter += 1
                     pathBack = f'../../../../../speed'
                     os.chdir(pathBack)
-            elif range == "upper":
+            elif rangeTrained == "upper":
                 for speedTest in ["40", "42", "44", "46", "48"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mult, param)
                     model = mapModel(modelName, hs, ls)
-                    path = f'../trainedModels/{mode}/{modelName}/{range}'
+                    path = f'../trainedModels/{mode}/{modelName}/{rangeTrained}'
                     os.chdir(path)
                     loss170 = calcLoss(model, 100, 20, 170, dataLoader)
-                    df.loc[counter] = [modelName, range, speedTest, loss170]# , loss40_og, loss70_og, loss170_og]
+                    df.loc[counter] = [modelName, rangeTrained, speedTest, loss170]# , loss40_og, loss70_og, loss170_og]
                     counter += 1
                     pathBack = f'../../../../../speed'
                     os.chdir(pathBack)
 
 
     df.to_csv("./df/speed-range-adapted-multipleTest")
-
 
 """
