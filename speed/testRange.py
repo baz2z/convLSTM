@@ -252,7 +252,7 @@ def mapDataloader(speed):
     return dataloader
 
 
-
+"""
 if __name__ == '__main__':
     mode = "speed/range"
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -341,4 +341,4 @@ if __name__ == '__main__':
 
     df.to_csv("./df/speed-range-adapted-multipleTest")
 
-"""
+

@@ -230,8 +230,8 @@ def mostSignificantPixel(imgs):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "speed/border"
-horizon = 170
+mode = "adaptedLoop"
+horizon = 270
 modelName = "twoLayer"
 multiplier = 1.0
 paramLevel = 2
@@ -242,11 +242,11 @@ run = 2
 learningRate = 0.001
 start = 0
 
-dataset1 = Wave("wave-10-1-3-290", isTrain=False)
+dataset1 = Wave("wave-0-0-3-390", isTrain=False)
 
 dataloader = DataLoader(dataset=dataset1, batch_size=10, shuffle=False, drop_last=False,
                         collate_fn=lambda x: default_collate(x).to(device, torch.float))
-path = f'../trainedModels/{mode}/{modelName}/{16}/run{run}'
+path = f'../trainedModels/{mode}/0/{modelName}/{multiplier}/{paramLevel}/run{run}'
 
 os.chdir(path)
 
@@ -272,22 +272,22 @@ plt.plot(valLoss, label="valLoss")
 plt.legend()
 plt.show()
 
-os.chdir("../../../../../../../train")
+#os.chdir("../../../../../../../train")
 
 # example wave
 visData = iter(dataloader).__next__()
 
 
-pred = model(visData[:, 0:20, :, :], horizon=170).detach().cpu().numpy()
+pred = model(visData[:, :20, :, :], horizon=270).detach().cpu().numpy()
 
 # print(numpy.mean(visData.numpy()))
 # print(numpy.std(visData.numpy()))
-sequence = 1
+sequence = 0
 # for one pixel
 #
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
 w, h = 29, 12
-groundTruth = visData[sequence, 20:190, int(w / 2), int(h / 2)].detach().cpu().numpy()
+groundTruth = visData[sequence, 20:290, int(w / 2), int(h / 2)].detach().cpu().numpy()
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
 plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
