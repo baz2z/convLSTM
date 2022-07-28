@@ -315,7 +315,7 @@ if __name__ == '__main__':
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         for rangeTrained in ["lower","upper"]:
             if rangeTrained == "lower":
-                for speedTest in ["12", "14", "16", "18", "20"]:
+                for speedTest in ["12", "14", "16", "18", "20", "22", "24", "26", "28", "30", "32"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mult, param)
                     model = mapModel(modelName, hs, ls)
@@ -327,7 +327,7 @@ if __name__ == '__main__':
                     pathBack = f'../../../../../speed'
                     os.chdir(pathBack)
             elif rangeTrained == "upper":
-                for speedTest in ["40", "42", "44", "46", "48"]:
+                for speedTest in ["28", "30", "32", "34", "36", "38", "40", "42", "44", "46", "48"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mult, param)
                     model = mapModel(modelName, hs, ls)
