@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testRange.py
+python ./testBorder.py
