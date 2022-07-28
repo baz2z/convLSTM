@@ -266,7 +266,7 @@ if __name__ == '__main__':
     dataloaderTestUpper = DataLoader(dataset=datasetValUpper, batch_size=batch_size, shuffle=True, drop_last=True,
                                     collate_fn=lambda x: default_collate(x).to(device, torch.float))
 
-    df = pd.DataFrame(columns=["name", "speed", "loss100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
+    df = pd.DataFrame(columns=["name", "speed", "loss100_70"])# , "loss40_og", "loss70_og", "loss170_og"])
     param = 2
     mult = 1
     counter = 0
@@ -279,7 +279,7 @@ if __name__ == '__main__':
                 model = mapModel(modelName, hs, ls)
                 path = f'../trainedModels/{mode}/{modelName}/{rangeTained}'
                 os.chdir(path)
-                loss170 = calcLoss(model, 100, 20, 70, dataLoader)
+                loss70 = calcLoss(model, 100, 20, 70, dataLoader)
                 df.loc[counter] = [modelName, rangeTained, loss170]  # , loss40_og, loss70_og, loss170_og]
                 counter += 1
                 pathBack = f'../../../../../speed'
@@ -290,8 +290,8 @@ if __name__ == '__main__':
                 model = mapModel(modelName, hs, ls)
                 path = f'../trainedModels/{mode}/{modelName}/{rangeTained}'
                 os.chdir(path)
-                loss170 = calcLoss(model, 100, 20, 70, dataLoader)
-                df.loc[counter] = [modelName, rangeTained, loss170]# , loss40_og, loss70_og, loss170_og]
+                loss70 = calcLoss(model, 100, 20, 70, dataLoader)
+                df.loc[counter] = [modelName, rangeTained, loss70]# , loss40_og, loss70_og, loss170_og]
                 counter += 1
                 pathBack = f'../../../../../speed'
                 os.chdir(pathBack)
