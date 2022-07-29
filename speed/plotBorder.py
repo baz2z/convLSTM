@@ -63,10 +63,11 @@ chocolate_line = mlines.Line2D([], [], color='chocolate', marker='o',
 
 
 plt.legend(handles=[blue_line, red_line, green_line, purple_line, chocolate_line], bbox_to_anchor=(1.05, 1), loc = 2)
+plt.title("Test models trained on high and low speed on 170 future frames")
 #plt.ylim([0.0001, 0.001])
 ax1.title.set_text("model trained on speed 1.6")
 ax2.title.set_text("model trained on speed 4.4")
-ax1.set_xlabel("wave speed tested on")
+ax1.set_xlabel("tested on wave speed x over 170 future frames")
 ax1.set_ylabel("loss")
 name = f'./createdPlots/speed-border-adapted'
 fig.savefig(name, bbox_inches="tight")
