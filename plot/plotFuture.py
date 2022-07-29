@@ -67,9 +67,9 @@ ax.set_yscale('log')
 blue_line = mlines.Line2D([], [], color='blue', marker='o',
                           markersize=12, label='trained on 20', linestyle="none")
 red_line = mlines.Line2D([], [], color='red', marker='o',
-                          markersize=12, label='40', linestyle="none")
+                          markersize=12, label='trained on 40', linestyle="none")
 green_line = mlines.Line2D([], [], color='green', marker='o',
-                          markersize=12, label='70', linestyle="none")
+                          markersize=12, label='trained on 70', linestyle="none")
 
 marker3 = mlines.Line2D([], [], color='gray', marker='+',
                           markersize=12, label='start: 100, horizon: 40', linestyle="none")
