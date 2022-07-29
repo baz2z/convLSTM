@@ -9,7 +9,7 @@
 #SBATCH --output=svolz.out                  # File to which STDOUT will be written
 #SBATCH --error=svolz.err                   # File to which STDERR will be written
 #SBATCH --mail-type FAIL           	                # Type of email notification- BEGIN,END,FAIL,ALL
-#SBATCH --mail-user=sebastien.volz@student.uni-tuebingen.de	# Email to which notifications will be sent
+#SBATCH --mail-user=sebastian.volz@student.uni-tuebingen.de	# Email to which notifications will be sent
 #SBATCH --gres=gpu:1
 
 set -o errexit 
