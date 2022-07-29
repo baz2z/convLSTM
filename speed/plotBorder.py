@@ -38,6 +38,7 @@ for index, row in df.iterrows():
     modelName = row["name"]
     speed = row["speedTrained"]
     testSpeed = row["speedTest"]
+    testSpeed = float(str(testSpeed)[:1] + "." + str(testSpeed)[1:])
     loss170 = row["loss100_170"]
     col = matchColor(modelName)
     if speed == 16:
