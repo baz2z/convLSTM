@@ -20,7 +20,7 @@ def count_params(net):
 class Wave(Dataset):
     def __init__(self, file, isTrain=True):
         # data loading
-        f = h5py.File("../../data/wave/" + file, 'r')
+        f = h5py.File("../../../../../../work2/butz1/svolz67/data/wave/"+ file, 'r')
         self.isTrain = isTrain
         self.data = f['data']['train'] if self.isTrain else f['data']['val']
         means, stds = [], []
