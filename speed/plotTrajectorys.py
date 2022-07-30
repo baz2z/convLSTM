@@ -231,17 +231,17 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
 mode = "speed/border"
 horizon = 170
-modelName = "baseline"
+modelName = "twoLayer"
 multiplier = 1.0
 paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
 model = mapModel(modelName, hiddenSize, lateralSize)
 params = count_params(model)
-run = 1
+run = 2
 learningRate = 0.001
 start = 0
 speedTrain = "16"
-speedTest = "14"
+speedTest = "16"
 
 dataloader = mapDataloader(speedTest)
 
