@@ -24,6 +24,6 @@ hostname
 
 echo "RUN Script"
 
-python ./trainAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "lateral" --datasetTrain "wave-10-1-3-290" \
+python ./trainAll.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "skip" --datasetTrain "wave-10-1-3-290" \
                    --datasetVal "wave-10-1-3-290" --mode "all-40-adapted" --context 20 --horizon 40 --learningRate 0.001 \
                    --epochs 400 --batchSize 32 --clip 1 --start 100
