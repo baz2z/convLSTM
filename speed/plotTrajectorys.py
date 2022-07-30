@@ -240,8 +240,8 @@ params = count_params(model)
 run = 2
 learningRate = 0.001
 start = 0
-speedTrain = "16"
-speedTest = "16"
+speedTrain = "44"
+speedTest = "46"
 
 dataloader = mapDataloader(speedTest)
 

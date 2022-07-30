@@ -33,7 +33,7 @@ def matchMarker(multiplier):
 
 fig, (ax1, ax2) = plt.subplots(2, 1)
 
-df = pd.read_csv("./df/speed-range-adapted-multipleTest-70")
+df = pd.read_csv("./df/speed-range-adapted-multipleTest-170")
 df.reset_index()
 for index, row in df.iterrows():
     modelName = row["name"]
@@ -74,7 +74,7 @@ ax1.legend(handles=[blue_line, red_line, green_line, purple_line, chocolate_line
 # ax2.title.set_text("model trained on speed 4.4")
 ax2.set_xlabel("wave speed tested on")
 ax2.set_ylabel("loss")
-name = f'./createdPlots/speed-range-adapted-70'
+name = f'./createdPlots/speed-range-adapted-170'
 fig.savefig(name, bbox_inches="tight")
 
 
