@@ -42,6 +42,7 @@ for index, row in df.iterrows():
     loss40 = row["loss40"]
     loss70 = row["loss70"]
     loss170 = row["loss170"]
+    loss270 = row["loss270"]
     col = matchColor(modelName)
     marker = matchMarker(mp)
     ax.scatter(paras, loss40, color=col, s=16, alpha=0.7, marker=marker)

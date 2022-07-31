@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testFuture.py
+python ./testAll.py

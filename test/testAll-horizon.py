@@ -218,6 +218,29 @@ def calcLoss(model, start, context, horizon, dataloader, og = False):
         os.chdir("../")
     finalLoss = numpy.mean(modelsLoss)
     return finalLoss
+
+def calcHorizonLoss(model, start, context, horizon, dataloader, og = False):
+    criterion = nn.MSELoss()
+    images = iter(dataloader).__next__()
+    lossHorizonAllRuns = numpy.zeros(horizon)
+    for runNbr in range(5):
+        runNbr = runNbr + 1
+        os.chdir(f'./run{runNbr}')
+        model.load_state_dict(torch.load("model.pt", map_location=device))
+        model.eval()
+        lossHorizon = []
+        with torch.no_grad():
+            input_images = images[:, start:start+context, :, :]
+            for future in range(horizon):
+                future += 1
+                labels = images[:, start+context:start+context + future, :, :]
+                output = model(input_images, future)
+                # loss = numpy.sum((output - labels).detach().numpy())
+                loss = criterion(output, labels).cpu().numpy()
+                lossHorizon.append(loss)
+        lossHorizonAllRuns = numpy.add(lossHorizonAllRuns, lossHorizon)
+        os.chdir("../")
+    return lossHorizonAllRuns/5
 # calculated train loss on new dataset and average the loss
 
 parser = argparse.ArgumentParser()
@@ -244,7 +267,7 @@ dataloader = DataLoader(dataset=datasetLoader, batch_size=32, shuffle=False, dro
 
 
 
-df = pd.DataFrame(columns=["modelName", "mp", "paramLevel", "parasExact", "loss40", "loss70", "loss170", "loss270"])
+df = pd.DataFrame(columns=["modelName", "mp", "paramLevel", "parasExact", "lossHorizon"])
 counter = 0
 
 for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
@@ -262,16 +285,21 @@ for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
             path = f'../trainedModels/{mode}/{modelName}/{mp}/{paramLevel}'
             os.chdir(path)
             print(modelName, mp, paramLevel)
-            loss40 = calcLoss(model, 100, context, 40, dataloader)
-            loss70 = calcLoss(model, 100, context, 70, dataloader)
-            loss170 = calcLoss(model, 100, context, 170, dataloader)
-            loss270 = calcLoss(model, 100, context, 270, dataloader)
-            df.loc[counter] = [modelName, mp, paramLevel, parasExact, loss40, loss70, loss170, loss270]
+            lossHorizon = calcHorizonLoss(model, 100, 20, 170, dataloader)
+            df.loc[counter] = [modelName, mp, paramLevel, parasExact, lossHorizon]
             counter += 1
             os.chdir("../../../../../test")
 
-df.to_csv("allLoss")
+df.to_csv("allLoss-horizon")
 
 """
 run for each model
 """
+
+
+
+
+
+
+
+

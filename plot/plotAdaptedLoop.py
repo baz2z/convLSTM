@@ -106,9 +106,9 @@ marker6 = mlines.Line2D([], [], color='gray', marker='|',
 
 plt.xticks([0, 1, 2, 3, 4], ["Baseline", "Lateral", "TwoLayer", "Skip", "DepthWise"])
 plt.legend(handles=[blue_line, red_line, marker1, marker2, marker5, marker3, marker4, marker6], bbox_to_anchor=(1.05, 1), loc = 2)
-plt.ylim([0.00003, 0.0035])
+#plt.ylim([0.00003, 0.0035])
 print()
-name = f'./createdPlots/adaptedLoss'
+name = f'./createdPlots/adaptedLoss-all'
 plt.xlabel("model name")
 plt.ylabel("loss")
 fig.savefig(name, bbox_inches="tight")
