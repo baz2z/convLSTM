@@ -261,7 +261,7 @@ if __name__ == '__main__':
 
     datasetTrainLowerVal = Wave(datasetNameLower, isTrain=False)
     datasetTrainUpperVal = Wave(datasetNameUpper, isTrain=False)
-    datasetTrainConcatVal = ConcatDataset([datasetTrainLower, datasetTrainUpper])
+    datasetTrainConcatVal = ConcatDataset([datasetTrainLowerVal, datasetTrainUpperVal])
     dataloaderTrain = DataLoader(dataset=datasetTrainConcat, batch_size=batch_size, shuffle=True, drop_last=True,
                                  collate_fn=lambda x: default_collate(x).to(device, torch.float))
     dataloaderVal = DataLoader(dataset=datasetTrainConcatVal, batch_size=batch_size, shuffle=True, drop_last=True,
