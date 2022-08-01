@@ -223,7 +223,7 @@ def calcHorizonLoss(model, start, context, horizon, dataloader, og = False):
     criterion = nn.MSELoss()
     images = iter(dataloader).__next__()
     lossHorizonAllRuns = numpy.zeros(horizon)
-    for runNbr in range(5):
+    for runNbr in range(3):
         runNbr = runNbr + 1
         os.chdir(f'./run{runNbr}')
         model.load_state_dict(torch.load("model.pt", map_location=device))
