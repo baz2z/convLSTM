@@ -285,7 +285,7 @@ for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
             path = f'../trainedModels/{mode}/{modelName}/{mp}/{paramLevel}'
             os.chdir(path)
             print(modelName, mp, paramLevel)
-            lossHorizon = calcHorizonLoss(model, 100, 20, 170, dataloader)
+            lossHorizon = calcHorizonLoss(model, 100, 20, 270, dataloader)
             df.loc[counter] = [modelName, mp, paramLevel, parasExact, lossHorizon]
             counter += 1
             os.chdir("../../../../../test")

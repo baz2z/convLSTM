@@ -23,7 +23,7 @@ fig, ax = plt.subplots()
 df = pd.read_csv("../test/allLoss-horizon")
 df.reset_index()
 
-modelToPlot = "depthWise"
+modelToPlot = "baseline"
 for index, row in df.iterrows():
     modelName = row["modelName"]
     if modelName == modelToPlot:
@@ -58,9 +58,9 @@ mult3 = mlines.Line2D([], [], color='gray',
 mult4 = mlines.Line2D([], [], color='gray',
                           markersize=12, label='1:4 (multiplication)', linestyle=":")
 
+ax.set_yscale("log")
 plt.legend(handles=[blue_line, red_line, green_line, mult1, mult2, mult3, mult4], bbox_to_anchor=(1.05, 1), loc = 2)
 fig.suptitle(f'{modelToPlot}', fontsize=16)
-ax.set_ylim([0, 2])
-name = f'./createdPlots/all-horizonLoss'
+name = f'./createdPlots/all-horizonLoss-{modelToPlot}'
 fig.savefig(name, bbox_inches="tight")
 
