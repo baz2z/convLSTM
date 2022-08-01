@@ -1,0 +1,1 @@
+{'model': 'lateral', 'epochs': 400, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 26011, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'dataset': <torch.utils.data.dataset.ConcatDataset object at 0x7ff1124db850>, 'clip': 1.0, 'scheduler': <torch.optim.lr_scheduler.CosineAnnealingLR object at 0x7ff11125b9d0>, 'hiddenSize': 18, 'lateralSize': 18}
