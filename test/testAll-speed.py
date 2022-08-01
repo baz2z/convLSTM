@@ -258,8 +258,6 @@ if __name__ == '__main__':
 
 
     df = pd.DataFrame(columns=["name", "mp", "paramLevel", "paramExact", "speedTest", "loss100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
-    param = 2
-    mult = 1
     counter = 0
 
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
@@ -270,10 +268,10 @@ if __name__ == '__main__':
         else:
             mps = [0.5, 1, 2]
         for mp in mps:
-            for paramLevel in [1, 3]:
+            for paramLevel in [1, 2, 3]:
                 for speedTest in ["20", "22", "24", "26", "28", "30", "32", "34", "36", "38", "40"]:
                     dataLoader = mapDataloader(speedTest)
-                    hs, ls = mapParas(modelName, mult, param)
+                    hs, ls = mapParas(modelName, mp, paramLevel)
                     model = mapModel(modelName, hs, ls)
                     paramExact = count_params(model)
                     path = f'../trainedModels/{mode}/{modelName}/{mp}/{paramLevel}'
