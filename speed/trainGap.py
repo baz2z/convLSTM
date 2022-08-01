@@ -101,6 +101,15 @@ def mapDataset(datasetTrain, datasetVal, batch_size):
 
     return train, val
 
+def mapLearninRate(i):
+    return {
+        "baseline": 0.005,
+        "lateral": 0.001,
+        "twoLayer": 0.001,
+        "skip": 0.001,
+        "depthWise": 0.01
+    }[i]
+
 def mapParas(modelName, multiplier, paramsIndex):
     modelParams = (0, 0)
 
@@ -239,7 +248,6 @@ if __name__ == '__main__':
     mode = args.mode
     context = args.context
     horizon = args.horizon
-    learningRate = args.learningRate
     epochs = args.epochs
     run = args.run_idx
     batch_size = args.batchSize
@@ -248,10 +256,12 @@ if __name__ == '__main__':
     paramLevel = args.paramLevel
     # begin to train
     loss_plot_train, loss_plot_val = [], []
-    speedRange = "RANGE"
     hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
     seq = mapModel(model, hiddenSize, lateralSize)
     params = count_params(seq)
+
+    learningRate = mapLearninRate(model)
+
     datasetNameLower = "wave-5000-190-[16-28]"
     datasetNameUpper = "wave-5000-190-[32-44]"
     datasetTrainLower = Wave(datasetNameLower)
@@ -297,7 +307,7 @@ if __name__ == '__main__':
             loss_plot_val.append(numpy.mean(lossPerBatch))
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{mode}/{model}/{speedRange}/run{run}'
+    path = f'../trainedModels/{mode}/{model}/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)

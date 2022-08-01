@@ -45,7 +45,7 @@ for index, row in df.iterrows():
     loss270 = row["loss270"]
     col = matchColor(modelName)
     marker = matchMarker(mp)
-    ax.scatter(paras, loss40, color=col, s=16, alpha=0.7, marker=marker)
+    ax.scatter(paras, loss270, color=col, s=16, alpha=0.7, marker=marker)
     # ax.scatter(paras, loss70, color=col, s=16, alpha=0.7, marker=matchMarker("70"))
     # ax.scatter(paras, loss170, color=col, s=16, alpha=0.7, marker=matchMarker("170"))
 
@@ -76,7 +76,7 @@ marker4 = mlines.Line2D([], [], color='gray', marker='o',
 plt.legend(handles=[blue_line, red_line, green_line, purple_line, chocolate_line, marker1, marker2, marker3, marker4], bbox_to_anchor=(1.05, 1), loc = 2)
 #plt.ylim([0.0001, 0.001])
 print()
-name = f'./createdPlots/loss40'
+name = f'./createdPlots/loss270'
 plt.xlabel("parameters of models")
 plt.ylabel("loss")
 fig.savefig(name, bbox_inches="tight")
