@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testAll-speed.py", line 281, in <module>
+    loss170 = calcLoss(model, 100, 20, 170, dataLoader)
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testAll-speed.py", line 231, in calcLoss
+    model.load_state_dict(torch.load("model.pt", map_location=device))
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1497, in load_state_dict
+    raise RuntimeError('Error(s) in loading state_dict for {}:\n\t{}'.format(
+RuntimeError: Error(s) in loading state_dict for Forecaster:
+	size mismatch for init.weight: copying a param with shape torch.Size([4, 1, 1, 1]) from checkpoint, the shape in current model is torch.Size([10, 1, 1, 1]).
+	size mismatch for init.bias: copying a param with shape torch.Size([4]) from checkpoint, the shape in current model is torch.Size([10]).
+	size mismatch for encoder_layers.block_0.conv.weight: copying a param with shape torch.Size([16, 8, 3, 3]) from checkpoint, the shape in current model is torch.Size([40, 20, 3, 3]).
+	size mismatch for encoder_layers.block_0.conv.bias: copying a param with shape torch.Size([16]) from checkpoint, the shape in current model is torch.Size([40]).
+	size mismatch for encoder_layers.block_1.conv.weight: copying a param with shape torch.Size([16, 8, 3, 3]) from checkpoint, the shape in current model is torch.Size([40, 20, 3, 3]).
+	size mismatch for encoder_layers.block_1.conv.bias: copying a param with shape torch.Size([16]) from checkpoint, the shape in current model is torch.Size([40]).
+	size mismatch for decoder_layers.block_0.conv.weight: copying a param with shape torch.Size([16, 4, 3, 3]) from checkpoint, the shape in current model is torch.Size([40, 10, 3, 3]).
+	size mismatch for decoder_layers.block_0.conv.bias: copying a param with shape torch.Size([16]) from checkpoint, the shape in current model is torch.Size([40]).
+	size mismatch for decoder_layers.block_1.conv.weight: copying a param with shape torch.Size([16, 8, 3, 3]) from checkpoint, the shape in current model is torch.Size([40, 20, 3, 3]).
+	size mismatch for decoder_layers.block_1.conv.bias: copying a param with shape torch.Size([16]) from checkpoint, the shape in current model is torch.Size([40]).
+	size mismatch for read.weight: copying a param with shape torch.Size([1, 4, 1, 1]) from checkpoint, the shape in current model is torch.Size([1, 10, 1, 1]).
