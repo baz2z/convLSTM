@@ -24,6 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./trainGap.py --run_idx ${SLURM_ARRAY_TASK_ID} --model "skip"  \
-                   --mode "speed/gap" --context 20 --horizon 40 --learningRate 0.001 \
-                   --epochs 400 --batchSize 32 --clip 1 --multiplier 2 --paramLevel 2
+python ./testGap.py
