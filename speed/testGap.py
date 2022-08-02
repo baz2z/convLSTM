@@ -225,7 +225,7 @@ def totaSmoothness():
 def calcLoss(model, start, context, horizon, dataloader, og = False):
     criterion = nn.MSELoss()
     modelsLoss = []
-    for runNbr in [1, 3]:
+    for runNbr in [1, 2, 3]:
         os.chdir(f'./run{runNbr}')
         model.load_state_dict(torch.load("model.pt", map_location=device))
         model.eval()
@@ -260,7 +260,7 @@ if __name__ == '__main__':
     param = 2
     counter = 0
 
-    for modelName in ["skip05"]:#, "lateral", "twoLayer", "skip05", "skip2"]:
+    for modelName in ["skip2"]:#, "lateral", "twoLayer", "skip05", "skip2"]:
         if modelName == "baseline" or modelName == "lateral":
             mps = 1
         elif modelName == "twoLayer":
