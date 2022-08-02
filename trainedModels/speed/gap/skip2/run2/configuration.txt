@@ -1,0 +1,1 @@
+{'model': 'skip', 'epochs': 400, 'batchSize': 32, 'learningRate': 0.001, 'parameters': 25381, 'context': 20, 'horizon': 40, 'Loss': MSELoss(), 'dataset': <torch.utils.data.dataset.ConcatDataset object at 0x7f98d82338b0>, 'clip': 1.0, 'scheduler': <torch.optim.lr_scheduler.CosineAnnealingLR object at 0x7f98d6fb7a30>, 'hiddenSize': 12, 'lateralSize': 24}
