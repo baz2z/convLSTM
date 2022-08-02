@@ -301,7 +301,7 @@ if __name__ == '__main__':
     bias = args.bias
 
 
-    for model in ["twoLayer", "skip"]:
+    for model in ["depthWise"]:
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize, bias, horizon)
         params = count_params(seq)
