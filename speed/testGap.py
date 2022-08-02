@@ -272,7 +272,7 @@ if __name__ == '__main__':
         for speedTest in ["12", "14", "16", "18", "20", "22", "24", "26", "28", "30", "32", "34", "36", "38", "40", "42", "44", "46", "48"]:
             dataLoader = mapDataloader(speedTest)
             hs, ls = mapParas("skip", mps, param)
-            model = mapModel(modelName, hs, ls)
+            model = mapModel("skip", hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
             loss170 = calcLoss(model, 100, 20, 170, dataLoader)
