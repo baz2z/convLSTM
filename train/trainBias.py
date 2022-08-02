@@ -69,11 +69,11 @@ class Forecaster(nn.Module):
 
         if bias[0]:
             for i, layer in enumerate(self.decoder_layers):
-                b_f = torch.log(((bias[1]-1) - 1) * torch.rand(h_channels) + 1)
+                b_f = torch.log10(((bias[1]-1) - 1) * torch.rand(h_channels) + 1)
                 layer.conv.bias.data[:h_channels] = -1 * b_f # init input gate
                 layer.conv.bias.data[h_channels:2 * h_channels] =  b_f # init forget gate
             for i, layer in enumerate(self.encoder_layers):
-                b_f = torch.log(((bias[1]-1) - 1) * torch.rand(h_channels) + 1)
+                b_f = torch.log10(((bias[1]-1) - 1) * torch.rand(h_channels) + 1)
                 layer.conv.bias.data[:h_channels] = -1 * b_f # init input gate
                 layer.conv.bias.data[h_channels:2 * h_channels] =  b_f # init forget gate
 
@@ -273,7 +273,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', type=str, default="baseline")
     parser.add_argument('--datasetTrain', type=str, default="wave-10-1-3-290")
     parser.add_argument('--datasetVal', type=str, default="wave-10-1-3-290")
-    parser.add_argument('--mode', type=str, default="bias")
+    parser.add_argument('--mode', type=str, default="biasTest")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -283,7 +283,7 @@ if __name__ == '__main__':
     parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
-    parser.add_argument('--bias', type=int, default=0)
+    parser.add_argument('--bias', type=int, default=1)
     args = parser.parse_args()
     #model = args.model
     datasetTrain = args.datasetTrain

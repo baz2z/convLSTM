@@ -228,11 +228,10 @@ def mapParas(modelName, multiplier, paramsIndex):
 if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="baseline")
+    parser.add_argument('--model', type=str, default="lateral")
     parser.add_argument('--dataset', type=str, default="wave")
-    parser.add_argument('--mode', type=str, default="speed-border-adapted")
+    parser.add_argument('--mode', type=str, default="speed/gapTest")
     parser.add_argument('--context', type=int, default=20)
     parser.add_argument('--horizon', type=int, default=40)
     parser.add_argument('--learningRate', type=float, default=0.001)
@@ -307,7 +306,7 @@ if __name__ == '__main__':
             loss_plot_val.append(numpy.mean(lossPerBatch))
 
     # # save model and test and train loss and parameters in txt file and python file with class
-    path = f'../trainedModels/{mode}/{model}/{mp}/{paramLevel}/run{run}'
+    path = f'../trainedModels/{mode}/{model}/run{run}'
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)
