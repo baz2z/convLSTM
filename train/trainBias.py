@@ -283,7 +283,7 @@ if __name__ == '__main__':
     parser.add_argument('--batchSize', type=int, default=10)
     parser.add_argument('--multiplier', type=float, default=1)
     parser.add_argument('--paramLevel', type=int, default=1)
-    parser.add_argument('--bias', type=int, default=1)
+    parser.add_argument('--bias', type=int, default=0)
     args = parser.parse_args()
     #model = args.model
     datasetTrain = args.datasetTrain
@@ -301,7 +301,7 @@ if __name__ == '__main__':
     bias = args.bias
 
 
-    for model in ["depthWise"]:
+    for model in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         hiddenSize, lateralSize = mapParas(model, mp, paramLevel)
         seq = mapModel(model, hiddenSize, lateralSize, bias, horizon)
         params = count_params(seq)
