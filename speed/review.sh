@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testGap.py
+python ./testGap-worse.py
