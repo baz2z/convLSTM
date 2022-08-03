@@ -279,7 +279,7 @@ if __name__ == '__main__':
             model = mapModel(modelName, hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, bestSlow, worseSlow = calcLoss(model, 100, 20, 170, dataLoader)
+            loss170, bestSlow, worseSlow = calcLoss(model, 100, 20, 270, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../speed'
@@ -290,7 +290,7 @@ if __name__ == '__main__':
             model = mapModel(modelName, hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, bestMedium, worseMedium = calcLoss(model, 100, 20, 170, dataLoader)
+            loss170, bestMedium, worseMedium = calcLoss(model, 100, 20, 270, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../speed'
@@ -301,7 +301,7 @@ if __name__ == '__main__':
             model = mapModel(modelName, hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, bestFast, worseFast = calcLoss(model, 100, 20, 170, dataLoader)
+            loss170, bestFast, worseFast = calcLoss(model, 100, 20, 270, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../speed'
