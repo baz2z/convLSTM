@@ -263,7 +263,7 @@ def mapDataloader(speed):
 
 
 if __name__ == '__main__':
-    mode = "speed/gap"
+    mode = "all-40-adapted"
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
@@ -273,38 +273,34 @@ if __name__ == '__main__':
 
     for modelName in ["baseline"]:#, "lateral", "twoLayer", "skip05", "skip2"]:
         mps = 1
+        path = f'../trainedModels/{mode}/{modelName}/1/2'
+        pathBack = f'../../../../../speed'
         for speedTest in ["16"]:
             dataLoader = mapDataloader(speedTest)
             hs, ls = mapParas(modelName, mps, param)
             model = mapModel(modelName, hs, ls)
-            path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, bestSlow, worseSlow = calcLoss(model, 100, 20, 270, dataLoader)
+            loss170, bestSlow, worseSlow = calcLoss(model, 100, 20, 170, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
-            pathBack = f'../../../../speed'
             os.chdir(pathBack)
         for speedTest in ["30"]:
             dataLoader = mapDataloader(speedTest)
             hs, ls = mapParas(modelName, mps, param)
             model = mapModel(modelName, hs, ls)
-            path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, bestMedium, worseMedium = calcLoss(model, 100, 20, 270, dataLoader)
+            loss170, bestMedium, worseMedium = calcLoss(model, 100, 20, 170, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
-            pathBack = f'../../../../speed'
             os.chdir(pathBack)
         for speedTest in ["44"]:
             dataLoader = mapDataloader(speedTest)
             hs, ls = mapParas(modelName, mps, param)
             model = mapModel(modelName, hs, ls)
-            path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, bestFast, worseFast = calcLoss(model, 100, 20, 270, dataLoader)
+            loss170, bestFast, worseFast = calcLoss(model, 100, 20, 170, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
-            pathBack = f'../../../../speed'
             os.chdir(pathBack)#
 
     #df.to_csv(f"./df/speed-gap-{modelName}-plot")
@@ -377,4 +373,4 @@ if __name__ == '__main__':
             ax.label_outer()
 
     fig.tight_layout()
-    fig.savefig("gap-worse-best")
+    fig.savefig("single-worse-best-test")
