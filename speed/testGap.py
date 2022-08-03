@@ -225,7 +225,7 @@ def totaSmoothness():
 def calcLoss(model, start, context, horizon, dataloader, og = False):
     criterion = nn.MSELoss()
     modelsLoss = []
-    for runNbr in [1, 3]:
+    for runNbr in [1, 2, 3]:
         os.chdir(f'./run{runNbr}')
         model.load_state_dict(torch.load("model.pt", map_location=device))
         model.eval()
@@ -271,8 +271,8 @@ if __name__ == '__main__':
             mps = 2
         for speedTest in ["12", "14", "16", "18", "20", "22", "24", "26", "28", "30", "32", "34", "36", "38", "40", "42", "44", "46", "48"]:
             dataLoader = mapDataloader(speedTest)
-            hs, ls = mapParas(modelName, mps, param)
-            model = mapModel(modelName, hs, ls)
+            hs, ls = mapParas("skip", mps, param)
+            model = mapModel("skip", hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
             loss170 = calcLoss(model, 100, 20, 170, dataLoader)
