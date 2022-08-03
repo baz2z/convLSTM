@@ -1,31 +1,31 @@
-/mnt/qb/work/butz/svolz67/dev/convLSTM/speed
+/mnt/qb/work/butz/svolz67/dev/convLSTM/test
 JOB DATA
-JobId=1676382 ArrayJobId=1676382 ArrayTaskId=0 JobName=review.sh
+JobId=1675879 ArrayJobId=1675879 ArrayTaskId=1 JobName=review.sh
    UserId=svolz67(4458) GroupId=butz(4032) MCS_label=N/A
    Priority=20054 Nice=0 Account=butz QOS=normal
    JobState=RUNNING Reason=None Dependency=(null)
    Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
    RunTime=00:00:01 TimeLimit=3-00:00:00 TimeMin=N/A
-   SubmitTime=2022-08-03T17:44:05 EligibleTime=2022-08-03T17:44:06
-   AccrueTime=2022-08-03T17:44:17
-   StartTime=2022-08-03T17:44:17 EndTime=2022-08-06T17:44:17 Deadline=N/A
-   PreemptEligibleTime=2022-08-03T17:45:17 PreemptTime=None
-   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-08-03T17:44:17
-   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:14488
+   SubmitTime=2022-08-03T16:17:23 EligibleTime=2022-08-03T16:17:24
+   AccrueTime=2022-08-03T16:17:42
+   StartTime=2022-08-03T16:17:42 EndTime=2022-08-06T16:17:42 Deadline=N/A
+   PreemptEligibleTime=2022-08-03T16:18:42 PreemptTime=None
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2022-08-03T16:17:42
+   Partition=gpu-2080ti AllocNode:Sid=bg-slurmb-login1:16281
    ReqNodeList=(null) ExcNodeList=(null)
-   NodeList=bg-slurmb-bm-3
-   BatchHost=bg-slurmb-bm-3
+   NodeList=slurm-bm-46
+   BatchHost=slurm-bm-46
    NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
    TRES=cpu=8,mem=3G,node=1,billing=2,gres/gpu=1
    Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
    MinCPUsNode=1 MinMemoryNode=3G MinTmpDiskNode=0
    Features=(null) DelayBoot=00:00:00
    OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-   Command=/mnt/qb/work/butz/svolz67/dev/convLSTM/speed/review.sh
-   WorkDir=/mnt/qb/work/butz/svolz67/dev/convLSTM/speed
-   StdErr=/mnt/qb/work/butz/svolz67/dev/convLSTM/speed/svolz.err
+   Command=/mnt/qb/work/butz/svolz67/dev/convLSTM/test/review.sh
+   WorkDir=/mnt/qb/work/butz/svolz67/dev/convLSTM/test
+   StdErr=/mnt/qb/work/butz/svolz67/dev/convLSTM/test/svolz_1675879.err
    StdIn=/dev/null
-   StdOut=/mnt/qb/work/butz/svolz67/dev/convLSTM/speed/svolz.out
+   StdOut=/mnt/qb/work/butz/svolz67/dev/convLSTM/test/svolz_1675879.out
    Power=
    CpusPerTres=gpu:8
    TresPerNode=gpu:1
@@ -33,5 +33,5 @@ JobId=1676382 ArrayJobId=1676382 ArrayTaskId=0 JobName=review.sh
    NtasksPerTRES:0
 
 node:
-bg-slurmb-bm-3.novalocal
+slurm-bm-46.novalocal
 RUN Script

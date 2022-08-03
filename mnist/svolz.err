@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/mnist/./runBaseline.py", line 111, in <module>
+    validation = DataLoader(dataset=mMnist("mnist-100-60-const"), batch_size=batch_size, shuffle=True, drop_last=True,
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/mnist/./runBaseline.py", line 24, in __init__
+    self.data = numpy.load("../../data/movingMNIST/" + data + ".npz")["arr_0"].reshape(-1, 60, 64, 64)
+  File "/mnt/qb/work/butz/svolz67/envs/lib/python3.10/site-packages/numpy/lib/npyio.py", line 417, in load
+    fid = stack.enter_context(open(os_fspath(file), "rb"))
+FileNotFoundError: [Errno 2] No such file or directory: '../../data/movingMNIST/mnist-100-60-const.npz'
