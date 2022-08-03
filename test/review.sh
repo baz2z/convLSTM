@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testAll-horizon.py
+python ./testBias.py

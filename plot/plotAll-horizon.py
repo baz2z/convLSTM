@@ -80,19 +80,15 @@ for index, row in df.iterrows():
 # mult4 = mlines.Line2D([], [], color='gray',
 #                           markersize=12, label='1:4 (multiplication)', linestyle=":")
 
-blue_line = mlines.Line2D([], [], color='blue', marker='o',
-                          markersize=12, label='baseline', linestyle="none")
-red_line = mlines.Line2D([], [], color='red', marker='o',
-                          markersize=12, label='lateral 1:1 (hs:ls)', linestyle="none")
-green_line = mlines.Line2D([], [], color='green', marker='o',
-                          markersize=12, label='twoLayer 2:1', linestyle="none")
-purple_line = mlines.Line2D([], [], color='purple', marker='o',
-                          markersize=12, label='skip 1:2', linestyle="none")
+blue_line = mlines.Line2D([], [], color='blue', markersize=12, label='baseline', linestyle="-")
+red_line = mlines.Line2D([], [], color='red', markersize=12, label='lateral 1:1 (hs:ls)', linestyle="-")
+green_line = mlines.Line2D([], [], color='green', markersize=12, label='twoLayer 2:1', linestyle="-")
+purple_line = mlines.Line2D([], [], color='purple', markersize=12, label='skip 1:2', linestyle="-")
 chocolate_line = mlines.Line2D([], [], color='purple', markersize=12, label='skip 2:1', linestyle="--")
 
 #ax.set_yscale("log")
 ax.set_ylim([1e-08, 2e-05])
-plt.legend(handles=[blue_line, red_line, green_line, purple_line, chocolate_line], bbox_to_anchor=(1.05, 1), loc = 2)
+plt.legend(handles=[blue_line, red_line, green_line, chocolate_line, purple_line], bbox_to_anchor=(1.05, 1), loc = 2)
 #fig.suptitle(f'{modelToPlot}', fontsize=16)
 name = f'./createdPlots/all-horizonLoss-topFive'
 fig.savefig(name, bbox_inches="tight")

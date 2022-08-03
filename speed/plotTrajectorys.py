@@ -229,9 +229,9 @@ def mapDataloader(speed):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 dataset = "wave"
-mode = "speed/border"
+mode = "speed/gap"
 horizon = 170
-modelName = "twoLayer"
+modelName = "baseline"
 multiplier = 1.0
 paramLevel = 2
 hiddenSize, lateralSize = mapParas(modelName, multiplier, paramLevel)
@@ -241,12 +241,13 @@ run = 2
 learningRate = 0.001
 start = 0
 speedTrain = "44"
-speedTest = "46"
+speedTest = "44"
 
 dataloader = mapDataloader(speedTest)
 
-path = f'../trainedModels/{mode}/{modelName}/{speedTrain}/run{run}'
+#path = f'../trainedModels/{mode}/{modelName}/run{run}'
 
+path = f'../trainedModels/all-40-adapted/baseline/1/2/run{run}'
 os.chdir(path)
 
 # model
@@ -261,13 +262,17 @@ sequence = 0
 # for one pixel
 #
 w, h = mostSignificantPixel(pred[sequence, :, :, :])
-w, h = 16, 16
+w, h = 15, 15
 groundTruth = visData[sequence, 120:290, int(w / 2), int(h / 2)].detach().cpu().numpy()
 prediction = pred[sequence, :, int(w / 2), int(h / 2)]
 plt.plot(groundTruth, label="groundTruth")
 plt.plot(prediction, label="prediction")
 plt.legend()
-plt.title(f'{(w, h)}')
-plt.savefig("perPixel")
+plt.title(f'{(w, h)} - center pixel')
+plt.xlabel("time step")
+plt.ylabel("amplitude of wave")
+#plt.savefig("perPixel")
+plt.savefig("baseline-single-44")
 plt.show()
+
 
