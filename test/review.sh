@@ -24,4 +24,4 @@ hostname
 
 echo "RUN Script"
 
-python ./testBias.py
+python ./testAll-speed.py
