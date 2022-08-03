@@ -241,7 +241,8 @@ def calcLoss(model, start, context, horizon, dataloader, og = False):
             modelsLoss.append(numpy.mean(runningLoss))
         os.chdir("../")
     finalLoss = numpy.mean(modelsLoss)
-    return finalLoss
+    finalStd = numpy.std(modelsLoss)
+    return finalLoss, finalStd
 
 
 def mapDataloader(speed):
@@ -257,7 +258,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-    df = pd.DataFrame(columns=["name", "mp", "paramLevel", "paramExact", "speedTest", "loss100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
+    df = pd.DataFrame(columns=["name", "mp", "paramLevel", "paramExact", "speedTest", "loss100_170", "var100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
     counter = 0
 
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
@@ -276,8 +277,8 @@ if __name__ == '__main__':
                     paramExact = count_params(model)
                     path = f'../trainedModels/{mode}/{modelName}/{mp}/{paramLevel}'
                     os.chdir(path)
-                    loss170 = calcLoss(model, 100, 20, 170, dataLoader)
-                    df.loc[counter] = [modelName, mp, paramLevel, paramExact, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
+                    loss170, var170 = calcLoss(model, 100, 20, 170, dataLoader)
+                    df.loc[counter] = [modelName, mp, paramLevel, paramExact, speedTest, loss170, var170]  # , loss40_og, loss70_og, loss170_og]
                     counter += 1
                     pathBack = f'../../../../../test'
                     os.chdir(pathBack)
