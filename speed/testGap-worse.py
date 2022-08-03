@@ -227,8 +227,7 @@ def calcLoss(model, start, context, horizon, dataloader, og = False):
     modelsLoss = []
     bestRun = [-10, 1, 1]
     worstRun = [10, 1, 1]
-    for runNbr in range(1):
-        runNbr = runNbr + 1
+    for runNbr in [3]:
         os.chdir(f'./run{runNbr}')
         model.load_state_dict(torch.load("model.pt", map_location=device))
         model.eval()
@@ -280,7 +279,7 @@ if __name__ == '__main__':
             model = mapModel(modelName, hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, worseSlow, bestSlow = calcLoss(model, 100, 20, 170, dataLoader)
+            loss170, bestSlow, worseSlow = calcLoss(model, 100, 20, 170, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../speed'
@@ -291,7 +290,7 @@ if __name__ == '__main__':
             model = mapModel(modelName, hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, worseMedium, bestMedium = calcLoss(model, 100, 20, 170, dataLoader)
+            loss170, bestMedium, worseMedium = calcLoss(model, 100, 20, 170, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../speed'
@@ -302,7 +301,7 @@ if __name__ == '__main__':
             model = mapModel(modelName, hs, ls)
             path = f'../trainedModels/{mode}/{modelName}'
             os.chdir(path)
-            loss170, worseFast, bestFast = calcLoss(model, 100, 20, 170, dataLoader)
+            loss170, bestFast, worseFast = calcLoss(model, 100, 20, 170, dataLoader)
             df.loc[counter] = [modelName, speedTest, loss170]  # , loss40_og, loss70_og, loss170_og]
             counter += 1
             pathBack = f'../../../../speed'
@@ -318,7 +317,8 @@ if __name__ == '__main__':
     prediction = worseSlow[1][0, :, w, h].detach().cpu().numpy()
     axs[0, 0].plot(groundTruth, label="groundTruth")
     axs[0, 0].plot(prediction, label="prediction")
-    axs[0, 0].set_title(f'test speed 1.6 - worst prediction')
+    loss = worseSlow[0]
+    axs[0, 0].set_title(f'1.6 - {"%.4f" % loss}')
     axs[0, 0].set_xlabel('time step')
     axs[0, 0].set_ylabel('amplitude')
 
@@ -327,8 +327,9 @@ if __name__ == '__main__':
     prediction = bestSlow[1][0, :, w, h].detach().cpu().numpy()
     axs[1, 0].plot(groundTruth, label="groundTruth")
     axs[1, 0].plot(prediction, label="prediction")
+    loss = bestSlow[0]
     axs[1, 0].legend()
-    axs[1, 0].set_title(f'test speed 1.6 - best prediction')
+    axs[1, 0].set_title(f'1.6 - {"%.4f" % loss}')
 
 
 
@@ -336,15 +337,17 @@ if __name__ == '__main__':
 
     groundTruth = worseMedium[2][0, :, w, h].detach().cpu().numpy()
     prediction = worseMedium[1][0, :, w, h].detach().cpu().numpy()
+    loss = worseMedium[0]
     axs[0, 1].plot(groundTruth)
     axs[0, 1].plot(prediction)
-    axs[0, 1].set_title(f'3.0 - worst')
+    axs[0, 1].set_title(f'3.0 - {"%.4f" % loss}')
 
     groundTruth = bestMedium[2][0, :, w, h].detach().cpu().numpy()
     prediction = bestMedium[1][0, :, w, h].detach().cpu().numpy()
+    loss = bestMedium[0]
     axs[1, 1].plot(groundTruth)
     axs[1, 1].plot(prediction)
-    axs[1, 1].set_title(f'3.0 - best')
+    axs[1, 1].set_title(f'3.0 - {"%.4f" % loss}')
 
 
 
@@ -354,16 +357,18 @@ if __name__ == '__main__':
 
     groundTruth = worseFast[2][0, :, w, h].detach().cpu().numpy()
     prediction = worseFast[1][0, :, w, h].detach().cpu().numpy()
+    loss = worseFast[0]
     axs[0, 2].plot(groundTruth)
     axs[0, 2].plot(prediction)
-    axs[0, 2].set_title(f'4.4 - worst')
+    axs[0, 2].set_title(f'4.4 - {"%.4f" % loss}')
     axs[0, 2].set(xlabel='time step', ylabel='amplitude of wave')
 
     groundTruth = bestFast[2][0, :, w, h].detach().cpu().numpy()
     prediction = bestFast[1][0, :, w, h].detach().cpu().numpy()
+    loss = bestFast[0]
     axs[1, 2].plot(groundTruth)
     axs[1, 2].plot(prediction)
-    axs[1, 2].set_title(f'4.4 - best')
+    axs[1, 2].set_title(f'4.4 - {"%.4f" % loss}')
 
 
     # Hide x labels and tick labels for top plots and y ticks for right plots.
