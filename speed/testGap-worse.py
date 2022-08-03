@@ -315,7 +315,7 @@ if __name__ == '__main__':
     w, h = 15, 15
 
     groundTruth = worseSlow[2][0, :, w, h].detach().cpu().numpy()
-    prediction = worseSlow[1][0, :, w, h]
+    prediction = worseSlow[1][0, :, w, h].detach().cpu().numpy()
     axs[0, 0].plot(groundTruth, label="groundTruth")
     axs[0, 0].plot(prediction, label="prediction")
     axs[0, 0].set_title(f'test speed 1.6 - worst prediction')
@@ -324,7 +324,7 @@ if __name__ == '__main__':
 
 
     groundTruth = bestSlow[2][0, :, w, h].detach().cpu().numpy()
-    prediction = bestSlow[1][0, :, w, h]
+    prediction = bestSlow[1][0, :, w, h].detach().cpu().numpy()
     axs[1, 0].plot(groundTruth, label="groundTruth")
     axs[1, 0].plot(prediction, label="prediction")
     axs[1, 0].legend()
@@ -335,13 +335,13 @@ if __name__ == '__main__':
 
 
     groundTruth = worseMedium[2][0, :, w, h].detach().cpu().numpy()
-    prediction = worseMedium[1][0, :, w, h]
+    prediction = worseMedium[1][0, :, w, h].detach().cpu().numpy()
     axs[0, 1].plot(groundTruth)
     axs[0, 1].plot(prediction)
     axs[0, 1].set_title(f'3.0 - worst')
 
     groundTruth = bestMedium[2][0, :, w, h].detach().cpu().numpy()
-    prediction = bestMedium[1][0, :, w, h]
+    prediction = bestMedium[1][0, :, w, h].detach().cpu().numpy()
     axs[1, 1].plot(groundTruth)
     axs[1, 1].plot(prediction)
     axs[1, 1].set_title(f'3.0 - best')
@@ -353,14 +353,14 @@ if __name__ == '__main__':
 
 
     groundTruth = worseFast[2][0, :, w, h].detach().cpu().numpy()
-    prediction = worseFast[1][0, :, w, h]
+    prediction = worseFast[1][0, :, w, h].detach().cpu().numpy()
     axs[0, 2].plot(groundTruth)
     axs[0, 2].plot(prediction)
     axs[0, 2].set_title(f'4.4 - worst')
     axs[0, 2].set(xlabel='time step', ylabel='amplitude of wave')
 
     groundTruth = bestFast[2][0, :, w, h].detach().cpu().numpy()
-    prediction = bestFast[1][0, :, w, h]
+    prediction = bestFast[1][0, :, w, h].detach().cpu().numpy()
     axs[1, 2].plot(groundTruth)
     axs[1, 2].plot(prediction)
     axs[1, 2].set_title(f'4.4 - best')
