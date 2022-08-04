@@ -265,7 +265,7 @@ if __name__ == '__main__':
         if modelName == "baseline":
             mps = [1]
         elif modelName == "lateral":
-            mps = [2]
+            mps = [1]
         else:
             mps = [0.5, 2]
         for mp in mps:
