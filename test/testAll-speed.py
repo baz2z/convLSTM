@@ -262,10 +262,10 @@ if __name__ == '__main__':
     counter = 0
 
     for modelName in ["baseline", "lateral", "twoLayer", "skip"]:
-        if modelName == "baseline":
+        if modelName == "baseline" or modelName == "lateral":
             mps = [1]
-        elif modelName == "lateral":
-            mps = [1]
+        elif modelName == "twoLayer":
+            mps = [2]
         else:
             mps = [0.5, 2]
         for mp in mps:
