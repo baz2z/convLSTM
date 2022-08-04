@@ -261,7 +261,7 @@ if __name__ == '__main__':
     df = pd.DataFrame(columns=["name", "mp", "paramLevel", "paramExact", "speedTest", "loss100_170", "var100_170"])# , "loss40_og", "loss70_og", "loss170_og"])
     counter = 0
 
-    for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
+    for modelName in ["baseline", "lateral", "twoLayer", "skip"]:
         if modelName == "baseline":
             mps = [1]
         elif modelName == "lateral":
