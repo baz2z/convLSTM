@@ -264,12 +264,12 @@ if __name__ == '__main__':
     for modelName in ["baseline", "lateral", "twoLayer", "skip", "depthWise"]:
         if modelName == "baseline":
             mps = [1]
-        elif modelName == "depthWise":
-            mps = [1, 2, 4]
+        elif modelName == "lateral":
+            mps = [2]
         else:
-            mps = [0.5, 1, 2]
+            mps = [0.5, 2]
         for mp in mps:
-            for paramLevel in [1, 2, 3]:
+            for paramLevel in [2]:
                 for speedTest in ["20", "22", "24", "26", "28", "30", "32", "34", "36", "38", "40"]:
                     dataLoader = mapDataloader(speedTest)
                     hs, ls = mapParas(modelName, mp, paramLevel)
