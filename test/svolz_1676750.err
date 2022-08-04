@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testAll-speed.py", line 280, in <module>
+    loss170, var170 = calcLoss(model, 100, 20, 170, dataLoader)
+  File "/mnt/qb/work/butz/svolz67/dev/convLSTM/test/./testAll-speed.py", line 230, in calcLoss
+    os.chdir(f'./run{runNbr}')
+FileNotFoundError: [Errno 2] No such file or directory: './run4'
