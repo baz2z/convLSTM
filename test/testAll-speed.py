@@ -282,5 +282,5 @@ if __name__ == '__main__':
                     counter += 1
                     pathBack = f'../../../../../test'
                     os.chdir(pathBack)
-    df.to_csv("allLoss-speed")
+    df.to_csv("allLoss-speed-test")
 
